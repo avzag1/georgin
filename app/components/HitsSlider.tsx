@@ -1,11 +1,13 @@
 "use client"
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Virtual, Autoplay, FreeMode } from "swiper/modules";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Navigation, Autoplay } from 'swiper/modules'; 
 import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/autoplay';
+import 'swiper/swiper-bundle.css'; 
+import "../slider.css";
 import Link from "next/link";
 import {hitsSliderArray} from "../hitsSliderArray";
 import Image from "next/image";
@@ -13,16 +15,16 @@ import OrderBouquet from "./OrderBouquet"
 
 export default function HitsSlider () {
   function generateSlides() {
-    return hitsSliderArray.map((item, index) => (
+    return [...hitsSliderArray, ...hitsSliderArray].map((item, index) => (
       <SwiperSlide
         key={index}
-        className="h-[600px] flex justify-center items-center box-border overflow-hidden"
+        className="h-[600] flex justify-center items-center box-border overflow-hidden"
       >
         <Link
           href={item.path}
-          className="w-[390px] max-w-full mx-auto flex flex-col justify-center box-border overflow-hidden"
+          className="w-[390] max-w-full mx-auto flex flex-col justify-center box-border overflow-hidden"
         >
-          <div className="flex justify-center items-top overflow-hidden h-[400px] max-h-[400px] max-w-[390px] box-border">
+          <div className="flex justify-center items-top overflow-hidden h-[400] max-h-[400] max-w-[390] box-border">
             <Image
               className="duration-500 md:hover:scale-105"
               src={item.image}
@@ -31,11 +33,11 @@ export default function HitsSlider () {
               alt="slide"
             />
           </div>
-          <div className=" h-[200px] flex items-top pt-3 box-border">
-            <div className="flex flex-col justify-between">
+          <div className="h-[200] flex items-top pt-3 box-border">
+            <div className="flex flex-col justify-between w-[390]">
               <div className="text-2xl px-4">{item.title}</div>
               <div className="text-sm p-3">{item.description}</div>
-              <div className="w-full flex justify-between">
+              <div className="w-full flex justify-between items-center">
                 <div className="text-lg px-3">от {item.price} &#8381;</div>
                 <div><OrderBouquet bgColor="bg-[#7E8F52]"/></div>
               </div>
@@ -48,17 +50,21 @@ export default function HitsSlider () {
   }
 
   return (
-    <div className="">
-      <Swiper className=""
+    <div className="mx-auto w-full">
+      <Swiper className="w-full"
+        navigation={{
+          nextEl: '.custom-next',
+          prevEl: '.custom-prev',
+        }}
         modules={[FreeMode, Navigation, Autoplay]}
-        spaceBetween={50}
+        spaceBetween={0}
         freeMode={true}
         autoplay={{
-          delay: 2500,
+          delay: 25000,
           disableOnInteraction: false,
         }}
         loop={true}
-        slidesPerView={3}
+        slidesPerView={1}
         breakpoints={{
           860: {
             slidesPerView: 2,
@@ -67,8 +73,19 @@ export default function HitsSlider () {
             slidesPerView: 3,
           },
         }}
-        navigation={true}
+        // navigation={true}
       >
+        {/* Кнопки навигации */}
+        <div className="custom-prev absolute left-[-30] z-10 cursor-pointer text-black top-1/2 -translate-y-1/2 w-24 h-24">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.3">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </div>
+        <div className="custom-next absolute right-[-30] z-10 cursor-pointer text-black top-1/2 -translate-y-1/2 w-24 h-24">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.3">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </div>
         {generateSlides()}
       </Swiper>
     </div>

@@ -1,0 +1,107 @@
+/* Скрываем стандартную иконку */
+/* .swiper-button-next::after,
+.swiper-button-prev::after {
+  display: none;
+} */
+
+/* Рисуем свою тонкую стрелку */
+/* .swiper-button-next,
+.swiper-button-prev {
+  width: 40px;
+  height: 40px;
+  color: #000; 
+} */
+
+/* .swiper-button-next::before,
+.swiper-button-prev::before {
+  content: '';
+  width: 15px;
+  height: 15px;
+  border-top: 1px solid currentColor; 
+  border-right: 1px solid currentColor;
+  position: absolute;
+} */
+
+/* .swiper-button-next::before {
+  transform: rotate(45deg);
+  left: 10px;
+} */
+
+/* .swiper-button-prev::before {
+  transform: rotate(-135deg);
+  left: 15px;
+} */
+
+
+
+/* @media screen and (max-width: 1280px) {
+  .user-swiper .swiper-button-next {
+    left: 230px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .user-swiper .swiper-button-prev {
+    left: 40px;
+    top: 190px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .user-swiper .swiper-button-next {
+    left: auto;
+    right: 40px;
+    top: 190px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .user-swiper .swiper-button-prev {
+    top: 300px;
+    
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-swiper .swiper-button-next {
+    top: 300px;
+    
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .user-swiper .swiper-button-prev {
+    top: 293px;
+    transform: scale(0.7);
+  }
+}
+@media screen and (max-width: 700px) {
+  .user-swiper .swiper-button-next {
+    top: 293px;
+    transform: scale(0.7);
+  }
+}
+
+@media screen and (max-width: 610px) {
+  .user-swiper .swiper-button-prev {
+    top: 233px;
+    transform: scale(0.7);
+  }
+}
+@media screen and (max-width: 610px) {
+  .user-swiper .swiper-button-next {
+    top: 233px;
+    transform: scale(0.7);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .user-swiper .swiper-button-prev {
+    top: 183px;
+    
+  }
+}
+@media screen and (max-width: 480px) {
+  .user-swiper .swiper-button-next {
+    top: 183px;
+   
+  }
+} */
