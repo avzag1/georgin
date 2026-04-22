@@ -1,6 +1,8 @@
 import Image from "next/image";
 import OrderButtonActive from "../components/OrderButtonActive"
 import HitsSlider from "../components/HitsSlider"
+import BuyNowButton from "../components/BuyNowButton"
+import { hitsSliderArray } from "../hitsSliderArray";
 
 export default function Home() {
   return (
@@ -273,7 +275,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="flex flex-col mx-auto w-full">
+      <section className="flex flex-col mx-auto w-full pb-30">
         <div className="py-15 mx-20">
           <Image
             className=""
@@ -281,10 +283,26 @@ export default function Home() {
             alt = "Хиты весны"
             width = {460}
             height = {40}
-            />
+          />
         </div>
 
         <HitsSlider/>
+      </section>
+
+      <section className="flex flex-col mx-auto w-full">
+        <div className="relative">
+          <div>
+            <Image
+              className="mx-auto w-full"
+              src = "/actionsPic.png"
+              alt = "Объявления и акции"
+              width = {1448}
+              height = {615}
+            />
+          </div>
+          <div className="absolute"><BuyNowButton bgColor="bg-[#758956]"/></div>
+          <div className="w-120 text-white absolute inset-[1/2 - 60px]">{hitsSliderArray.filter(bouquet => bouquet.action === true)[0].description}</div>
+        </div>
       </section>
 
     </div>

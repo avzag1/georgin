@@ -4,20 +4,23 @@ export const hitsSliderArray = [
     path: "",
     title: "Букет_1",
     description: "Информация о букете_1",
-    price: 2550
+    price: 2550,
+    action: true
   },
   {
     image: "/bouquet_2.png",
     path: "",
     title: "Букет_2",
     description: "Информация о букете_2",
-    price: 3800
+    price: 3800,
+    action: false
   },
   {
     image: "/bouquet_3.png",
     path: "",
     title: "Букет_3",
     description: "Информация о букете_3",
-    price: 4070
+    price: 4070,
+    action: false
   }
 ]

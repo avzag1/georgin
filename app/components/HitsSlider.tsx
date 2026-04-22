@@ -11,7 +11,7 @@ import "../slider.css";
 import Link from "next/link";
 import {hitsSliderArray} from "../hitsSliderArray";
 import Image from "next/image";
-import OrderBouquet from "./OrderBouquet"
+import OrderBouquet from "./OrderBouquetButton"
 
 export default function HitsSlider () {
   function generateSlides() {
@@ -76,12 +76,12 @@ export default function HitsSlider () {
         // navigation={true}
       >
         {/* Кнопки навигации */}
-        <div className="custom-prev absolute left-[-30] z-10 cursor-pointer text-black top-1/2 -translate-y-1/2 w-24 h-24">
+        <div className="custom-prev absolute left-[-30] z-10 cursor-pointer text-black top-1/3 -translate-y-1/2 w-24 h-24">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.3">
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </div>
-        <div className="custom-next absolute right-[-30] z-10 cursor-pointer text-black top-1/2 -translate-y-1/2 w-24 h-24">
+        <div className="custom-next absolute right-[-30] z-10 cursor-pointer text-black top-1/3 -translate-y-1/2 w-24 h-24">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.3">
             <path d="M9 18l6-6-6-6" />
           </svg>
