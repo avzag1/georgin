@@ -8,6 +8,7 @@ import ShowcaseSlider from "../components/ShowcaseSlider";
 import VkCommunityWidget from '../components/VkCommunityWidget';
 import Subscribe from "../components/Subscribe";
 import Link from 'next/link';
+import Footer from "../components/Footer"
 
 export default function Home() {
   return (
@@ -24,11 +25,11 @@ export default function Home() {
 
         <div className="flex flex-row justify-center items-center mx-10">
           <div className="text-sm text-[#1F2D1A] font-medium flex flex-row justify-between mx-5">
-            <div className="p-5">КАК ЗАКАЗАТЬ?</div>
-            <div className="p-5">ХИТЫ СЕЗОНА</div>
-            <div className="p-5">ОНЛАЙН-ВИТРИНА</div>
-            <div className="p-5">АКЦИИ</div>
-            <div className="p-5">О нас</div>
+            <Link href="#howToOrder" className="p-5">КАК ЗАКАЗАТЬ?</Link>
+            <Link href="#hits" className="p-5">ХИТЫ СЕЗОНА</Link>
+            <Link href="#showcase" className="p-5">ОНЛАЙН-ВИТРИНА</Link>
+            <Link href="#actions" className="p-5">АКЦИИ</Link>
+            <Link href="#about" className="p-5">О нас</Link>
           </div>
 
           <div className="flex flex-row justify-between items-center">
@@ -66,9 +67,9 @@ export default function Home() {
         <div className="text-center h-5 text-sm text-white bg-[#0F330F]">
           БЕСПЛАТНАЯ ДОСТАВКА ПО ГОРОДУ ОТ 3000 рублей
         </div>
-        <div className="w-full h-auto">
+        <div className="w-full h-auto overflow-hidden">
           <Image
-            className="w-full h-auto mt-[-13]"
+            className="w-full h-auto mt-[-14]"
             src = "/mainDesktop.png"
             alt = "Главное изображение"
             width = {1440}
@@ -86,7 +87,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-9/10 h-[615] bg-white mx-auto mt-28 mb-16 flex flex-row">
+      <section id="about" className="w-9/10 h-[615] bg-white mx-auto mt-28 mb-16 flex flex-row">
         <div>
           <Image
           className=""
@@ -227,7 +228,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex pt-10">
+          <div id="howToOrder" className="flex pt-10">
             <div>
               <Image
                 className=""
@@ -282,7 +283,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="flex flex-col mx-auto w-full pb-30">
+      <section id="hits" className="flex flex-col mx-auto w-full pb-30">
         <div className="py-15 mx-25">
           <Image
             className=""
@@ -295,7 +296,7 @@ export default function Home() {
         <HitsSlider array={[...hitsSliderArray, ...hitsSliderArray,...hitsSliderArray,...hitsSliderArray]} high="h-600" rows={1} loop={true}/>
       </section>
 
-      <section className="flex flex-col mx-auto w-full">
+      <section id="actions" className="flex flex-col mx-auto w-full">
         <div className="relative">
           <div>
             <Image
@@ -313,7 +314,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section>
+      <section id="showcase">
         <div className="w-full mx-auto mb-10">
           <div className="my-15">
             <Image
@@ -362,108 +363,7 @@ export default function Home() {
         <VkCommunityWidget/>
       </section>
 
-      <footer className="w-[1440] h-[374] mx-auto bg-[#F5F2ED] flex flex-col justify-between p-10">
-        <div className="flex flex-row justify-around">
-          <div className="h-[140] flex flex-col text-[#394128] text-sm">
-            <div className="font-semibold text-black p-2">О нас</div>
-            <div className="p-2">Контакты</div>
-            <div className="p-2">Отзывы</div>
-            <div className="p-2">Поддержка</div>
-          </div>
-
-          <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
-            <div className="font-semibold text-black p-2">О Покупателям</div>
-            <div className="p-2">Как заказать</div>
-            <div className="p-2">Акции</div>
-            <div className="p-2">Доставка</div>
-          </div>
-
-          <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
-            <div className="font-semibold text-black p-2">Каталог</div>
-            <div  className="p-2">Хиты сезона</div>
-            <div className="p-2">Авторские букеты</div>
-            <div className="p-2">Моно букеты</div>
-            <div className="p-2">Свадебные</div>
-            <div className="p-2">Подарки</div>
-          </div>
-
-          <div className="flex flex-col">
-            <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
-              <div className="font-semibold text-black">Контакты</div>
-              <div className="">+7 (937) 938-87-77</div>
-              <div>г. Йошкар-Ола</div>
-              <div>Я. Крастыня 2В, Мира 113А,</div>
-              <div>Красноармейская улица 103 к1</div>
-            </div>
-
-            <div className="mt-7 h-[50] flex flex-col justify-between text-[#394128] text-sm">
-              <div className="font-semibold text-black">Режим работы</div>
-              <div className="">ПН-ВС, с 9:00 до 20:00</div>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center">
-            <Image
-              className="ml-5"
-              src = "/logoFooter.png"
-              alt = "Логотип"
-              width = {219}
-              height = {72}
-            />
-            
-            <div className="flex justify-center mt-3">
-              <a href="https://t.me/georgin1226">
-                <Image
-                  className="m-2"
-                  src = "/telegramIcon.png"
-                  alt = "Телеграм"
-                  width = {25}
-                  height = {26}
-                />
-              </a>
-              <a href="https://www.instagram.com/georg.in12?igsh=ZGlybnhvd3BnMDFq&utm_source=qr">
-                <Image
-                  className="m-2"
-                  src = "/instagramIcon.png"
-                  alt = "Инстаграм"
-                  width = {26}
-                  height = {25}
-                />
-              </a>
-              <a href="https://vk.com/georgin_yo">
-                <Image
-                  className="m-2"
-                  src = "/VKIcon.png"
-                  alt = "Вконтакте"
-                  width = {25}
-                  height = {25}
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        
-        <div className="flex justify-between mt-7 w-full">
-          <div className="flex items-end ml-15 text-xs">&copy; 2026 Copiright</div>
-          <div className="flex flex-col w-[620]">
-            <div className="font-medium">Узнайте первыми о самых выгодных акциях и предложениях</div>
-            <form className="flex flex-col sm:flex-row mt-2  text-sm">
-              <input 
-                type="email"
-                placeholder="Введите ваш e-mail" 
-                className="text-center border border-[#758956] bg-transparent py-2 outline-none font-thin antialiased focus:border-[#758956] transition-colors w-full"
-              />
-              <button 
-                type="submit" 
-                className="whitespace-nowrap text-white px-6 py-2 bg-[#758956]"
-              >
-                Подписаться на рассылку
-              </button>
-            </form>
-          </div>
-        </div>
-      </footer>
-
+      <Footer/>
     </div>
   );
 }

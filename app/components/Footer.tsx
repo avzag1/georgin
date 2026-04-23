@@ -1,0 +1,138 @@
+"use client"
+
+import Link from "next/link"
+import Image from "next/image";
+import { useShowcaseStore } from '../store/useShowcaseStore';
+
+
+export default function Footer () {
+  const setToggle = useShowcaseStore((state) => state.setToggle);
+
+  return (
+     <footer className="w-[1440] h-[374] mx-auto bg-[#F5F2ED] flex flex-col justify-between p-10">
+      <div className="flex flex-row justify-around">
+        <div className="h-[140] flex flex-col text-[#394128] text-sm">
+          <div className="font-semibold text-black p-2">О нас</div>
+          <div className="p-2">Контакты</div>
+          <div className="p-2">Отзывы</div>
+          <div className="p-2">Поддержка</div>
+        </div>
+
+        <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
+          <div className="font-semibold text-black p-2">Покупателям</div>
+          <Link href="#howToOrder" className="p-2">Как заказать</Link>
+          <Link href="#actions" className="p-2">Акции</Link>
+          <div className="p-2">Доставка</div>
+        </div>
+
+        <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
+          <div className="font-semibold text-black p-2">Каталог</div>
+          <Link href="#hits" className="p-2">Хиты сезона</Link>
+          <button onClick={() => {
+              setToggle(1);
+              document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' });
+            }} 
+            className="p-2 text-left">
+              Авторские букеты
+          </button>
+          <button onClick={() => {
+              setToggle(2);
+              document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="p-2 text-left">
+              Моно букеты
+          </button>
+          <button onClick={() => {
+              setToggle(3);
+              document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="p-2 text-left">
+              Свадебные
+          </button>
+          <button onClick={() => {
+              setToggle(4);
+              document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="p-2 text-left">
+              Подарки
+          </button>
+        </div>
+
+        <div className="flex flex-col">
+          <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
+            <div className="font-semibold text-black">Контакты</div>
+            <div className="">+7 (937) 938-87-77</div>
+            <div>г. Йошкар-Ола</div>
+            <div>Я. Крастыня 2В, Мира 113А,</div>
+            <div>Красноармейская улица 103 к1</div>
+          </div>
+
+          <div className="mt-7 h-[50] flex flex-col justify-between text-[#394128] text-sm">
+            <div className="font-semibold text-black">Режим работы</div>
+            <div className="">ПН-ВС, с 9:00 до 20:00</div>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center">
+          <Image
+            className="ml-5"
+            src = "/logoFooter.png"
+            alt = "Логотип"
+            width = {219}
+            height = {72}
+          />
+          
+          <div className="flex justify-center mt-3">
+            <a href="https://t.me/georgin1226" target="blank">
+              <Image
+                className="m-2"
+                src = "/telegramIcon.png"
+                alt = "Телеграм"
+                width = {25}
+                height = {26}
+              />
+            </a>
+            <a href="https://www.instagram.com/georg.in12?igsh=ZGlybnhvd3BnMDFq&utm_source=qr" target="blank">
+              <Image
+                className="m-2"
+                src = "/instagramIcon.png"
+                alt = "Инстаграм"
+                width = {26}
+                height = {25}
+              />
+            </a>
+            <a href="https://vk.com/georgin_yo" target="blank">
+              <Image
+                className="m-2"
+                src = "/VKIcon.png"
+                alt = "Вконтакте"
+                width = {25}
+                height = {25}
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div className="flex justify-between mt-7 w-full">
+        <div className="flex items-end ml-15 text-xs">&copy; 2026 Copiright</div>
+        <div className="flex flex-col w-[620]">
+          <div className="font-medium">Узнайте первыми о самых выгодных акциях и предложениях</div>
+          <form className="flex flex-col sm:flex-row mt-2  text-sm">
+            <input 
+              type="email"
+              placeholder="Введите ваш e-mail" 
+              className="text-center border border-[#758956] bg-transparent py-2 outline-none font-thin antialiased focus:border-[#758956] transition-colors w-full"
+            />
+            <button 
+              type="submit" 
+              className="whitespace-nowrap text-white px-6 py-2 bg-[#758956]"
+            >
+              Подписаться на рассылку
+            </button>
+          </form>
+        </div>
+      </div>
+    </footer>
+  )
+}
