@@ -5,3 +5,4 @@ declare module 'swiper/css/free-mode';
 declare module 'swiper/css/autoplay';
 declare module "swiper/react";
 declare module "swiper/modules";
+declare module 'swiper/css/grid';

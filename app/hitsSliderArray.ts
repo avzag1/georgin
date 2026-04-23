@@ -5,7 +5,8 @@ export const hitsSliderArray = [
     title: "Букет_1",
     description: "Информация о букете_1",
     price: 2550,
-    action: true
+    actionPrice: 2000,
+    category: "designer"
   },
   {
     image: "/bouquet_2.png",
@@ -13,7 +14,8 @@ export const hitsSliderArray = [
     title: "Букет_2",
     description: "Информация о букете_2",
     price: 3800,
-    action: false
+    actionPrice: undefined,
+    category: "mono"
   },
   {
     image: "/bouquet_3.png",
@@ -21,6 +23,16 @@ export const hitsSliderArray = [
     title: "Букет_3",
     description: "Информация о букете_3",
     price: 4070,
-    action: false
-  }
+    actionPrice: undefined,
+    category: "wedding"
+  },
+  {
+    image: "/bouquet_2.png",
+    path: "",
+    title: "Букет_4",
+    description: "Информация о букете_4",
+    price: 11000,
+    actionPrice: undefined,
+    category: "gifts"
+  },
 ]

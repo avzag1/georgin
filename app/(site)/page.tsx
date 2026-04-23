@@ -1,8 +1,13 @@
 import Image from "next/image";
-import OrderButtonActive from "../components/OrderButtonActive"
-import HitsSlider from "../components/HitsSlider"
-import BuyNowButton from "../components/BuyNowButton"
+import OrderButtonActive from "../components/OrderButtonActive";
+import HitsSlider from "../components/HitsSlider";
+import BuyNowButton from "../components/BuyNowButton";
 import { hitsSliderArray } from "../hitsSliderArray";
+import CallButton from "../components/CallButton";
+import ShowcaseSlider from "../components/ShowcaseSlider";
+import VkCommunityWidget from '../components/VkCommunityWidget';
+import Subscribe from "../components/Subscribe";
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -27,14 +32,14 @@ export default function Home() {
           </div>
 
           <div className="flex flex-row justify-between items-center">
-            <div className="rounded-2xl p-1">
+            <Link target="blank" href="tel:+79379388777" className="rounded-2xl p-1">
               <Image
                 src = "/callButton.png"
                 alt = "Кнопка Позвонить"
                 width = {149}
                 height = {41}
               />
-            </div>
+            </Link>
             <div className="rounded-full p-1">
               <Image
                 src = "/shoppingСart.png"
@@ -55,22 +60,24 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="text-center h-5 text-sm text-white bg-[#0F330F]">
-        БЕСПЛАТНАЯ ДОСТАВКА ПО ГОРОДУ ОТ 3000 рублей
-      </div>
+      
 
-      <section className="w-auto relative">
-        <Image
-          className="w-full h-auto mt-[-16]"
-          src = "/mainDesktop.png"
-          alt = "Главное изображение"
-          width = {1440}
-          height = {936}
-          priority
-        />
+      <section className="w-full relative">
+        <div className="text-center h-5 text-sm text-white bg-[#0F330F]">
+          БЕСПЛАТНАЯ ДОСТАВКА ПО ГОРОДУ ОТ 3000 рублей
+        </div>
+        <div className="w-full h-auto">
+          <Image
+            className="w-full h-auto mt-[-13]"
+            src = "/mainDesktop.png"
+            alt = "Главное изображение"
+            width = {1440}
+            height = {936}
+          />
+        </div>
         <div className="absolute bottom-[15%] left-[15%] z-50 flex flex-col items-center">
           <div className="mb-20">
-            <OrderButtonActive bgColor="bg-[#ABC270]"/>
+            <OrderButtonActive bgColor="bg-[#ABC270]" textColor="text-black"/>
           </div>
           <div className="text-white flex flex-col items-center">
             <div className="text-lg">Доставка по Йошкар-Оле, Медведево и Семеновке</div>
@@ -258,7 +265,7 @@ export default function Home() {
               </div>
 
               <div className="my-10 mx-20">
-                <OrderButtonActive bgColor="bg-[#7E8F52]"/>
+                <OrderButtonActive bgColor="bg-[#7E8F52]" textColor="text-white"/>
               </div>
 
               <div>
@@ -276,7 +283,7 @@ export default function Home() {
       </section>
 
       <section className="flex flex-col mx-auto w-full pb-30">
-        <div className="py-15 mx-20">
+        <div className="py-15 mx-25">
           <Image
             className=""
             src = "/springHitsTitle.png"
@@ -285,8 +292,7 @@ export default function Home() {
             height = {40}
           />
         </div>
-
-        <HitsSlider/>
+        <HitsSlider array={[...hitsSliderArray, ...hitsSliderArray,...hitsSliderArray,...hitsSliderArray]} high="h-600" rows={1} loop={true}/>
       </section>
 
       <section className="flex flex-col mx-auto w-full">
@@ -300,10 +306,163 @@ export default function Home() {
               height = {615}
             />
           </div>
-          <div className="absolute"><BuyNowButton bgColor="bg-[#758956]"/></div>
-          <div className="w-120 text-white absolute inset-[1/2 - 60px]">{hitsSliderArray.filter(bouquet => bouquet.action === true)[0].description}</div>
+          <div className="absolute inset-x-[calc(50%-80px)] inset-y-4/5"><BuyNowButton bgColor="bg-[#758956]"/></div>
+          <div className="w-120 h-30 text-white text-center absolute inset-x-[calc(50%-240px)] inset-y-6/10">
+           {hitsSliderArray.filter(bouquet => bouquet.actionPrice !== undefined)[0].description}
+          </div>
         </div>
       </section>
+
+      <section>
+        <div className="w-full mx-auto mb-10">
+          <div className="my-15">
+            <Image
+              className="mx-auto w-17/20"
+              src = "/showcaseTitle.png"
+              alt = "Онлайн-витрина"
+              width = {1240}
+              height = {84}
+            />
+          </div>
+            <ShowcaseSlider/>
+        </div>
+      </section>
+
+      <section className="relative">
+        <div>
+          <Image
+            className="mx-auto w-full"
+            src = "/callUsPic.png"
+            alt = "Позвоните нам"
+            width = {1440}
+            height = {455}
+            />
+        </div>
+        <div className="absolute inset-x-[calc(50%-61px)] inset-y-3/5 z-50">
+          <CallButton/>
+        </div>
+      </section>
+
+      <section className="w-9/10 mx-auto p-20 bg-white">
+        <div className="flex justify-between">
+          <div className="mb-10 ml-5">
+          <Image
+            className=""
+            src = "/VKTitle.png"
+            alt = "Мы Вконтакте"
+            width = {505}
+            height = {57}
+            />
+          </div>
+          <div className="mr-20">
+            <Subscribe/>
+          </div>
+        </div>
+        
+        <VkCommunityWidget/>
+      </section>
+
+      <footer className="w-[1440] h-[374] mx-auto bg-[#F5F2ED] flex flex-col justify-between p-10">
+        <div className="flex flex-row justify-around">
+          <div className="h-[140] flex flex-col text-[#394128] text-sm">
+            <div className="font-semibold text-black p-2">О нас</div>
+            <div className="p-2">Контакты</div>
+            <div className="p-2">Отзывы</div>
+            <div className="p-2">Поддержка</div>
+          </div>
+
+          <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
+            <div className="font-semibold text-black p-2">О Покупателям</div>
+            <div className="p-2">Как заказать</div>
+            <div className="p-2">Акции</div>
+            <div className="p-2">Доставка</div>
+          </div>
+
+          <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
+            <div className="font-semibold text-black p-2">Каталог</div>
+            <div  className="p-2">Хиты сезона</div>
+            <div className="p-2">Авторские букеты</div>
+            <div className="p-2">Моно букеты</div>
+            <div className="p-2">Свадебные</div>
+            <div className="p-2">Подарки</div>
+          </div>
+
+          <div className="flex flex-col">
+            <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
+              <div className="font-semibold text-black">Контакты</div>
+              <div className="">+7 (937) 938-87-77</div>
+              <div>г. Йошкар-Ола</div>
+              <div>Я. Крастыня 2В, Мира 113А,</div>
+              <div>Красноармейская улица 103 к1</div>
+            </div>
+
+            <div className="mt-7 h-[50] flex flex-col justify-between text-[#394128] text-sm">
+              <div className="font-semibold text-black">Режим работы</div>
+              <div className="">ПН-ВС, с 9:00 до 20:00</div>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center">
+            <Image
+              className="ml-5"
+              src = "/logoFooter.png"
+              alt = "Логотип"
+              width = {219}
+              height = {72}
+            />
+            
+            <div className="flex justify-center mt-3">
+              <a href="https://t.me/georgin1226">
+                <Image
+                  className="m-2"
+                  src = "/telegramIcon.png"
+                  alt = "Телеграм"
+                  width = {25}
+                  height = {26}
+                />
+              </a>
+              <a href="https://www.instagram.com/georg.in12?igsh=ZGlybnhvd3BnMDFq&utm_source=qr">
+                <Image
+                  className="m-2"
+                  src = "/instagramIcon.png"
+                  alt = "Инстаграм"
+                  width = {26}
+                  height = {25}
+                />
+              </a>
+              <a href="https://vk.com/georgin_yo">
+                <Image
+                  className="m-2"
+                  src = "/VKIcon.png"
+                  alt = "Вконтакте"
+                  width = {25}
+                  height = {25}
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex justify-between mt-7 w-full">
+          <div className="flex items-end ml-15 text-xs">&copy; 2026 Copiright</div>
+          <div className="flex flex-col w-[620]">
+            <div className="font-medium">Узнайте первыми о самых выгодных акциях и предложениях</div>
+            <form className="flex flex-col sm:flex-row mt-2  text-sm">
+              <input 
+                type="email"
+                placeholder="Введите ваш e-mail" 
+                className="text-center border border-[#758956] bg-transparent py-2 outline-none font-thin antialiased focus:border-[#758956] transition-colors w-full"
+              />
+              <button 
+                type="submit" 
+                className="whitespace-nowrap text-white px-6 py-2 bg-[#758956]"
+              >
+                Подписаться на рассылку
+              </button>
+            </form>
+          </div>
+        </div>
+      </footer>
 
     </div>
   );
