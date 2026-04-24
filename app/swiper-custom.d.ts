@@ -6,3 +6,4 @@ declare module 'swiper/css/autoplay';
 declare module "swiper/react";
 declare module "swiper/modules";
 declare module 'swiper/css/grid';
+declare module 'flowbite-react';

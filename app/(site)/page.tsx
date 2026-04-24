@@ -8,59 +8,12 @@ import ShowcaseSlider from "../components/ShowcaseSlider";
 import VkCommunityWidget from '../components/VkCommunityWidget';
 import Subscribe from "../components/Subscribe";
 import Link from 'next/link';
+import Profile from "../components/Profile";
 
 export default function Home() {
   return (
     <div className="bg-[#F5F2ED]">
-      <header className="w-full h-20 flex items-center justify-between">
-        <div className="mx-20 flex items-center">
-          <Image
-            src = "/logo.png"
-            alt = "Логотип"
-            width = {105}
-            height = {32}
-          />
-        </div>
-
-        <div className="flex flex-row justify-center items-center mx-10">
-          <div className="text-sm text-[#1F2D1A] font-medium flex flex-row justify-between mx-5">
-            <div className="p-5">КАК ЗАКАЗАТЬ?</div>
-            <div className="p-5">ХИТЫ СЕЗОНА</div>
-            <div className="p-5">ОНЛАЙН-ВИТРИНА</div>
-            <div className="p-5">АКЦИИ</div>
-            <div className="p-5">О нас</div>
-          </div>
-
-          <div className="flex flex-row justify-between items-center">
-            <Link target="blank" href="tel:+79379388777" className="rounded-2xl p-1">
-              <Image
-                src = "/callButton.png"
-                alt = "Кнопка Позвонить"
-                width = {149}
-                height = {41}
-              />
-            </Link>
-            <div className="rounded-full p-1">
-              <Image
-                src = "/shoppingСart.png"
-                alt = "Корзина"
-                width = {44}
-                height = {44}
-              />
-            </div>
-            <div className="rounded-full p-1">
-              <Image
-                src = "/profile.png"
-                alt = "Профиль"
-                width = {44}
-                height = {44}
-              />
-            </div>
-          </div>
-        </div>
-      </header>
-
-      
+            
 
       <section className="w-full relative">
         <div className="text-center h-5 text-sm text-white bg-[#0F330F]">
