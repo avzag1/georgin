@@ -2,74 +2,56 @@
 
 import HitsSlider from "./HitsSlider";
 import {hitsSliderArray} from "../hitsSliderArray";
-import { useState } from "react";
-import { Bouquet } from "../type/bouquet";
+import { useShowcaseStore } from '../store/useShowcaseStore';
 
 export default function ShowcaseSlider () {
-  let array: Bouquet[];
-  const [toggle, setToggle] = useState(1);
-  function updateToggle(id: number) {
-    setToggle(id);
-  }
+  const toggle = useShowcaseStore((state) => state.toggle);
+  const setToggle = useShowcaseStore((state) => state.setToggle);
+  const categories: Record<number, string> = {
+    1: "designer",
+    2: "mono",
+    3: "wedding",
+    4: "gifts"
+  };
+  const currentCategory = categories[toggle];
+  if (!currentCategory) throw new Error("Ошибка кнопки выбора");
 
-  switch (toggle) {
-    case 1:
-      array = hitsSliderArray.filter(item => item.category === "designer")
-      break;
-    case 2:
-      array = hitsSliderArray.filter(item => item.category === "mono")
-      break;
-    case 3:
-      array = hitsSliderArray.filter(item => item.category === "wedding")
-      break;
-    case 4:
-      array = hitsSliderArray.filter(item => item.category === "gifts")
-      break;
-    default: throw new Error("Ошибка кнопки выбора")
-  }
+  const filteredArray = hitsSliderArray.filter(item => item.category === currentCategory);
+  const repeatedArray = Array(8).fill(filteredArray).flat();
 
-  array = [...array, ...array, ...array, ...array, ...array, ...array, ...array, ...array]
+  const getBtnClass = (id: number) => 
+    `w-45 h-9 text-base border border-[#9AB973] text-[#2D531A] ${
+      toggle === id ? "bg-[#9AB973]" : ""
+    }`;
 
   return (
     <div>
       <div className="w-3/5 flex flex-row justify-around mb-10 mx-30">
           <button
-          onClick={()=>updateToggle(1)}
-          className={
-            toggle === 1 ? "w-45 h-9 text-base border border-[#9AB973] text-[#2D531A] bg-[#9AB973]" : "w-45 h-9 text-base border border-[#9AB973] text-[#2D531A]"
-          }
+          onClick={() => setToggle(1)} className={getBtnClass(1)}
           >
           Авторские букеты
         </button>        
 
         <button
-          onClick={()=>updateToggle(2)}
-          className={
-            toggle === 2 ? "w-45 h-9 text-base border border-[#9AB973] text-[#2D531A] bg-[#9AB973]" : "w-45 h-9 text-base border border-[#9AB973] text-[#2D531A]"
-          }
+          onClick={() => setToggle(2)} className={getBtnClass(2)}
         >
           Моно букеты
         </button>
 
         <button
-          onClick={()=>updateToggle(3)}
-          className={
-            toggle === 3 ? "w-45 h-9 text-base border border-[#9AB973] text-[#2D531A] bg-[#9AB973]" : "w-45 h-9 text-base border border-[#9AB973] text-[#2D531A]"
-          }
+          onClick={() => setToggle(3)} className={getBtnClass(3)}
         >
           Свадебные
         </button>
 
         <button
-          onClick={()=>updateToggle(4)}
-          className={
-            toggle === 4 ? "w-45 h-9 text-base border border-[#9AB973] text-[#2D531A] bg-[#9AB973]" : "w-45 h-9 text-base border border-[#9AB973] text-[#2D531A]"
-          }
+          onClick={() => setToggle(4)} className={getBtnClass(4)}
         >
           Подарки
         </button>
       </div>
-      <HitsSlider array={[...array, ...array,...array,...array]} high="h-1400" rows={2} loop={false}/>
+      <HitsSlider array={repeatedArray} high="h-1400" rows={2} loop={false}/>
     </div>
   )
 }
