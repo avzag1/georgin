@@ -11,7 +11,6 @@ export default function Header () {
 
   function onCloseProfileModal() {
     setOpenProfileModal(false);
-    setEmail("");
   }
 
   function onCloseShoppingCardModal() {

@@ -8,18 +8,14 @@ import ShowcaseSlider from "../components/ShowcaseSlider";
 import VkCommunityWidget from '../components/VkCommunityWidget';
 import Subscribe from "../components/Subscribe";
 import Link from 'next/link';
-<<<<<<< HEAD
 import Profile from "../components/Profile";
-=======
-import Footer from "../components/Footer"
->>>>>>> 6929513a47d7254c70f2d7a545ec823dc16abf8d
+import Footer from "../components/Footer";
+
 
 export default function Home() {
   return (
     <div className="bg-[#F5F2ED]">
-<<<<<<< HEAD
             
-=======
       <header className="w-full h-20 flex items-center justify-between">
         <div className="mx-20 flex items-center">
           <Image
@@ -69,7 +65,6 @@ export default function Home() {
       </header>
 
       
->>>>>>> 6929513a47d7254c70f2d7a545ec823dc16abf8d
 
       <section className="w-full relative">
         <div className="text-center h-5 text-sm text-white bg-[#0F330F]">
