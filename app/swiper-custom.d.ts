@@ -7,3 +7,6 @@ declare module "swiper/react";
 declare module "swiper/modules";
 declare module 'swiper/css/grid';
 declare module 'flowbite-react';
+declare module "react-hook-form";
+declare module 'react-number-format';
+declare module "react-number-format/types/types"

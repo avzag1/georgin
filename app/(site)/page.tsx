@@ -10,13 +10,14 @@ import Subscribe from "../components/Subscribe";
 import Link from 'next/link';
 import Profile from "../components/Profile";
 import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 
 export default function Home() {
   return (
     <div className="bg-[#F5F2ED]">
-            
-      <header className="w-full h-20 flex items-center justify-between">
+            <Header/>
+      {/* <header className="w-full h-20 flex items-center justify-between">
         <div className="mx-20 flex items-center">
           <Image
             src = "/logo.png"
@@ -62,7 +63,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </header>
+      </header> */}
 
       
 
@@ -79,7 +80,7 @@ export default function Home() {
             height = {936}
           />
         </div>
-        <div className="absolute bottom-[15%] left-[15%] z-50 flex flex-col items-center">
+        <div className="absolute bottom-[15%] left-[15%] flex flex-col items-center">
           <div className="mb-20">
             <OrderButtonActive bgColor="bg-[#ABC270]" textColor="text-black"/>
           </div>

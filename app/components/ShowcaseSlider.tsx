@@ -2,11 +2,11 @@
 
 import HitsSlider from "./HitsSlider";
 import {hitsSliderArray} from "../hitsSliderArray";
-import { useShowcaseStore } from '../store/useShowcaseStore';
+import { useStore } from '../store/useStore';
 
 export default function ShowcaseSlider () {
-  const toggle = useShowcaseStore((state) => state.toggle);
-  const setToggle = useShowcaseStore((state) => state.setToggle);
+  const toggle = useStore((state) => state.toggle);
+  const setToggle = useStore((state) => state.setToggle);
   const categories: Record<number, string> = {
     1: "designer",
     2: "mono",

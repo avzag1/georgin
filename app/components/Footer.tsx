@@ -2,11 +2,11 @@
 
 import Link from "next/link"
 import Image from "next/image";
-import { useShowcaseStore } from '../store/useShowcaseStore';
+import { useStore } from '../store/useStore';
 
 
 export default function Footer () {
-  const setToggle = useShowcaseStore((state) => state.setToggle);
+  const setToggle = useStore((state) => state.setToggle);
 
   return (
      <footer className="w-[1440] h-[374] mx-auto bg-[#F5F2ED] flex flex-col justify-between p-10">
