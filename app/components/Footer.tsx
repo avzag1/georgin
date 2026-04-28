@@ -11,7 +11,7 @@ export default function Footer () {
   const setSupportModal = useStore((state) => state.setSupportModal);
 
   return (
-     <footer className="w-[1440] h-[374] mx-auto bg-[#F5F2ED] flex flex-col justify-between p-10 relative">
+     <footer className="w-full lg:w-[1440] h-[374] mx-auto bg-[#F5F2ED] flex flex-col justify-between p-10 relative overflow-hidden">
       <div className="flex flex-row justify-around">
         <div className="h-[140] flex flex-col text-[#394128] text-sm">
           <div className="font-semibold text-black p-2">О нас</div>

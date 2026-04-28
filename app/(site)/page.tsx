@@ -10,80 +10,38 @@ import Subscribe from "../components/SubscribeButton";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import MainScreen from "../components/MainScreen";
+import AboutText from "../components/AboutText";
 
 export default function Home() {
   return (
     <div className="bg-[#F5F2ED]">
       <Header/>
       <MainScreen/>
-      {/* <section className="w-full relative">
-        <div className="text-center h-5 text-xs lg:text-sm text-white bg-[#0F330F]">
-          БЕСПЛАТНАЯ ДОСТАВКА ПО ГОРОДУ ОТ 3000 рублей
-        </div>
-        
-        <div className="hidden lg:block w-full h-auto overflow-hidden">
-          <Image
-            className="w-full h-auto mt-[-14]"
-            src = "/mainDesktop.png"
-            alt = "Главное изображение"
-            width = {1440}
-            height = {936}
-          />
-        </div>
-        <div className="block lg:hidden w-full h-auto overflow-hidden">
-          <Image
-            className="w-full h-auto mt-[-1]"
-            src = "/mainDesktopMobile.png"
-            alt = "Главное изображение"
-            width = {399}
-            height = {660}
-          />
-        </div>
 
-        <div className="flex justify-between w-[100] lg:hidden absolute top-10 right-3">
-          <div>
-            <Image
-              className=""
-              src = "/shoppingCardMobile.png"
-              alt = "Корзина"
-              width = {46}
-              height = {46}
-            />
-          </div>
-          <div>
-            <Image
-              className=""
-              src = "/menuMobile.png"
-              alt = "Меню"
-              width = {46}
-              height = {46}
-            />
-          </div>
-        </div>
-
-        <div className="absolute bottom-[15%] w-19/20 mx-auto lg:mx-0 lg:w-[505] inset-x-0 lg:left-[15%] flex flex-col items-center">
-          <div className="hidden lg:block mb-20">
-            <OrderButtonActive bgColor="bg-[#ABC270]" textColor="text-black"/>
-          </div>
-          <div className="text-white flex flex-col items-center text-center">
-            <div className="text-sm lg:text-lg">Доставка по Йошкар-Оле, Медведево и Семеновке</div>
-            <div className="text-xs lg:text-base">Возможна доставка за пределы города - уточняйте по телефону</div>
-          </div>
-        </div>
-      </section> */}
-
-      <section id="about" className="w-9/10 h-[615] bg-white mx-auto mt-28 mb-16 flex flex-row">
-        <div>
+      <section id="about" className="w-full lg:w-9/10 h-[615] bg-white mx-auto mt-0 lg:mt-28 mb-16 flex flex-row">
+        <div className="hidden lg:flex">
           <Image
-          className=""
+          className="w-full"
           src = "/aboutPicture.png"
           alt = "О нас"
           width = {606}
           height = {615}
         />
         </div>
+        <div className="block lg:hidden w-full relative">
+          <Image
+            className=""
+            src = "/aboutPicture_Mobile.png"
+            alt = "О нас"
+            width = {399}
+            height = {555}
+          />
+          <div className="absolute">
+            <AboutText/>
+          </div>
+        </div>
         
-        <div className="flex flex-col mx-auto w-[600] h-[460]">
+        <div className="hidden lg:flex flex-col mx-auto w-[600] h-[460]">
           <div className="flex">
             <div className="my-10 ml-15">
               <Image
@@ -104,22 +62,13 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="bg-[#758956] rounded-4xl p-10 text-white">
-            Георгин- это сеть цветочных салонов в г. Йошкар-Оле,<br/>
-            где каждый букет создается с душой.<br/>
-            Мы находимся по адресам:<br/>
-            Яна Крастыня 2В,<br/> 
-            Мира 113а<br/>  
-            Красноармейская улица 103 к1.<br/> 
-            Рады видеть вас каждый день с 9:00 до 20:00.<br/><br/> 
-
-            Наша команда уверена, что цветы — это язык эмоций, поэтому мы подходим к составлению<br/> букетов не как к работе, а как к искусству.     Мы любим своё дело и хотим, чтобы вы<br/> дарили радость легко и с удовольствием.<br/><br/> 
-
-            Дарите эмоции с «ГЕОРГИН»!</div>
+          <div className="lg:bg-[#758956] lg:rounded-4xl lg:p-10 lg:text-white lg:mx-10">
+            <AboutText/>
+          </div>
         </div>
       </section>
 
-      <section className="flex flex-col items-center mx-auto w-9/10">
+      <section className="flex flex-col items-center mx-auto w-9/10 overflow-hidden">
         <div className="p-10">
           <Image
               className=""
@@ -268,7 +217,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="hits" className="flex flex-col mx-auto w-full pb-30">
+      <section id="hits" className="flex flex-col mx-auto w-full pb-30 overflow-hidden">
         <div className="py-15 mx-25">
           <Image
             className=""
@@ -281,7 +230,7 @@ export default function Home() {
         <HitsSlider array={[...hitsSliderArray, ...hitsSliderArray,...hitsSliderArray,...hitsSliderArray]} high="h-600" rows={1} loop={true}/>
       </section>
 
-      <section id="actions" className="flex flex-col mx-auto w-full">
+      <section id="actions" className="flex flex-col mx-auto w-full overflow-hidden">
         <div className="relative">
           <div>
             <Image
@@ -314,7 +263,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative">
+      <section className="relative overflow-hidden">
         <div>
           <Image
             className="mx-auto w-full"
@@ -329,7 +278,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-9/10 mx-auto p-20 bg-white">
+      <section className="w-9/10 mx-auto p-20 bg-white overflow-hidden">
         <div className="flex justify-between">
           <div className="mb-10 ml-5">
           <Image
