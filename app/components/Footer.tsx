@@ -3,19 +3,21 @@
 import Link from "next/link"
 import Image from "next/image";
 import { useStore } from '../store/useStore';
-
+import Support from "../components/Support";
+import SubscribeForm from "../components/SubscribeForm";
 
 export default function Footer () {
   const setToggle = useStore((state) => state.setToggle);
+  const setSupportModal = useStore((state) => state.setSupportModal);
 
   return (
-     <footer className="w-[1440] h-[374] mx-auto bg-[#F5F2ED] flex flex-col justify-between p-10">
+     <footer className="w-[1440] h-[374] mx-auto bg-[#F5F2ED] flex flex-col justify-between p-10 relative">
       <div className="flex flex-row justify-around">
         <div className="h-[140] flex flex-col text-[#394128] text-sm">
           <div className="font-semibold text-black p-2">О нас</div>
           <div className="p-2">Контакты</div>
           <div className="p-2">Отзывы</div>
-          <div className="p-2">Поддержка</div>
+          <button onClick={() => setSupportModal(1)} className="p-2">Поддержка</button>
         </div>
 
         <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
@@ -118,21 +120,10 @@ export default function Footer () {
         <div className="flex items-end ml-15 text-xs">&copy; 2026 Copiright</div>
         <div className="flex flex-col w-[620]">
           <div className="font-medium">Узнайте первыми о самых выгодных акциях и предложениях</div>
-          <form className="flex flex-col sm:flex-row mt-2  text-sm">
-            <input 
-              type="email"
-              placeholder="Введите ваш e-mail" 
-              className="text-center border border-[#758956] bg-transparent py-2 outline-none font-thin antialiased focus:border-[#758956] transition-colors w-full"
-            />
-            <button 
-              type="submit" 
-              className="whitespace-nowrap text-white px-6 py-2 bg-[#758956]"
-            >
-              Подписаться на рассылку
-            </button>
-          </form>
+          <SubscribeForm/>
         </div>
       </div>
+      <Support/>
     </footer>
   )
 }

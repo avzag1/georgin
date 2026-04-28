@@ -1,16 +1,36 @@
 "use client"
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TextInput, Label, Button, Checkbox } from "flowbite-react";
 import { useStore } from '../store/useStore';
 
 export default function Profile () {
   const profileModal = useStore((state) => state.profileModal);
   const setProfileModal = useStore((state) => state.setProfileModal);
+
+  useEffect(() => {
+    if (profileModal !== 0) {
+      // 1. Находим ширину скроллбара
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      // 2. Блокируем скролл и добавляем отступ
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    } else {
+      // 3. Возвращаем всё как было
+      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
+    }
+    // На всякий случай очищаем стили при размонтировании компонента
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
+    };
+  }, [profileModal]);
+
   const getProfileClass = () => 
     `${profileModal === 1 ? 
-      "flex w-[600] h-[600] p-10 bg-white border absolute inset-y-1/2 inset-x-[calc(50%-300px)]" 
+      "flex w-[600] h-[600] p-10 bg-white border fixed inset-y-[calc(50%-300px)] inset-x-[calc(50%-300px)]" 
       : "hidden"}`;
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState('');
@@ -43,59 +63,68 @@ export default function Profile () {
           </h3>
         </div>
 
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="name">Ваше имя</Label>
+        <form>
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="name">Ваше имя*</Label>
+            </div>
+            <TextInput
+              className="[&_input]:p-1"
+              id="name"
+              placeholder="Ведите имя"
+              value={name}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
+              required
+            />
           </div>
-          <TextInput
-            className="[&_input]:p-1"
-            id="name"
-            placeholder="Ведите имя"
-            value={name}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
-            required
-          />
-        </div>
-        
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="email">e-mail</Label>
+          
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="email">e-mail</Label>
+            </div>
+            <TextInput
+              type="email"
+              className="[&_input]:p-1"
+              id="email"
+              placeholder="ivanov@mail.ru"
+              value={email}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+              required
+            />
           </div>
-          <TextInput
-            className="[&_input]:p-1"
-            id="email"
-            placeholder="ivanov@mail.ru"
-            value={email}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
-            required
-          />
-        </div>
 
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="phone">Номер телефона</Label>
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="phone">Номер телефона</Label>
+            </div>
+            <TextInput
+              className="[&_input]:p-1"
+              id="phone"
+              placeholder="+7 ___ __ __"
+              value={phone}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPhone(event.target.value)}
+              required
+            />
           </div>
-          <TextInput
-            className="[&_input]:p-1"
-            id="phone"
-            placeholder="+7 ___ __ __"
-            value={phone}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPhone(event.target.value)}
-            required
-          />
-        </div>
-        
-        <div className="flex justify-between mt-25">
-          <div className="flex items-center gap-2">
-            <Checkbox id="remember" className="scale-150"/>
-            <Label htmlFor="remember">
-              Я принимаю пользовательское соглашение и даю согласие на обработку 
-              ИП Таммет Яан Эдуардович моих персональных данных на условиях, 
-              определенных политикой конфиденциальности
-            </Label>
+          
+          <div className="flex justify-between mt-25">
+            <div className="flex items-center gap-2">
+              <Checkbox id="remember" className="scale-150"/>
+              <Label htmlFor="remember">
+                Я принимаю пользовательское соглашение и даю согласие на обработку 
+                ИП Таммет Яан Эдуардович моих персональных данных на условиях, 
+                определенных политикой конфиденциальности
+              </Label>
+            </div>
           </div>
-        </div>
-        <Button onClick={() => setProfileModal(0)} className="w-[516] h-[45] bg-[#7E8F52] text-center">Отправить</Button>
+          <Button type='submit' onClick={
+            () => {setProfileModal(0)
+              setEmail("");
+              setName("");
+              setPhone("");
+            }
+          } className="w-[516] h-[45] bg-[#7E8F52] text-center">Отправить</Button>
+        </form>
       </div>
     </div>
   )

@@ -11,7 +11,7 @@ export default function Header () {
   const setShoppingCardModal = useStore((state) => state.setShoppingCardModal);
 
   return (
-    <header className="w-full h-20 flex items-center justify-between relative z-40">
+    <header className="hidden lg:flex w-full h-20 items-center justify-between relative z-40">
       <div className="mx-20 flex items-center">
         <Image
           src = "/logo.png"

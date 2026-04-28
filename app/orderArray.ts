@@ -26,9 +26,9 @@ export const orderArray = [
       }
     ],
     totalAmount() {
-      return this.goods.reduce((sum, good) => {
-        const currentPrice = good.bouquet.actionPrice || good.bouquet.price;
-        return sum + currentPrice;
+      return this.goods.reduce((totalSum, good) => {
+        const currentSum = (good.bouquet.actionPrice || good.bouquet.price) * good.quantity;
+        return totalSum + currentSum;
       }, 0);
     }
   }

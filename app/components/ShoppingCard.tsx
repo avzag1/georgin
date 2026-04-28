@@ -1,19 +1,43 @@
 import { useStore } from '../store/useStore';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Label, Textarea } from "flowbite-react";
 import {orderArray} from "../orderArray";
 import ShoppingCardItems from "./ShoppingCardItems";
+import { useState, useEffect } from "react";
 
 export default function ShoppingCard () {
   const shoppingCardModal = useStore((state) => state.shoppingCardModal);
   const setShoppingCardModal = useStore((state) => state.setShoppingCardModal);
+
+  const [comment, setComment] = useState('');
+
+  useEffect(() => {
+    if (shoppingCardModal !== 0) {
+      // 1. Находим ширину скроллбара
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      // 2. Блокируем скролл и добавляем отступ
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    } else {
+      // 3. Возвращаем всё как было
+      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
+    }
+    // На всякий случай очищаем стили при размонтировании компонента
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
+    };
+  }, [shoppingCardModal]);
+
   const getShoppingCardClass = () => 
     `${shoppingCardModal === 1 ? 
-      "flex w-[755] h-[597] bg-white border absolute inset-y-1/2 inset-x-[calc(50%-377px)]" 
+      "flex w-screen lg:w-[755] h-screen min-h-[660] lg:h-auto bg-white border absolute z-40 top-0 left-0 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 " 
       : "hidden"}`;
   return (
     <div className={getShoppingCardClass()}>
-      <div className='relative w-full'>
+      <div className='relative w-full h-svh lg:h-auto'>
         <button onClick={() => setShoppingCardModal(0)} className="absolute right-15 top-10">
           <Image
             src = "/closeIcon.png"
@@ -25,35 +49,47 @@ export default function ShoppingCard () {
 
         <div className='w-full h-[81] bg-[#d9dac1] p-10 text-xl font-medium'>Корзина</div>
 
-        <div className='w-full h-[240] p-10'>
+        <div className='w-full h-auto px-10 py-5'>
           <ShoppingCardItems/>
         </div>
 
-        <div>
+        <div className='my-5 px-10'>
           <div className="mb-2 block">
             <Label htmlFor="comment">Комментарий к заказу</Label>
           </div>
           <Textarea
-            className="[&_input]:p-1"
+            className="p-3"
             id="comment"
-            placeholder="Ведите текст"
+            placeholder="Введите текст"
             rows={4}
+            value={comment}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setComment(event.target.value)}
           />
         </div>
-
-        <div>
-          {orderArray[0].totalAmount()}
+        
+        <div className='flex justify-end mt-10 mb-5 mr-20 font-semibold'>
+          <div>Итого:</div>
+          <div className='mx-1'>
+            {orderArray[0].totalAmount().toLocaleString('ru-RU')}
+          </div>
+          <div>&#8381;</div>
         </div>
 
-        <div>
-          <button className='w-[221] h-[45] bg-[#B2B2B2] text-center'>
+        <div className='flex justify-between px-8 pb-10 text-xs lg:text-base text-white'>
+          <button onClick={() => {
+            setShoppingCardModal(0);
+            setComment("");
+            setTimeout(() => {
+              document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+          }}
+            className='w-[145] lg:w-[221] h-[45] bg-[#B2B2B2] text-center'>
             Продолжить покупки
           </button>
-          <button className='w-[330] h-[45] bg-[#7E8F52] text-center'>
+          <button className='w-[147] lg:w-[330] h-[45] bg-[#7E8F52] text-center'>
             Перейти к оформлению заказа
           </button>
         </div>
-
       </div>
     </div>
   )

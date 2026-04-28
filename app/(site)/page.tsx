@@ -6,72 +6,22 @@ import { hitsSliderArray } from "../hitsSliderArray";
 import CallButton from "../components/CallButton";
 import ShowcaseSlider from "../components/ShowcaseSlider";
 import VkCommunityWidget from '../components/VkCommunityWidget';
-import Subscribe from "../components/Subscribe";
-import Link from 'next/link';
-import Profile from "../components/Profile";
+import Subscribe from "../components/SubscribeButton";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-
+import MainScreen from "../components/MainScreen";
 
 export default function Home() {
   return (
     <div className="bg-[#F5F2ED]">
-            <Header/>
-      {/* <header className="w-full h-20 flex items-center justify-between">
-        <div className="mx-20 flex items-center">
-          <Image
-            src = "/logo.png"
-            alt = "Логотип"
-            width = {105}
-            height = {32}
-          />
-        </div>
-
-        <div className="flex flex-row justify-center items-center mx-10">
-          <div className="text-sm text-[#1F2D1A] font-medium flex flex-row justify-between mx-5">
-            <Link href="#howToOrder" className="p-5">КАК ЗАКАЗАТЬ?</Link>
-            <Link href="#hits" className="p-5">ХИТЫ СЕЗОНА</Link>
-            <Link href="#showcase" className="p-5">ОНЛАЙН-ВИТРИНА</Link>
-            <Link href="#actions" className="p-5">АКЦИИ</Link>
-            <Link href="#about" className="p-5">О нас</Link>
-          </div>
-
-          <div className="flex flex-row justify-between items-center">
-            <Link target="blank" href="tel:+79379388777" className="rounded-2xl p-1">
-              <Image
-                src = "/callButton.png"
-                alt = "Кнопка Позвонить"
-                width = {149}
-                height = {41}
-              />
-            </Link>
-            <div className="rounded-full p-1">
-              <Image
-                src = "/shoppingСart.png"
-                alt = "Корзина"
-                width = {44}
-                height = {44}
-              />
-            </div>
-            <div className="rounded-full p-1">
-              <Image
-                src = "/profile.png"
-                alt = "Профиль"
-                width = {44}
-                height = {44}
-              />
-            </div>
-          </div>
-        </div>
-      </header> */}
-
-      
-
-      <section className="w-full relative">
-        <div className="text-center h-5 text-sm text-white bg-[#0F330F]">
+      <Header/>
+      <MainScreen/>
+      {/* <section className="w-full relative">
+        <div className="text-center h-5 text-xs lg:text-sm text-white bg-[#0F330F]">
           БЕСПЛАТНАЯ ДОСТАВКА ПО ГОРОДУ ОТ 3000 рублей
         </div>
-        <div className="w-full h-auto overflow-hidden">
+        
+        <div className="hidden lg:block w-full h-auto overflow-hidden">
           <Image
             className="w-full h-auto mt-[-14]"
             src = "/mainDesktop.png"
@@ -80,16 +30,47 @@ export default function Home() {
             height = {936}
           />
         </div>
-        <div className="absolute bottom-[15%] left-[15%] flex flex-col items-center">
-          <div className="mb-20">
-            <OrderButtonActive bgColor="bg-[#ABC270]" textColor="text-black"/>
+        <div className="block lg:hidden w-full h-auto overflow-hidden">
+          <Image
+            className="w-full h-auto mt-[-1]"
+            src = "/mainDesktopMobile.png"
+            alt = "Главное изображение"
+            width = {399}
+            height = {660}
+          />
+        </div>
+
+        <div className="flex justify-between w-[100] lg:hidden absolute top-10 right-3">
+          <div>
+            <Image
+              className=""
+              src = "/shoppingCardMobile.png"
+              alt = "Корзина"
+              width = {46}
+              height = {46}
+            />
           </div>
-          <div className="text-white flex flex-col items-center">
-            <div className="text-lg">Доставка по Йошкар-Оле, Медведево и Семеновке</div>
-            <div className="text-base">Возможна доставка за пределы города - уточняйте по телефону</div>
+          <div>
+            <Image
+              className=""
+              src = "/menuMobile.png"
+              alt = "Меню"
+              width = {46}
+              height = {46}
+            />
           </div>
         </div>
-      </section>
+
+        <div className="absolute bottom-[15%] w-19/20 mx-auto lg:mx-0 lg:w-[505] inset-x-0 lg:left-[15%] flex flex-col items-center">
+          <div className="hidden lg:block mb-20">
+            <OrderButtonActive bgColor="bg-[#ABC270]" textColor="text-black"/>
+          </div>
+          <div className="text-white flex flex-col items-center text-center">
+            <div className="text-sm lg:text-lg">Доставка по Йошкар-Оле, Медведево и Семеновке</div>
+            <div className="text-xs lg:text-base">Возможна доставка за пределы города - уточняйте по телефону</div>
+          </div>
+        </div>
+      </section> */}
 
       <section id="about" className="w-9/10 h-[615] bg-white mx-auto mt-28 mb-16 flex flex-row">
         <div>
