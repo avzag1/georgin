@@ -12,8 +12,8 @@ export default function MainScreen () {
 
   return (
     <section className="w-full relative">
-      <div className="text-center h-5 text-xs lg:text-sm text-white bg-[#0F330F]">
-        БЕСПЛАТНАЯ ДОСТАВКА ПО ГОРОДУ ОТ 3000 рублей
+      <div className="flex items-center justify-center h-5 text-xs lg:text-sm text-white bg-[#0F330F]">
+        <p>БЕСПЛАТНАЯ ДОСТАВКА ПО ГОРОДУ ОТ 3000 рублей</p>
       </div>
       
       <div className="hidden lg:block w-full h-auto overflow-hidden">
