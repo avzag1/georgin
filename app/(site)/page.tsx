@@ -293,7 +293,7 @@ export default function Home() {
       <Showcase/>
 
       <section className="relative overflow-hidden">
-        <div>
+        <div className="hidden lg:block">
           <Image
             className="mx-auto w-full"
             src = "/callUsPic.png"
@@ -302,23 +302,32 @@ export default function Home() {
             height = {455}
             />
         </div>
-        <div className="absolute inset-x-[calc(50%-61px)] inset-y-3/5 z-50">
+        <div className="block lg:hidden max-w-screen">
+          <Image
+            className="mx-auto w-full"
+            src = "/callUsPicMobile.png"
+            alt = "Позвоните нам"
+            width = {392}
+            height = {355}
+            />
+        </div>
+        <div className="absolute inset-x-[calc(50%-61px)] inset-y-9/20 lg:inset-y-3/5 z-50">
           <CallButton/>
         </div>
       </section>
 
-      <section className="w-9/10 mx-auto p-20 bg-white overflow-hidden">
+      <section className="w-full lg:w-9/10 mx-auto p-8 lg:p-20 bg-white overflow-hidden">
         <div className="flex justify-between">
-          <div className="mb-10 ml-5">
-          <Image
-            className=""
-            src = "/VKTitle.png"
-            alt = "Мы Вконтакте"
-            width = {505}
-            height = {57}
+          <div className="mb-5 lg:mb-10 ml-0 lg:ml-5 w-[181] lg:w-[505] h-[20] lg:h-[57]">
+            <Image
+              className=""
+              src = "/VKTitle.png"
+              alt = "Мы Вконтакте"
+              width = {505}
+              height = {57}
             />
-          </div>
-          <div className="mr-20">
+            </div>
+          <div className="mr-0 lg:mr-20">
             <Subscribe/>
           </div>
         </div>

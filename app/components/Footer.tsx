@@ -11,24 +11,24 @@ export default function Footer () {
   const setSupportModal = useStore((state) => state.setSupportModal);
 
   return (
-     <footer className="w-full lg:w-[1440] h-[374] mx-auto bg-[#F5F2ED] flex flex-col justify-between p-10 relative overflow-hidden">
-      <div className="flex flex-row justify-around">
-        <div className="h-[140] flex flex-col text-[#394128] text-sm">
-          <div className="font-semibold text-black p-2">О нас</div>
-          <div className="p-2">Контакты</div>
-          <div className="p-2">Отзывы</div>
-          <button onClick={() => setSupportModal(1)} className="p-2">Поддержка</button>
+     <footer className="w-full lg:w-[1440] h-auto lg:h-[374] mx-auto bg-[#F5F2ED] flex flex-col justify-between px-5 pb-10 lg:p-10 relative overflow-hidden">
+      <div className="flex flex-col lg:flex-row justify-around order-2 lg:order-1">
+        <div className="h-auto lg:h-[140] flex flex-col text-[#394128] text-sm pl-7 lg:p-l0">
+          <div className="font-semibold text-black">О нас</div>
+          <div className="py-2 lg:p-2">Контакты</div>
+          <div className="py-2 lg:p-2">Отзывы</div>
+          <button onClick={() => setSupportModal(1)} className="p-2 text-left lg:text-center">Поддержка</button>
         </div>
 
-        <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
-          <div className="font-semibold text-black p-2">Покупателям</div>
+        <div className="h-auto lg:h-[140] flex flex-col justify-between text-[#394128] text-sm pl-7 lg:p-l0 pb-2">
+          <div className="font-semibold text-black">Покупателям</div>
           <Link href="#howToOrder" className="p-2">Как заказать</Link>
           <Link href="#actions" className="p-2">Акции</Link>
           <div className="p-2">Доставка</div>
         </div>
 
-        <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
-          <div className="font-semibold text-black p-2">Каталог</div>
+        <div className="h-auto lg:h-[140] flex flex-col justify-between text-[#394128] text-sm pl-7 lg:p-l0 pb-2">
+          <div className="font-semibold text-black">Каталог</div>
           <Link href="#hits" className="p-2">Хиты сезона</Link>
           <button onClick={() => {
               setToggle(1);
@@ -61,7 +61,7 @@ export default function Footer () {
         </div>
 
         <div className="flex flex-col">
-          <div className="h-[140] flex flex-col justify-between text-[#394128] text-sm">
+          <div className="h-auto lg:h-[140] flex flex-col justify-between text-[#394128] text-sm pl-7 lg:p-l0 pb-2">
             <div className="font-semibold text-black">Контакты</div>
             <div className="">+7 (937) 938-87-77</div>
             <div>г. Йошкар-Ола</div>
@@ -69,7 +69,7 @@ export default function Footer () {
             <div>Красноармейская улица 103 к1</div>
           </div>
 
-          <div className="mt-7 h-[50] flex flex-col justify-between text-[#394128] text-sm">
+          <div className="mt-7 h-auto lg:h-[50] flex flex-col justify-between text-[#394128] text-sm pl-7 lg:p-l0 border-b pb-2">
             <div className="font-semibold text-black">Режим работы</div>
             <div className="">ПН-ВС, с 9:00 до 20:00</div>
           </div>
@@ -116,13 +116,14 @@ export default function Footer () {
         </div>
       </div>
       
-      <div className="flex justify-between mt-7 w-full">
-        <div className="flex items-end ml-15 text-xs">&copy; 2026 Copiright</div>
-        <div className="flex flex-col w-[620]">
-          <div className="font-medium">Узнайте первыми о самых выгодных акциях и предложениях</div>
+      <div className="flex justify-between mt-7 w-full order-1 lg:order-2 mx-auto lg:mx-0">
+        <div className="hidden lg:flex items-end ml-15 text-xs">&copy; 2026 Copiright</div>
+        <div className="flex flex-col w-[620] max-w-screen">
+          <div className="font-medium text-center lg:text-left text-xs lg:text-base mb-3 lg:mb-0">Узнайте первыми о самых выгодных акциях и предложениях</div>
           <SubscribeForm/>
         </div>
       </div>
+
       <Support/>
     </footer>
   )
