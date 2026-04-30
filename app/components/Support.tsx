@@ -30,7 +30,7 @@ export default function Support () {
 
   const getSupportClass = () => 
     `${supportModal === 1 ? 
-      "flex items-center justify-center w-[600] h-[700] p-10 bg-white border fixed inset-y-[calc(50%-350px)] inset-x-[calc(50%-300px)]" 
+      "flex items-center justify-center w-full lg:w-[600] h-full lg:h-[700] p-10 bg-white border-none lg:border-solid lg:border  fixed top-0 left-[-1] lg:fixed lg:inset-y-[calc(50%-350px)] lg:inset-x-[calc(50%-300px)]" 
       : "hidden"}`;
   const [email, setEmail] = useState("");
   const [name, setName] = useState('');
@@ -100,15 +100,20 @@ export default function Support () {
         
         <div className="flex justify-between mt-10">
           <div className="flex items-center gap-2">
-            <Checkbox id="remember" className="scale-150"/>
-            <Label htmlFor="remember">
+            <Checkbox id="remember" className="scale-150 mr-2"/>
+            <Label className="text-xs lg:text-sm" htmlFor="remember">
               Я принимаю пользовательское соглашение и даю согласие на обработку 
               ИП Таммет Яан Эдуардович моих персональных данных на условиях, 
               определенных политикой конфиденциальности
             </Label>
           </div>
         </div>
-        <Button onClick={() => setSupportModal(0)} className="w-[516] h-[45] bg-[#7E8F52] text-center">Отправить</Button>
+        <Button onClick={() => {
+          setSupportModal(0);
+          setName('');
+          setEmail('');
+          setProblem('');
+        }} className="w-[315] lg:w-[516] h-[45] bg-[#7E8F52] text-center">Отправить</Button>
       </div>
     </div>
   )

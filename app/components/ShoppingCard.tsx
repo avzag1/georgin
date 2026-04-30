@@ -33,12 +33,12 @@ export default function ShoppingCard () {
 
   const getShoppingCardClass = () => 
     `${shoppingCardModal === 1 ? 
-      "flex w-screen lg:w-[755] h-screen min-h-[660] lg:h-auto bg-white border absolute z-40 top-0 left-0 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 " 
+      "flex w-screen lg:w-[755] h-screen min-h-[660] lg:h-auto bg-white border-none lg:border lg:border-solid absolute z-40 top-0 left-0 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 " 
       : "hidden"}`;
   return (
     <div className={getShoppingCardClass()}>
       <div className='relative w-full h-svh lg:h-auto'>
-        <button onClick={() => setShoppingCardModal(0)} className="absolute right-15 top-10">
+        <button onClick={() => setShoppingCardModal(0)} className="absolute right-12 lg:right-15 top-8 lg:top-10">
           <Image
             src = "/closeIcon.png"
             alt = "Крест"
@@ -47,7 +47,9 @@ export default function ShoppingCard () {
           />
         </button>
 
-        <div className='w-full h-[81] bg-[#d9dac1] p-10 text-xl font-medium'>Корзина</div>
+        <div className='w-full h-[81] bg-[#d9dac1] px-10 pt-7 lg:p-10 text-xl font-medium'>
+          Корзина
+        </div>
 
         <div className='w-full h-auto px-10 py-5'>
           <ShoppingCardItems/>

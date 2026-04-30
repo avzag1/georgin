@@ -42,7 +42,7 @@ export default function Home() {
         </div>
         
         <div className="hidden lg:flex flex-col mx-auto w-[600] h-[460]">
-          <div className="flex">
+          <div className="flex justify-center">
             <div className="my-10 ml-15">
               <Image
               className=""
