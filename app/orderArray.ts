@@ -1,5 +1,28 @@
-export const orderArray = [
+type Status = 'new' | 'paid' | 'received'
+type Order = {
+  status: Status,
+  customer: string,
+  goods: Product[],
+  totalAmount(): number
+}
+export type Product = {
+  quantity: number,
+  bouquet: Bouquet
+}
+export type Bouquet = {
+  image: string,
+  path: string,
+  title: string,
+  description: string,
+  price: number,
+  actionPrice: number | undefined,
+  category: Category
+}
+type Category = 'designer' | 'mono' | 'wedding' | 'gifts'
+
+export const orderArray: Order[] = [
   { 
+    status: 'new',
     customer: "client_1",
     goods: [
       { quantity: 2,
