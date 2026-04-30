@@ -54,7 +54,6 @@ export default function MainScreen () {
             height = {46}
           />
         </button>
-        <MenuMobile/>
       </div>
 
       <div className="absolute bottom-[15%] w-19/20 mx-auto lg:mx-0 lg:w-[505] inset-x-0 lg:left-[15%] flex flex-col items-center">
@@ -67,6 +66,7 @@ export default function MainScreen () {
         </div>
       </div>
       <ShoppingCard/>
+      <MenuMobile/>
     </section>
   )
 }

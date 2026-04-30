@@ -33,7 +33,7 @@ export default function ShoppingCard () {
 
   const getShoppingCardClass = () => 
     `${shoppingCardModal === 1 ? 
-      "flex w-screen lg:w-[755] h-screen min-h-[660] lg:h-auto bg-white border-none lg:border lg:border-solid absolute z-40 top-0 left-0 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 " 
+      "flex w-full lg:w-[755] h-screen min-h-[660] lg:h-auto bg-white border-none lg:border lg:border-solid absolute lg:fixed z-40 top-0 left-0 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2" 
       : "hidden"}`;
   return (
     <div className={getShoppingCardClass()}>
@@ -51,7 +51,7 @@ export default function ShoppingCard () {
           Корзина
         </div>
 
-        <div className='w-full h-auto px-10 py-5'>
+        <div className='w-full h-auto px-5 lg:px-10 py-5'>
           <ShoppingCardItems/>
         </div>
 

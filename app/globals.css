@@ -25,3 +25,8 @@ body {
   font-family: var(--font-sans);
   /* font-family: Arial, Helvetica, sans-serif; */
 }
+
+html {
+  /* Резервирует место под скроллбар всегда, предотвращая прыжки */
+  scrollbar-gutter: stable;
+}
