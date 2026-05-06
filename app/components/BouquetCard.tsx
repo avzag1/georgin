@@ -26,7 +26,6 @@ export default function BouquetCard (bouquet: Bouquet) {
             <div className="text-lg px-3">от {bouquet.price} &#8381;</div>
             <div><OrderBouquetButton bouquet={bouquet} bgColor="bg-[#7E8F52]"/></div>
           </div>
-          
         </div>
       </div>
     </Link>

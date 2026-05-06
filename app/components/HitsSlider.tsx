@@ -15,8 +15,8 @@ import BouquetCard from "./BouquetCard";
 interface HitsSliderProps {
   array: Bouquet[];
   high: string;
-  loop?: boolean;       // Необязательный проп, по умолчанию будет false
-  rows?: number;       // Передаем количество рядов
+  loop?: boolean;
+  rows?: number;
 }
 
 export default function HitsSlider (

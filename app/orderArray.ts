@@ -19,7 +19,7 @@ export type Bouquet = {
   actionPrice: number | undefined,
   category: Category
 }
-type Category = 'designer' | 'mono' | 'wedding' | 'gifts'
+export type Category = 'designer' | 'mono' | 'wedding' | 'gifts'
 
 export const orderArray: Order[] = [
   { 
