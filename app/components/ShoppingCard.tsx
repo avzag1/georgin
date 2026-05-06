@@ -1,14 +1,16 @@
+"use client"
+
 import { useStore } from '../store/useStore';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Label, Textarea } from "flowbite-react";
-import {orderArray} from "../orderArray";
 import ShoppingCardItems from "./ShoppingCardItems";
 import { useState, useEffect } from "react";
 
 export default function ShoppingCard () {
   const shoppingCardModal = useStore((state) => state.shoppingCardModal);
   const setShoppingCardModal = useStore((state) => state.setShoppingCardModal);
+  const order = useStore((state) => state.order);
+  const setOrder = useStore((state) => state.setOrder);
 
   const [comment, setComment] = useState('');
 
@@ -72,7 +74,7 @@ export default function ShoppingCard () {
         <div className='flex justify-end mt-10 mb-5 mr-20 font-semibold'>
           <div>Итого:</div>
           <div className='mx-1'>
-            {orderArray[0].totalAmount().toLocaleString('ru-RU')}
+            {order ? order.totalAmount().toLocaleString('ru-RU') : 0}
           </div>
           <div>&#8381;</div>
         </div>

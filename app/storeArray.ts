@@ -1,4 +1,4 @@
-export const hitsSliderArray = [
+export const storeArray = [
   {
     image: "/bouquet_1.png",
     path: "",
@@ -6,7 +6,8 @@ export const hitsSliderArray = [
     description: "Информация о букете_1",
     price: 2550,
     actionPrice: 2000,
-    category: "designer"
+    category: "designer",
+    quantity: 5
   },
   {
     image: "/bouquet_2.png",
@@ -15,7 +16,8 @@ export const hitsSliderArray = [
     description: "Информация о букете_2",
     price: 3800,
     actionPrice: undefined,
-    category: "mono"
+    category: "mono",
+    quantity: 5
   },
   {
     image: "/bouquet_3.png",
@@ -24,7 +26,8 @@ export const hitsSliderArray = [
     description: "Информация о букете_3",
     price: 4070,
     actionPrice: undefined,
-    category: "wedding"
+    category: "wedding",
+    quantity: 5
   },
   {
     image: "/bouquet_2.png",
@@ -33,6 +36,7 @@ export const hitsSliderArray = [
     description: "Информация о букете_4",
     price: 11000,
     actionPrice: undefined,
-    category: "gifts"
+    category: "gifts",
+    quantity: 5
   },
 ]

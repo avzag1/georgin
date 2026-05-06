@@ -1,14 +1,46 @@
 "use client"
 
-import { useState } from "react";
 import {Product} from "../orderArray";
 import Image from "next/image";
+import { useStore } from '../store/useStore';
 
 export default function ShoppingItem ({item}: {item: Product}) {
-  const [count, setCount] = useState(item.quantity);
+  const order = useStore((state) => state.order);
+  const setOrder = useStore((state) => state.setOrder);
+
+  const currentProduct = order?.goods.find(p => p.bouquet.title === item.bouquet.title);
+  const actualQuantity = currentProduct?.quantity || 0;
+  const actualPrice = currentProduct?.bouquet.actionPrice || currentProduct?.bouquet.price || 0;
   
-  const addCount = () => setCount(prev => prev + 1);
-  const subtractCount = () => setCount(prev => (prev > 1 ? prev - 1 : 1));
+  
+  const addCount = () => {
+    if (!order || !currentProduct) return;
+    const updatedGoods = order.goods.map((product) => {
+      if (product.bouquet.title === item.bouquet.title) {
+        const canAdd = actualQuantity < item.storedOrderQuantity;
+        return { 
+          ...product, 
+          quantity: canAdd ? product.quantity + 1 : product.quantity 
+        };
+      }
+      return product;
+    });
+    setOrder({ ...order, goods: updatedGoods });
+  };
+  const subtractCount = () => {
+    if (!order || !currentProduct) return;
+    const updatedGoods = order.goods.map((product) => {
+      if (product.bouquet.title === item.bouquet.title) {
+        const canSubtract = product.quantity > 1;
+        return { 
+          ...product, 
+          quantity: canSubtract ? product.quantity - 1 : 1 
+        };
+      }
+      return product;
+    });
+    setOrder({ ...order, goods: updatedGoods });
+  };
   
   const itemPrice = item.bouquet.actionPrice || item.bouquet.price;
 
@@ -26,7 +58,7 @@ export default function ShoppingItem ({item}: {item: Product}) {
 
         <div className="flex justify-center items-center w-[56] lg:w-30 ml-8 lg:ml-0 scale-90 lg:scale-100">
           <button onClick={subtractCount} className="bg-[#B2B2B2] px-3 py-1 rounded-l-xl">-</button>
-          <div className="bg-[#eeeeee] py-1 min-w-[30px] text-center w-[21]">{count}</div>
+          <div className="bg-[#eeeeee] py-1 min-w-[30] text-center w-[21]">{(order?.goods.find(product => product.bouquet.title === item.bouquet.title)?.quantity)}</div>
           <button onClick={addCount} className="bg-[#B2B2B2] px-3 py-1 rounded-r-xl">+</button>
         </div>
       </div>
@@ -39,10 +71,14 @@ export default function ShoppingItem ({item}: {item: Product}) {
       <div className="flex flex-col items-center ml-3 font-bold w-[61]">
         <div className="lg:hidden text-xs text-center font-normal">Цена</div>
         <div className="hidden lg:inline text-xs text-center font-normal">Всего</div>
-        <div className="mt-5.5"><p>{(itemPrice * count).toLocaleString('ru-RU')}</p></div>
+        <div className="mt-5.5"><p>{(actualQuantity * actualPrice).toLocaleString('ru-RU')}</p></div>
       </div>
 
-      <button onClick={()=>{}} className="flex justify-center items-center ml-2">
+      <button onClick={()=>{
+          if (!order) return;
+          const updatedGoods = order.goods.filter(g => g !== item);
+          setOrder({ ...order, goods: updatedGoods });
+        }} className="flex justify-center items-center ml-2">
         <Image
           src = "/deleteIcon.png"
           alt = "Удалить"

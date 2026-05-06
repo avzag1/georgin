@@ -24,7 +24,7 @@ export default function BouquetCard (bouquet: Bouquet) {
           <div className="text-sm p-3">{bouquet.description}</div>
           <div className="w-full flex justify-between items-center">
             <div className="text-lg px-3">от {bouquet.price} &#8381;</div>
-            <div><OrderBouquetButton bgColor="bg-[#7E8F52]"/></div>
+            <div><OrderBouquetButton bouquet={bouquet} bgColor="bg-[#7E8F52]"/></div>
           </div>
           
         </div>

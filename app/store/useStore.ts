@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import {Order} from '../orderArray';
 
 interface State {
   toggle: number;
@@ -11,8 +12,8 @@ interface State {
   setSupportModal: (id: number) => void;
   menuMobileModal: number;
   setMenuMobileModal: (id: number) => void;
-  orderItem: number;
-  setOrderItem: (id: number) => void;
+  order: Order | undefined;
+  setOrder: (order: Order) => void;
 }
 
 export const useStore = create<State>((set) => ({
@@ -26,6 +27,6 @@ export const useStore = create<State>((set) => ({
   setSupportModal: (id) => set({ supportModal: id }),
   menuMobileModal: 0,
   setMenuMobileModal: (id) => set({ menuMobileModal: id }),
-  orderItem: 1,
-  setOrderItem: (id) => set({ orderItem: id }),
+  order: undefined,
+  setOrder: (order) => set({ order }),
 }));

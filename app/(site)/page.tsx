@@ -2,9 +2,9 @@ import Image from "next/image";
 import OrderButtonActive from "../components/OrderButtonActive";
 import HitsSlider from "../components/HitsSlider";
 import BuyNowButton from "../components/BuyNowButton";
-import { hitsSliderArray } from "../hitsSliderArray";
+import { storeArray } from "../storeArray";
 import CallButton from "../components/CallButton";
-import VkCommunityWidget from '../components/VkCommunityWidget';
+import VkCommunityWidget from "../components/VkCommunityWidget";
 import Subscribe from "../components/SubscribeButton";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -15,55 +15,58 @@ import Showcase from "../components/Showcase";
 export default function Home() {
   return (
     <div className="bg-[#F5F2ED]">
-      <Header/>
-      <MainScreen/>
+      <Header />
+      <MainScreen />
 
-      <section id="about" className="w-full lg:w-9/10 h-auto lg:h-[615] bg-white mx-auto mt-0 lg:mt-28 mb-0 lg:mb-16 flex flex-row">
+      <section
+        id="about"
+        className="w-full lg:w-9/10 h-auto lg:h-[615] bg-white mx-auto mt-0 lg:mt-28 mb-0 lg:mb-16 flex flex-row"
+      >
         <div className="hidden lg:flex">
           <Image
-          className="w-full"
-          src = "/aboutPicture.png"
-          alt = "О нас"
-          width = {606}
-          height = {615}
-        />
+            className="w-full"
+            src="/aboutPicture.png"
+            alt="О нас"
+            width={606}
+            height={615}
+          />
         </div>
         <div className="block lg:hidden w-full relative">
           <Image
             className=""
-            src = "/aboutPic_Mobile.png"
-            alt = "О нас"
-            width = {399}
-            height = {555}
+            src="/aboutPic_Mobile.png"
+            alt="О нас"
+            width={399}
+            height={555}
           />
           <div className="absolute top-35 right-5 text-white text-[11px]">
-            <AboutText/>
+            <AboutText />
           </div>
         </div>
-        
+
         <div className="hidden lg:flex flex-col mx-auto w-[600] h-[460]">
           <div className="flex justify-center">
             <div className="my-10 ml-15">
               <Image
-              className=""
-              src = "/aboutTitle.png"
-              alt = "О нас (текст)"
-              width = {194}
-              height = {66}
+                className=""
+                src="/aboutTitle.png"
+                alt="О нас (текст)"
+                width={194}
+                height={66}
               />
             </div>
             <div className="my-10 mx-5">
               <Image
-              className=""
-              src = "/minFlower.png"
-              alt = "Цветок иконка"
-              width = {52}
-              height = {52}
+                className=""
+                src="/minFlower.png"
+                alt="Цветок иконка"
+                width={52}
+                height={52}
               />
             </div>
           </div>
           <div className="bg-[#758956] rounded-4xl p-10 text-white mx-10">
-            <AboutText/>
+            <AboutText />
           </div>
         </div>
       </section>
@@ -71,50 +74,48 @@ export default function Home() {
       <section className="flex flex-col items-center mx-auto w-9/10 relative">
         <div className="hidden lg:block p-10">
           <Image
-              className=""
-              src = "/choiceTitle.png"
-              alt = "Почему нас выбирают"
-              width = {762}
-              height = {40}
-            />
+            className=""
+            src="/choiceTitle.png"
+            alt="Почему нас выбирают"
+            width={762}
+            height={40}
+          />
         </div>
         <div className="block lg:hidden p-5 lg:p-10">
           <Image
-              className=""
-              src = "/choiceTitleMobile.png"
-              alt = "Почему нас выбирают"
-              width = {395}
-              height = {80}
-            />
+            className=""
+            src="/choiceTitleMobile.png"
+            alt="Почему нас выбирают"
+            width={395}
+            height={80}
+          />
         </div>
 
         <div className="lg:bg-white w-full lg:p-15 overflow-hidden">
           <div className="flex flex-col lg:flex-row justify-around mb-15">
-
             <div className="flex flex-row-reverse lg:flex-col lg:items-center lg:max-w-5/16">
               <div className="flex flex-col min-w-[110]">
                 <Image
-                className="w-[63] lg:w-[104]"
-                src = "/esteticItemFlower.png"
-                alt = "Картинка цветок"
-                width = {104}
-                height = {100}
+                  className="w-[63] lg:w-[104]"
+                  src="/esteticItemFlower.png"
+                  alt="Картинка цветок"
+                  width={104}
+                  height={100}
                 />
               </div>
               <div className="flex flex-col items-center">
                 <div className="my-2 lg:my-8">
                   <Image
-                  className=""
-                  src = "/esteticItemTitle.png"
-                  alt = "Эстетика в деталях"
-                  width = {236}
-                  height = {48}
+                    className=""
+                    src="/esteticItemTitle.png"
+                    alt="Эстетика в деталях"
+                    width={236}
+                    height={48}
                   />
                 </div>
                 <div className="text-left lg:text-center text-sm lg:text-base mx-2 lg:mx-0">
-                  Наши флористы собирают букеты не по
-                  шаблону, а под человека, повод и
-                  настроение, продумывая каждую деталь
+                  Наши флористы собирают букеты не по шаблону, а под человека,
+                  повод и настроение, продумывая каждую деталь
                 </div>
               </div>
             </div>
@@ -122,28 +123,27 @@ export default function Home() {
             <div className="flex flex-row-reverse lg:flex-col lg:items-center lg:max-w-5/16 my-5 lg:my-0">
               <div className="flex flex-col min-w-[110]">
                 <Image
-                className="w-[63] lg:w-[104]"
-                src = "/quolityItemFlower.png"
-                alt = "Картинка цветок"
-                width = {104}
-                height = {100}
+                  className="w-[63] lg:w-[104]"
+                  src="/quolityItemFlower.png"
+                  alt="Картинка цветок"
+                  width={104}
+                  height={100}
                 />
               </div>
               <div className="flex flex-col items-center">
                 <div className="my-2 lg:my-8">
                   <Image
-                  className=""
-                  src = "/quolityItemTitle.png"
-                  alt = "Качество цветов"
-                  width = {212}
-                  height = {48}
+                    className=""
+                    src="/quolityItemTitle.png"
+                    alt="Качество цветов"
+                    width={212}
+                    height={48}
                   />
                 </div>
                 <div className="text-left lg:text-center text-sm lg:text-base mx-2 lg:mx-0">
-                  Мы тщательно отбираем цветы и работаем
-                  только со свежими поставками, поэтому наши
-                  композиции долго сохраняют свою красоту и
-                  радуют получателя не один день
+                  Мы тщательно отбираем цветы и работаем только со свежими
+                  поставками, поэтому наши композиции долго сохраняют свою
+                  красоту и радуют получателя не один день
                 </div>
               </div>
             </div>
@@ -151,36 +151,36 @@ export default function Home() {
             <div className="flex flex-row-reverse lg:flex-col lg:items-center lg:max-w-5/16">
               <div className="hidden lg:flex flex-col min-w-[110]">
                 <Image
-                className="w-[125] lg:w-[189]"
-                src = "/delieveryItemFlower.png"
-                alt = "Картинка цветок"
-                width = {189}
-                height = {100}
+                  className="w-[125] lg:w-[189]"
+                  src="/delieveryItemFlower.png"
+                  alt="Картинка цветок"
+                  width={189}
+                  height={100}
                 />
               </div>
               <div className="lg:hidden flex flex-col min-w-[110]">
                 <Image
-                className="w-[125] lg:w-[189]"
-                src = "/delieveryItemFlower_Mobile.png"
-                alt = "Картинка цветок"
-                width = {189}
-                height = {100}
+                  className="w-[125] lg:w-[189]"
+                  src="/delieveryItemFlower_Mobile.png"
+                  alt="Картинка цветок"
+                  width={189}
+                  height={100}
                 />
               </div>
 
               <div className="flex flex-col items-center">
                 <div className="my-2 lg:my-8">
                   <Image
-                  className=""
-                  src = "/delieveryItemTitle.png"
-                  alt = "Доставка с заботой"
-                  width = {250}
-                  height = {48}
+                    className=""
+                    src="/delieveryItemTitle.png"
+                    alt="Доставка с заботой"
+                    width={250}
+                    height={48}
                   />
                 </div>
                 <div className="text-left lg:text-center text-sm lg:text-base mx-2 lg:mx-0">
-                  Мы доставляем цветы аккуратно и вовремя, 
-                  чтобы они радовали получателя с первой секунды
+                  Мы доставляем цветы аккуратно и вовремя, чтобы они радовали
+                  получателя с первой секунды
                 </div>
               </div>
             </div>
@@ -190,10 +190,10 @@ export default function Home() {
             <div>
               <Image
                 className=""
-                src = "/ideaFlowerPicture.png"
-                alt = "Цветок"
-                width = {431}
-                height = {756}
+                src="/ideaFlowerPicture.png"
+                alt="Цветок"
+                width={431}
+                height={756}
               />
             </div>
 
@@ -201,39 +201,44 @@ export default function Home() {
               <div className="w-[337] lg:w-[645] bg-[#a9b983] lg:bg-white py-9 lg:py-0 px-5 lg:px-0 rounded-t-3xl lg:rounded-t-none rounded-br-3xl lg:rounded-b-none">
                 <Image
                   className=""
-                  src = "/ideaTitle.png"
-                  alt = "От идеи от идеального букета"
-                  width = {645}
-                  height = {132}
+                  src="/ideaTitle.png"
+                  alt="От идеи от идеального букета"
+                  width={645}
+                  height={132}
                 />
               </div>
 
               <div className="max-w-[618] lg:my-10 my-2 text-xs lg:text-base pb-4 lg:pb-0">
-                Мы сделали процесс заказа максимально простым. Вы делитесь идеей и поводом, а наши флористы создают композицию, которая скажет все без слов. 
-                Всего несколько шагов – и букет уже радует своего получателя
+                Мы сделали процесс заказа максимально простым. Вы делитесь идеей
+                и поводом, а наши флористы создают композицию, которая скажет
+                все без слов. Всего несколько шагов – и букет уже радует своего
+                получателя
               </div>
 
               <div className="w-[250] lg:w-[400]">
                 <Image
                   className=""
-                  src = "/howToOrderBlock.png"
-                  alt = "Как заказать"
-                  width = {400}
-                  height = {368}
+                  src="/howToOrderBlock.png"
+                  alt="Как заказать"
+                  width={400}
+                  height={368}
                 />
               </div>
 
               <div className="my-5 lg:my-10 mx-20">
-                <OrderButtonActive bgColor="bg-[#7E8F52]" textColor="text-white"/>
+                <OrderButtonActive
+                  bgColor="bg-[#7E8F52]"
+                  textColor="text-white"
+                />
               </div>
 
               <div>
                 <Image
                   className=""
-                  src = "/delieveryNote.png"
-                  alt = "Условия доставки"
-                  width = {540}
-                  height = {69}
+                  src="/delieveryNote.png"
+                  alt="Условия доставки"
+                  width={540}
+                  height={69}
                 />
               </div>
             </div>
@@ -242,77 +247,99 @@ export default function Home() {
         <div className="flex justify-end lg:hidden w-[160] lg:w-[400] absolute bottom-0 right-[-20] z-40">
           <Image
             className=""
-            src = "/howToOrderFlower.png"
-            alt = "Букет"
-            width = {225}
-            height = {343}
+            src="/howToOrderFlower.png"
+            alt="Букет"
+            width={225}
+            height={343}
           />
         </div>
       </section>
 
-      <section id="hits" className="flex flex-col mx-auto w-full pb-10 lg:pb-30 overflow-hidden">
+      <section
+        id="hits"
+        className="flex flex-col mx-auto w-full pb-10 lg:pb-30 overflow-hidden"
+      >
         <div className="w-[250] lg:w-[460] py-0 lg:py-15 mx-12 lg:mx-25 mt-10 lg:mt-0">
           <Image
             className=""
-            src = "/springHitsTitle.png"
-            alt = "Хиты весны"
-            width = {460}
-            height = {40}
+            src="/springHitsTitle.png"
+            alt="Хиты весны"
+            width={460}
+            height={40}
           />
         </div>
-        <HitsSlider array={[...hitsSliderArray, ...hitsSliderArray,...hitsSliderArray,...hitsSliderArray]} high="h-600" rows={1} loop={true}/>
+        <HitsSlider
+          array={[
+            ...storeArray,
+            ...storeArray,
+            ...storeArray,
+            ...storeArray,
+          ]}
+          high="h-600"
+          rows={1}
+          loop={true}
+        />
       </section>
 
-      <section id="actions" className="flex flex-col mx-auto w-full overflow-hidden">
+      <section
+        id="actions"
+        className="flex flex-col mx-auto w-full overflow-hidden"
+      >
         <div className="relative">
           <div className="hidden lg:block">
             <Image
               className="mx-auto w-full"
-              src = "/actionsPic.png"
-              alt = "Объявления и акции"
-              width = {1448}
-              height = {615}
+              src="/actionsPic.png"
+              alt="Объявления и акции"
+              width={1448}
+              height={615}
             />
           </div>
           <div className="block lg:hidden">
             <Image
               className="mx-auto w-full"
-              src = "/actionsPicMobile.png"
-              alt = "Объявления и акции"
-              width = {1448}
-              height = {615}
+              src="/actionsPicMobile.png"
+              alt="Объявления и акции"
+              width={1448}
+              height={615}
             />
           </div>
-          <div className="absolute inset-x-[calc(50%-80px)] inset-y-4/5"><BuyNowButton bgColor="bg-[#758956]"/></div>
+          <div className="absolute inset-x-[calc(50%-80px)] inset-y-4/5">
+            <BuyNowButton bgColor="bg-[#758956]" />
+          </div>
           <div className="w-120 h-30 text-white text-center absolute inset-x-[calc(50%-240px)] inset-y-6/10">
-           {hitsSliderArray.filter(bouquet => bouquet.actionPrice !== undefined)[0].description}
+            {
+              storeArray.filter(
+                (bouquet) => bouquet.actionPrice !== undefined,
+              )[0].description
+            }
           </div>
         </div>
       </section>
 
-      <Showcase/>
+      <Showcase />
 
       <section className="relative overflow-hidden">
         <div className="hidden lg:block">
           <Image
             className="mx-auto w-full"
-            src = "/callUsPic.png"
-            alt = "Позвоните нам"
-            width = {1440}
-            height = {455}
-            />
+            src="/callUsPic.png"
+            alt="Позвоните нам"
+            width={1440}
+            height={455}
+          />
         </div>
         <div className="block lg:hidden max-w-screen">
           <Image
             className="mx-auto w-full"
-            src = "/callUsPicMobile.png"
-            alt = "Позвоните нам"
-            width = {392}
-            height = {355}
-            />
+            src="/callUsPicMobile.png"
+            alt="Позвоните нам"
+            width={392}
+            height={355}
+          />
         </div>
         <div className="absolute inset-x-[calc(50%-61px)] inset-y-9/20 lg:inset-y-3/5 z-50">
-          <CallButton/>
+          <CallButton />
         </div>
       </section>
 
@@ -321,21 +348,21 @@ export default function Home() {
           <div className="mb-5 lg:mb-10 ml-0 lg:ml-5 w-[181] lg:w-[505] h-[20] lg:h-[57]">
             <Image
               className=""
-              src = "/VKTitle.png"
-              alt = "Мы Вконтакте"
-              width = {505}
-              height = {57}
+              src="/VKTitle.png"
+              alt="Мы Вконтакте"
+              width={505}
+              height={57}
             />
-            </div>
+          </div>
           <div className="mr-0 lg:mr-20">
-            <Subscribe/>
+            <Subscribe />
           </div>
         </div>
-        
-        <VkCommunityWidget/>
+
+        <VkCommunityWidget />
       </section>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 }
