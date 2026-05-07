@@ -30,7 +30,7 @@ export default function ShowcaseSlider() {
   const repeatedArray = Array(8).fill(filteredArray).flat();
 
   const getBtnClass = (id: number) =>
-    `w-45 h-9 border border-[#2D531A] lg:border-[#9AB973] text-[#2D531A] text-left lg:text-center text-xs lg:text-base rounded-4xl lg:rounded-none justify-between lg:justify-center items-center px-3 lg:px-0 ${
+    `w-45 h-9 border border-[#2D531A] lg:border-[#9AB973] text-[#2D531A] text-left lg:text-center text-xs lg:text-base rounded-4xl lg:rounded-none justify-between lg:justify-center items-center px-3 lg:px-0 cursor-pointer hover:bg-[#e3e9db] transition-colors duration-200 ${
       toggle === id
         ? "lg:bg-[#9AB973] flex"
         : visible === true

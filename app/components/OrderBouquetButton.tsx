@@ -57,7 +57,9 @@ export default function OrderBouquetButton ({ bgColor, bouquet }: { bgColor: str
   }
 
   return (
-    <button onClick = {addBouquet} className={`relative flex items-center justify-center w-[155] lg:w-[132] h-[49] text-xl font-extralight antialiased text-white rounded-4xl lg:rounded-none ${bgColor}`}>
+    <button onClick = {addBouquet} className={`relative flex items-center justify-center w-[155] lg:w-[132] h-[49] text-xl font-extralight antialiased text-white rounded-4xl lg:rounded-none cursor-pointer ${bgColor}
+    transition-colors duration-200 hover:bg-[#57613f]
+     active:bg-[#d7e6b2] active:text-[#242918]`}>
       <p>Заказать</p>
       <div className={`
         flex flex-col items-center justify-center w-70 h-14 absolute -top-16 right-0 bg-amber-100 rounded-3xl text-black text-sm z-40 transition-all duration-700 ease-in-out

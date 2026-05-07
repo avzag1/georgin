@@ -5,7 +5,7 @@ import BuyNowButton from "../components/BuyNowButton";
 import { storeArray } from "../storeArray";
 import CallButton from "../components/CallButton";
 import VkCommunityWidget from "../components/VkCommunityWidget";
-import Subscribe from "../components/SubscribeButton";
+import SubscribeButton from "../components/SubscribeButton";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import MainScreen from "../components/MainScreen";
@@ -358,7 +358,7 @@ export default function Home() {
             />
           </div>
           <div className="mr-0 lg:mr-20">
-            <Subscribe />
+            <SubscribeButton />
           </div>
         </div>
 

@@ -20,7 +20,8 @@ export default function SubscribeForm () {
       />
       <button onClick={() => setEmail('')}
         type="submit" 
-        className="whitespace-nowrap text-white px-6 lg:py-2 bg-[#758956] w-[296] lg:w-[354] h-[25] lg:h-[40] my-3 lg:my-0"
+        className="whitespace-nowrap text-white px-6 lg:py-2 bg-[#758956] w-[296] lg:w-[354] h-[25] lg:h-[40] my-3 lg:my-0 cursor-pointer transition-colors duration-200 hover:bg-[#616e40]
+           active:bg-[#d7e6b2] active:text-[#242918]"
       >
         Подписаться на рассылку
       </button>
