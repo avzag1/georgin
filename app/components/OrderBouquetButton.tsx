@@ -59,8 +59,12 @@ export default function OrderBouquetButton ({ bgColor, bouquet }: { bgColor: str
   return (
     <button onClick = {addBouquet} className={`relative flex items-center justify-center w-[155] lg:w-[132] h-[49] text-xl font-extralight antialiased text-white rounded-4xl lg:rounded-none ${bgColor}`}>
       <p>Заказать</p>
-      <div className={confirmOrderModal === 1 ? 
-        "flex flex-col items-center justify-center w-70 h-10 absolute -top-5 right-0 bg-amber-100 rounded-3xl text-black text-sm z-40" : "hidden"}>
+      <div className={`
+        flex flex-col items-center justify-center w-70 h-14 absolute -top-16 right-0 bg-amber-100 rounded-3xl text-black text-sm z-40 transition-all duration-700 ease-in-out
+        ${confirmOrderModal === 1 
+          ? "opacity-100 translate-y-0 pointer-events-auto" 
+          : "opacity-0 translate-y-2 pointer-events-none"}
+      `}>
         <div className={actualQuantityInOrder && actualQuantityInOrder < actualQuantityInStore ? "block" : "hidden"}>Добавлено в корзину</div>
         <div>Всего в <span className="font-bold" onClick={()=>setShoppingCardModal(1)}>корзине</span> таких товаров {actualQuantityInOrder}</div>
         <div className={actualQuantityInOrder === actualQuantityInStore ? "block" : "hidden"}>Это максимальное количество</div>
