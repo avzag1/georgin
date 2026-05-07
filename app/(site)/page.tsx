@@ -104,14 +104,15 @@ export default function Home() {
                 />
               </div>
               <div className="flex flex-col items-center">
-                <div className="my-2 lg:my-8">
-                  <Image
+                <div className="my-2 ml-2 lg:my-8 self-start lg:self-center text-lg">
+                  <div>ЭСТЕТИКА В ДЕТАЛЯХ</div>
+                  {/* <Image
                     className=""
                     src="/esteticItemTitle.png"
                     alt="Эстетика в деталях"
                     width={236}
                     height={48}
-                  />
+                  /> */}
                 </div>
                 <div className="text-left lg:text-center text-sm lg:text-base mx-2 lg:mx-0">
                   Наши флористы собирают букеты не по шаблону, а под человека,
@@ -131,14 +132,15 @@ export default function Home() {
                 />
               </div>
               <div className="flex flex-col items-center">
-                <div className="my-2 lg:my-8">
-                  <Image
+                <div className="my-2 ml-2 lg:my-8 self-start lg:self-center text-lg">
+                  <div>КАЧЕСТВО ЦВЕТОВ</div>
+                  {/* <Image
                     className=""
                     src="/quolityItemTitle.png"
                     alt="Качество цветов"
                     width={212}
                     height={48}
-                  />
+                  /> */}
                 </div>
                 <div className="text-left lg:text-center text-sm lg:text-base mx-2 lg:mx-0">
                   Мы тщательно отбираем цветы и работаем только со свежими
@@ -169,14 +171,15 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col items-center">
-                <div className="my-2 lg:my-8">
-                  <Image
+                <div className="my-2 ml-2 lg:my-8 self-start lg:self-center text-lg">
+                  <div>ДОСТАВКА С ЗАБОТОЙ</div>
+                  {/* <Image
                     className=""
                     src="/delieveryItemTitle.png"
                     alt="Доставка с заботой"
                     width={250}
                     height={48}
-                  />
+                  /> */}
                 </div>
                 <div className="text-left lg:text-center text-sm lg:text-base mx-2 lg:mx-0">
                   Мы доставляем цветы аккуратно и вовремя, чтобы они радовали

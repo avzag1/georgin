@@ -5,8 +5,7 @@ import OrderBouquetButton from "./OrderBouquetButton"
 
 export default function BouquetCard (bouquet: Bouquet) {
   return (
-    <Link
-      href={bouquet.path}
+    <div
       className="w-[300] max-w-full mx-auto my-5 flex flex-col justify-center box-border overflow-hidden"
     >
       <div className="flex justify-center items-top overflow-hidden h-[300] max-h-[300] max-w-[390] box-border">
@@ -28,7 +27,7 @@ export default function BouquetCard (bouquet: Bouquet) {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
     

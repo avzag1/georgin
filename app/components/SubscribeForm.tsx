@@ -16,7 +16,7 @@ export default function SubscribeForm () {
         placeholder="Введите ваш e-mail"
         value={email}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
-        className="text-center border border-[#758956] bg-transparent py-2 outline-none font-thin antialiased focus:border-[#758956] transition-colors w-[296] lg:w-full"
+        className="text-center border border-[#758956] bg-transparent py-2 outline-none font-thin antialiased focus:border-[#758956] transition-colors w-[296] lg:w-full lg:h-[40]"
       />
       <button onClick={() => setEmail('')}
         type="submit" 

@@ -10,7 +10,6 @@ export default function ShoppingCard () {
   const shoppingCardModal = useStore((state) => state.shoppingCardModal);
   const setShoppingCardModal = useStore((state) => state.setShoppingCardModal);
   const order = useStore((state) => state.order);
-  const setOrder = useStore((state) => state.setOrder);
 
   const [comment, setComment] = useState('');
 
@@ -35,7 +34,7 @@ export default function ShoppingCard () {
 
   const getShoppingCardClass = () => 
     `${shoppingCardModal === 1 ? 
-      "flex w-full lg:w-[755] h-screen min-h-[660] lg:h-auto bg-white border-none lg:border lg:border-solid absolute lg:fixed z-40 top-0 left-0 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 overflow-hidden" 
+      "flex w-full lg:w-[755] h-screen min-h-[660] lg:max-h-screen lg:h-auto bg-white border-none lg:border lg:border-solid fixed z-80 top-0 left-0 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 overflow-y-auto" 
       : "hidden"}`;
   return (
     <div className={getShoppingCardClass()}>

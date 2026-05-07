@@ -61,7 +61,7 @@ export default function ShowcaseSlider() {
             }}
             className={getBtnClass(1)}
           >
-            <p>Авторские букеты</p>
+            <p className="ml-3 lg:ml-0">Авторские букеты</p>
           </button>
           <button
             onClick={toggleVisible}
