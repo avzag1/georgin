@@ -40,9 +40,9 @@ export default function ShoppingCardItems() {
           );
           if (
             storedProduct &&
-            item.storedOrderQuantity > storedProduct.quantity
+            item.quantity > storedProduct.quantity
           ) {
-            item.storedOrderQuantity = storedProduct.quantity;
+            item.quantity = storedProduct.quantity;
             isChanged = true;
           }
         });
@@ -62,9 +62,9 @@ export default function ShoppingCardItems() {
     <div className="w-full">
       {order &&
         order.goods.map(
-          (item) =>
-            item.quantity > 0 && (
-              <ShoppingCardRow key={item.bouquet.title} item={item} />
+          (orderItem) =>
+            orderItem.quantity > 0 && (
+              <ShoppingCardRow key={orderItem.bouquet.title} orderItem={orderItem} />
             ),
         )}
     </div>

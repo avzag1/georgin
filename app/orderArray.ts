@@ -7,7 +7,7 @@ export type Order = {
 }
 export type Product = {
   quantity: number,
-  storedOrderQuantity: number,
+  // storedOrderQuantity: number,
   bouquet: Bouquet
 }
 export type Bouquet = {
@@ -27,7 +27,7 @@ export const orderArray: Order[] = [
     customer: "client_1",
     goods: [
       { quantity: 2,
-        storedOrderQuantity: 20,
+        // storedOrderQuantity: 20,
         bouquet: {
           image: "/bouquet_1.png",
           path: "",
@@ -39,7 +39,7 @@ export const orderArray: Order[] = [
         }
       },
       { quantity: 4,
-        storedOrderQuantity: 20,
+        // storedOrderQuantity: 20,
         bouquet: {
           image: "/bouquet_2.png",
           path: "",

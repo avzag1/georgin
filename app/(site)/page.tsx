@@ -86,8 +86,8 @@ export default function Home() {
             className=""
             src="/choiceTitleMobile.png"
             alt="Почему нас выбирают"
-            width={395}
-            height={80}
+            width={220}
+            height={74}
           />
         </div>
 
