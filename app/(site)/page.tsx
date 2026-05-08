@@ -177,7 +177,7 @@ export default function Home() {
           </div>
 
           <div id="howToOrder" className="flex pt-0 lg:pt-10 relative">
-            <div className="hidden sm:block">
+            <div className="hidden lg:block">
               <Image
                 className=""
                 src="/ideaFlowerPicture.png"
@@ -187,8 +187,8 @@ export default function Home() {
               />
             </div>
 
-            <div className="flex flex-col lg:ml-30 relative lg:w-3/5">
-              <div className="w-[337] lg:w-[645] bg-[#a9b983] lg:bg-white py-9 lg:py-0 px-5 lg:px-0 rounded-t-3xl lg:rounded-t-none rounded-br-3xl lg:rounded-b-none">
+            <div className="flex flex-col w-full lg:ml-30 relative lg:w-3/5">
+              <div className="w-full lg:w-full lg:max-w-[645] bg-[#a9b983] lg:bg-white py-9 lg:py-0 px-5 lg:px-0 rounded-t-3xl lg:rounded-t-none rounded-br-3xl lg:rounded-b-none">
                 <Image
                   className=""
                   src="/ideaTitle.png"
@@ -215,7 +215,7 @@ export default function Home() {
                 />
               </div>
 
-              <div className="my-5 lg:my-10 mx-20">
+              <div className="min-[260px]:max-[400px]:mx-5 my-5 lg:my-10 mx-20">
                 <OrderButtonActive
                   bgColor="bg-[#7E8F52]"
                   textColor="text-white"
@@ -234,7 +234,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="flex justify-end lg:hidden w-[160] lg:w-[400] absolute bottom-0 right-[-20] z-40">
+        <div className="min-[260px]:max-[400px]:hidden sm:flex justify-end lg:hidden w-[160] lg:w-[400] absolute bottom-0 right-[-20] z-40">
           <Image
             className=""
             src="/howToOrderFlower.png"
@@ -249,7 +249,7 @@ export default function Home() {
         id="hits"
         className="flex flex-col mx-auto w-full pb-10 lg:pb-30 overflow-hidden"
       >
-        <div className="w-[250] lg:w-[460] py-0 lg:py-15 mx-12 lg:mx-25 mt-10 lg:mt-0">
+        <div className="min-[260px]:max-[320px]:w-[200] w-[250] lg:w-[460] py-0 lg:py-15 min-[260px]:max-[320px]:mx-2 mx-12 lg:mx-25 mt-10 lg:mt-0">
           <Image
             className=""
             src="/springHitsTitle.png"
@@ -290,8 +290,8 @@ export default function Home() {
               className="mx-auto w-full"
               src="/actionsPicMobile.png"
               alt="Объявления и акции"
-              width={1448}
-              height={615}
+              width={393}
+              height={413}
             />
           </div>
           <div className="absolute inset-x-[calc(50%-80px)] inset-y-4/5">

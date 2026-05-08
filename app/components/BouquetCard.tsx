@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import {Bouquet} from "../type/bouquet"
 import OrderBouquetButton from "./OrderBouquetButton"
@@ -6,9 +5,9 @@ import OrderBouquetButton from "./OrderBouquetButton"
 export default function BouquetCard (bouquet: Bouquet) {
   return (
     <div
-      className="w-[300] max-w-full mx-auto my-5 flex flex-col justify-center box-border overflow-hidden"
+      className="min-[260px]:max-[320px]:w-[240] w-[300] max-w-full mx-auto my-5 flex flex-col justify-center box-border overflow-hidden"
     >
-      <div className="flex justify-center items-top overflow-hidden h-[300] max-h-[300] max-w-[390] box-border">
+      <div className="flex justify-center items-top overflow-hidden min-[260px]:max-[320px]:h-auto h-[300] max-h-[300] max-w-[390] box-border">
         <Image
           className="duration-500 md:hover:scale-105"
           src={bouquet.image}

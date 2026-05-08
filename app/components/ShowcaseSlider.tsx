@@ -40,7 +40,7 @@ export default function ShowcaseSlider() {
 
   return (
     <div>
-      <div className="flex mx-3">
+      <div className="flex min-[260px]:max-[340px]:flex-col mx-3">
         <div className="flex justify-between lg:hidden ml-5 mr-0 lg:mx-12">
           <div className="mt-5">
             <Image
@@ -65,7 +65,7 @@ export default function ShowcaseSlider() {
           </button>
           <button
             onClick={toggleVisible}
-            className="absolute right-4 top-2 block lg:hidden"
+            className="absolute min-[260px]:max-[340px]:left-35 left-37 top-2 block lg:hidden min-w-[24]"
           >
             <Image
               className={visible ? "rotate-180" : "rotate-0"}
