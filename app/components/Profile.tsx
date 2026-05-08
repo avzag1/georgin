@@ -9,25 +9,6 @@ export default function Profile () {
   const profileModal = useStore((state) => state.profileModal);
   const setProfileModal = useStore((state) => state.setProfileModal);
 
-  useEffect(() => {
-    if (profileModal !== 0) {
-      // 1. Находим ширину скроллбара
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      // 2. Блокируем скролл и добавляем отступ
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    } else {
-      // 3. Возвращаем всё как было
-      document.body.style.overflow = 'unset';
-      document.body.style.paddingRight = '0px';
-    }
-    // На всякий случай очищаем стили при размонтировании компонента
-    return () => {
-      document.body.style.overflow = 'unset';
-      document.body.style.paddingRight = '0px';
-    };
-  }, [profileModal]);
-
   const getProfileClass = () => 
     `${profileModal === 1 ? 
       "flex w-[600] h-[600] p-10 bg-white border fixed inset-y-[calc(50%-300px)] inset-x-[calc(50%-300px)]" 

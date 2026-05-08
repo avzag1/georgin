@@ -1,6 +1,6 @@
 export default function AboutText () {
   return (
-    <div className="">
+    <div className="xl:text-base lg:text-sm min-[330px]:max-[400px]:text-[10px] min-[260px]:max-[330px]:text-[8px] text-xs">
       Георгин- это сеть цветочных салонов в г. Йошкар-Оле,<br/>
       где каждый букет создается с душой.<br/>
       Мы находимся по адресам:<br/>

@@ -20,31 +20,31 @@ export default function Home() {
 
       <section
         id="about"
-        className="w-full lg:w-9/10 h-auto lg:h-[615] bg-white mx-auto mt-0 lg:mt-28 mb-0 lg:mb-16 flex flex-row"
+        className="w-full lg:w-9/10 h-auto sm:h-[550] lg:h-[615] bg-white mx-auto mt-0 lg:mt-28 mb-0 lg:mb-16 flex flex-row"
       >
-        <div className="hidden lg:flex">
+        <div className="hidden md:flex">
           <Image
-            className="w-full"
+            className="w-full h-auto object-contain"
             src="/aboutPicture.png"
             alt="О нас"
             width={606}
             height={615}
           />
         </div>
-        <div className="block lg:hidden w-full relative">
+        <div className="block sm:hidden w-full relative">
           <Image
-            className=""
+            className="w-full h-auto"
             src="/aboutPic_Mobile.png"
             alt="О нас"
             width={399}
             height={555}
           />
-          <div className="absolute top-35 right-5 text-white text-[11px]">
+          <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 min-w-4/7 text-white text-[11px]">
             <AboutText />
           </div>
         </div>
 
-        <div className="hidden lg:flex flex-col mx-auto w-[600] h-[460]">
+        <div className="hidden sm:flex flex-col mx-auto w-[600] h-[460]">
           <div className="flex justify-center">
             <div className="my-10 ml-15">
               <Image
@@ -65,7 +65,8 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="bg-[#758956] rounded-4xl p-10 text-white mx-10">
+          <div className="bg-[#758956] rounded-4xl p-10 text-white mx-10
+           min-w-[512] xl:max-h-[463] sm:max-h-[368]">
             <AboutText />
           </div>
         </div>
@@ -134,13 +135,6 @@ export default function Home() {
               <div className="flex flex-col items-center">
                 <div className="my-2 ml-2 lg:my-8 self-start lg:self-center text-lg">
                   <div>КАЧЕСТВО ЦВЕТОВ</div>
-                  {/* <Image
-                    className=""
-                    src="/quolityItemTitle.png"
-                    alt="Качество цветов"
-                    width={212}
-                    height={48}
-                  /> */}
                 </div>
                 <div className="text-left lg:text-center text-sm lg:text-base mx-2 lg:mx-0">
                   Мы тщательно отбираем цветы и работаем только со свежими
@@ -170,18 +164,11 @@ export default function Home() {
                 />
               </div>
 
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center w-full">
                 <div className="my-2 ml-2 lg:my-8 self-start lg:self-center text-lg">
                   <div>ДОСТАВКА С ЗАБОТОЙ</div>
-                  {/* <Image
-                    className=""
-                    src="/delieveryItemTitle.png"
-                    alt="Доставка с заботой"
-                    width={250}
-                    height={48}
-                  /> */}
                 </div>
-                <div className="text-left lg:text-center text-sm lg:text-base mx-2 lg:mx-0">
+                <div className="self-start text-left lg:text-center text-sm lg:text-base mx-2 lg:mx-0">
                   Мы доставляем цветы аккуратно и вовремя, чтобы они радовали
                   получателя с первой секунды
                 </div>
@@ -190,7 +177,7 @@ export default function Home() {
           </div>
 
           <div id="howToOrder" className="flex pt-0 lg:pt-10 relative">
-            <div>
+            <div className="hidden sm:block">
               <Image
                 className=""
                 src="/ideaFlowerPicture.png"
@@ -200,7 +187,7 @@ export default function Home() {
               />
             </div>
 
-            <div className="flex flex-col lg:ml-30 relative">
+            <div className="flex flex-col lg:ml-30 relative lg:w-3/5">
               <div className="w-[337] lg:w-[645] bg-[#a9b983] lg:bg-white py-9 lg:py-0 px-5 lg:px-0 rounded-t-3xl lg:rounded-t-none rounded-br-3xl lg:rounded-b-none">
                 <Image
                   className=""

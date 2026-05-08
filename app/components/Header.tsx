@@ -11,30 +11,30 @@ export default function Header () {
   const setShoppingCardModal = useStore((state) => state.setShoppingCardModal);
 
   return (
-    <header className="hidden lg:flex w-full h-20 items-center justify-between relative z-40">
-      <div className="mx-20 flex items-center">
+    <header className="hidden sm:flex w-full h-20 items-center justify-between relative z-40">
+      <div className="mx-5 xl:mx-20 flex items-center min-w-[106] max-w-[150]">
         <Image
           src = "/logo.png"
           alt = "Логотип"
-          width = {105}
-          height = {32}
+          width = {106}
+          height = {33}
         />
       </div>
 
-      <div className="flex flex-row justify-center items-center mx-10">
-        <div className="text-sm text-[#1F2D1A] font-medium flex flex-row justify-between mx-5">
-          <Link href="#howToOrder" className="p-5">КАК ЗАКАЗАТЬ?</Link>
-          <Link href="#hits" className="p-5">ХИТЫ СЕЗОНА</Link>
-          <Link href="#showcase" className="p-5">ОНЛАЙН-ВИТРИНА</Link>
-          <Link href="#actions" className="p-5">АКЦИИ</Link>
-          <Link href="#about" className="p-5">О нас</Link>
+      <div className="flex flex-row justify-center items-center mr-0 sm:mr-10">
+        <div className="text-[10px] lg:text-sm text-[#1F2D1A] font-medium flex flex-row justify-between mx-5">
+          <Link href="#howToOrder" className="p-1 lg:p-5 text-center">КАК ЗАКАЗАТЬ?</Link>
+          <Link href="#hits" className="p-1 lg:p-5 text-center">ХИТЫ СЕЗОНА</Link>
+          <Link href="#showcase" className="p-1 lg:p-5 text-center">ОНЛАЙН-ВИТРИНА</Link>
+          <Link href="#actions" className="flex items-center p-1 lg:p-5 text-center">АКЦИИ</Link>
+          <Link href="#about" className="flex items-center p-1 lg:p-5 text-center lg:min-w-[80]">О нас</Link>
         </div>
 
         <div className="flex flex-row gap-1 justify-between items-center">
-          <Link target="blank" href="tel:+79379388777" className="flex justify-center items-center rounded-4xl p-1 mr-2 w-[149] h-[41] bg-[#7E8F52] text-white text-sm 
+          <Link target="blank" href="tel:+79379388777" className="flex justify-center items-center rounded-4xl p-1 mr-2 w-[80] lg:w-[149] h-[41] bg-[#7E8F52] text-white text-sm 
           transition-colors duration-200 hover:bg-[#616e40]
            active:bg-[#d7e6b2] active:text-[#242918]">
-            <p>Позвонить</p>
+            <p className="text-xs lg:text-base">Позвонить</p>
           </Link>
           <button onClick={() => setShoppingCardModal(1)} className="flex justify-center items-center rounded-full p-1 cursor-pointer w-[44] h-[44] bg-[#7E8F52]
           text-white text-sm 
