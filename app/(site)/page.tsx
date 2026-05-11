@@ -334,17 +334,18 @@ export default function Home() {
       </section>
 
       <section className="w-full lg:w-9/10 mx-auto p-8 lg:p-20 bg-white overflow-hidden">
-        <div className="flex justify-between">
-          <div className="mb-5 lg:mb-10 ml-0 lg:ml-5 w-[181] lg:w-[505] h-[20] lg:h-[57]">
+        <div className="flex justify-between items-center min-[260px]:max-[360px]:flex-col">
+          <div className="mb-5 lg:mb-10 ml-0 lg:ml-5 w-[181] lg:w-[505] h-[20] lg:h-[57] flex justify-center items-center
+          min-[260px]:max-[360px]:w-[180] min-[260px]:max-[360px]:h-auto">
             <Image
               className=""
-              src="/VKTitle.png"
+              src="/VKTitle1.png"
               alt="Мы Вконтакте"
               width={505}
               height={57}
             />
           </div>
-          <div className="mr-0 lg:mr-20">
+          <div className="mr-0 lg:ml-10 xl:ml-0 xl:mr-20 min-[260px]:max-[360px]: mb-5">
             <SubscribeButton />
           </div>
         </div>

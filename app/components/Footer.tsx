@@ -30,7 +30,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="w-full lg:w-[1440] h-auto lg:h-[374] mx-auto bg-[#F5F2ED] flex flex-col justify-between px-5 pb-10 lg:p-10 relative overflow-hidden">
+    <footer className="w-full  h-auto lg:h-[374] mx-auto bg-[#F5F2ED] flex flex-col justify-between px-5 pb-10 lg:p-10 relative overflow-hidden">
       <div className="flex flex-col lg:flex-row justify-around order-2 lg:order-1">
         <div className="h-auto lg:h-[140] flex flex-col text-[#394128] text-sm pl-7 lg:p-l0 border-b border-b-gray-400 lg:border-none">
           <div className="py-2 pr-2 font-normal lg:font-semibold text-black flex justify-between">
