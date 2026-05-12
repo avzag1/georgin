@@ -56,7 +56,7 @@ export default function ShoppingCard () {
           <ShoppingCardItems/>
         </div>
 
-        <div className='my-5 px-10'>
+        <div className='my-5 px-10 min-[260px]:max-[370px]:px-2'>
           <div className="mb-2 block">
             <Label htmlFor="comment">Комментарий к заказу</Label>
           </div>
@@ -78,7 +78,7 @@ export default function ShoppingCard () {
           <div>&#8381;</div>
         </div>
 
-        <div className='flex justify-between px-8 pb-10 text-xs lg:text-base text-white'>
+        <div className='flex justify-between px-8 pb-10 min-[260px]:max-[370px]:px-2 text-xs lg:text-base text-white'>
           <button onClick={() => {
             setShoppingCardModal(0);
             setComment("");
