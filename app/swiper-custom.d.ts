@@ -9,4 +9,5 @@ declare module 'swiper/css/grid';
 declare module 'flowbite-react';
 declare module "react-hook-form";
 declare module 'react-number-format';
-declare module "react-number-format/types/types"
+declare module "react-number-format/types/types";
+declare module "PrismaClient";
