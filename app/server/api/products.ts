@@ -60,14 +60,16 @@ export async function fetchSearchProducts(query: string = "") {
 }
 
 export async function addNewProduct(newProduct: NewProduct) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
     method: "POST",
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newProduct),
   })
 
-  if (!res.ok) {
-    throw new Error("404")
+  if (!response.ok) {
+    throw new Error("Не удалось добавить товар")
   }
 
-  return await res.json()
+  const newProductResponse: NewProduct = await response.json()
+  return newProductResponse
 }

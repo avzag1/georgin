@@ -1,1 +1,0 @@
-import {POST} from "../../api/products/route";

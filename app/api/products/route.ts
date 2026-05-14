@@ -1,5 +1,7 @@
-import prisma from "../../lib/prisma"
+import {prisma} from "../../lib/prisma"
 import { NextResponse } from "next/server"
+import { writeFile, mkdir } from 'fs/promises';
+import { join } from 'path';
 
 export const dynamic = 'force-dynamic'
 
