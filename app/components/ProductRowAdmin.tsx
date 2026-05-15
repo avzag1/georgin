@@ -20,7 +20,7 @@ export default function ProductRowAdmin({
   inShoppingCards: number
 }) {
   return (
-    <div className="flex">
+    <div className="grid grid-cols-8 gap-4">
       <div className="w-30 text-center">{title}</div>
       <div className="w-40 text-center">{description}</div>
       <div className="w-20 text-center">{price}</div>

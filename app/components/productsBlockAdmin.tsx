@@ -11,7 +11,7 @@ interface ProductWithOrders {
   description: string;
   price: number;
   actionPrice: number;
-  category: string;
+  categoryName: string;
   quantityInStore: number;
   orderProducts: { quantityInOrder: number }[];
 }
@@ -27,22 +27,31 @@ export default function ProductsBlockAdmin() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const res = await fetch("/api/products");
-        if (!res.ok) {
-          throw new Error("Ошибка загрузки");
-        }
-        const data = await res.json();
-        setProducts(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
+  async function getProducts() {
+    try {
+      const res = await fetch("/api/products");
+      
+      // Читаем поток данных ОДИН раз для любого статуса (и 200, и 500)
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        // Теперь здесь гарантированно будет текст ошибки, отправленный сервером
+        console.error("Детали серверной ошибки:", data);
+        throw new Error(data.error || `Ошибка сервера: ${res.status}`);
       }
-    };
-    getProducts();
-  }, []);
+
+      // Если всё успешно, записываем данные в стейт
+      setProducts(data);
+    } catch (err) {
+      console.error("Ошибка в компоненте:", err);
+    } finally {
+      // Выключаем индикатор загрузки в любом случае (успех или ошибка)
+      setLoading(false);
+    }
+  }
+  
+  getProducts();
+}, []);
 
   if (loading)
     return <div className="p-4 text-center">Загрузка товаров...</div>;
@@ -79,7 +88,7 @@ export default function ProductsBlockAdmin() {
             image={product.image}
             price={product.price}
             actionPrice={product.actionPrice}
-            category={product.category}
+            category={product.categoryName}
             quantityInStore={product.quantityInStore}
             inShoppingCards={
               product.orderProducts?.reduce(
