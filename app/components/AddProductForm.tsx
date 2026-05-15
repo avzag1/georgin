@@ -188,7 +188,7 @@ export default function AddProductForm() {
             min="0"
             step="1"
             disabled={productMutation.isPending}
-            placeholder="0.00"
+            placeholder="0"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-50 disabled:text-gray-400"
           />
         </div>
