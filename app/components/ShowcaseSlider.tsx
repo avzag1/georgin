@@ -1,36 +1,96 @@
 "use client";
 
 import HitsSlider from "./HitsSlider";
-import { storeArray } from "../storeArray";
 import { useStore } from "../store/useStore";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+
+interface ProductItem {
+  id: number;
+  image: string;
+  title: string;
+  description: string;
+  price: number;
+  actionPrice: number;
+  quantityInStore: number;
+  categoryName: string;
+}
+
+interface CategoryItem {
+  id: number;
+  category: string;
+}
+
+const fetchProducts = async (): Promise<ProductItem[]> => {
+  const res = await fetch("/api/products");
+  const data = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(data?.error || "Ошибка загрузки каталога");
+  return data || [];
+};
+
+const fetchCategories = async (): Promise<CategoryItem[]> => {
+  const res = await fetch("/api/categories");
+  const data = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(data?.error || "Ошибка загрузки категорий");
+  return data || [];
+};
 
 export default function ShowcaseSlider() {
   const [visible, setVisible] = useState(false);
+
+  // Zustand-стейты
   const toggle = useStore((state) => state.toggle);
   const setToggle = useStore((state) => state.setToggle);
+
+  // 1. ЗАГРУЗКА ДАННЫХ ИЗ POSTGRESQL
+  const { data: products = [], isLoading: isProductsLoading } = useQuery<
+    ProductItem[]
+  >({
+    queryKey: ["products"],
+    queryFn: fetchProducts,
+  });
+
+  const { data: dbCategories = [], isLoading: isCatsLoading } = useQuery<
+    CategoryItem[]
+  >({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
+
+  // Автоматически выбираем первую категорию из БД при инициализации,
+  // если текущий toggle не соответствует ни одной из них
+  useEffect(() => {
+    if (dbCategories.length > 0) {
+      const isCurrentToggleValid = dbCategories.some(
+        (cat) => cat.id === toggle,
+      );
+      if (!isCurrentToggleValid) {
+        setToggle(dbCategories[0].id); // Записываем ID первой категории СУБД в Zustand
+      }
+    }
+  }, [dbCategories, toggle, setToggle]);
 
   const toggleVisible = (): void => {
     setVisible(!visible);
   };
 
-  const categories: Record<number, string> = {
-    1: "designer",
-    2: "mono",
-    3: "wedding",
-    4: "gifts",
-  };
-  const currentCategory = categories[toggle];
-  if (!currentCategory) throw new Error("Ошибка кнопки выбора");
+  // Находим объект выбранной категории по её ID (который теперь лежит в toggle)
+  const currentCategoryObj = dbCategories.find((cat) => cat.id === toggle);
+  const currentCategoryName = currentCategoryObj
+    ? currentCategoryObj.category
+    : "";
 
-  const filteredArray = storeArray.filter(
-    (item) => item.category === currentCategory,
+  // Фильтруем продукты по имени выбранной категории
+  const filteredArray = products.filter(
+    (item) => item.categoryName === currentCategoryName,
   );
-  const repeatedArray = Array(8).fill(filteredArray).flat();
+
+  const repeatedArray =
+    filteredArray.length > 0 ? Array(8).fill(filteredArray).flat() : [];
 
   const getBtnClass = (id: number) =>
-    `w-45 h-9 border border-[#2D531A] lg:border-[#9AB973] text-[#2D531A] text-left lg:text-center text-xs lg:text-base rounded-4xl lg:rounded-none justify-between lg:justify-center items-center px-3 lg:px-0 cursor-pointer hover:bg-[#e3e9db] transition-colors duration-200 ${
+    `w-45 h-auto min-h-9 border border-[#2D531A] lg:border-[#9AB973] text-[#2D531A] text-left lg:text-center text-xs lg:text-base rounded-4xl lg:rounded-none justify-between lg:justify-center items-center px-3 lg:px-0 cursor-pointer hover:bg-[#e3e9db] transition-colors duration-200 min-[260px]:max-[340px]:ml-5 ${
       toggle === id
         ? "lg:bg-[#9AB973] flex"
         : visible === true
@@ -38,10 +98,18 @@ export default function ShowcaseSlider() {
           : "hidden lg:block"
     }`;
 
+  if (isProductsLoading || isCatsLoading) {
+    return (
+      <div className="p-12 text-center font-medium text-gray-500">
+        Синхронизация витрины с базой данных...
+      </div>
+    );
+  }
+
   return (
     <div>
-      <div className="flex min-[260px]:max-[340px]:flex-col mx-3">
-        <div className="flex justify-between lg:hidden ml-5 mr-0 lg:mx-12">
+      <div className="flex min-[260px]:max-[340px]:flex-col">
+        <div className="flex lg:hidden ml-10 mr-0 lg:mx-12">
           <div className="mt-5">
             <Image
               className="mx-auto"
@@ -53,61 +121,50 @@ export default function ShowcaseSlider() {
           </div>
         </div>
 
-        <div className="w-3/5 flex flex-col lg:flex-row justify-around mt-7 lg:mt-0 mb-2 mx-0 lg:mx-30 relative">
-          <button
-            onClick={() => {
-              setToggle(1);
-              setVisible(false);
-            }}
-            className={getBtnClass(1)}
-          >
-            <p className="ml-3 lg:ml-0">Авторские букеты</p>
-          </button>
-          <button
-            onClick={toggleVisible}
-            className="absolute min-[260px]:max-[340px]:left-35 left-37 top-2 block lg:hidden min-w-[24]"
-          >
-            <Image
-              className={visible ? "rotate-180" : "rotate-0"}
-              src="/dropIcon.png"
-              alt="Выпадающий список"
-              width={24}
-              height={26}
-            />
-          </button>
+        {/* ✅ ИСПРАВЛЕНИЕ: Автоматический рендеринг кнопок через .map() */}
+        <div className="w-full lg:w-3/5 flex flex-col lg:flex-row justify-around  mt-5 lg:mt-0 mb-2 mx-auto lg:mx-25 relative lg:gap-2 gap-0">
+          {dbCategories.map((cat) => (
+            <button
+              key={cat.id}
+              type="button"
+              // Записываем ID категории из PostgreSQL напрямую в Zustand-стейт toggle
+              onClick={() => {
+                setToggle(cat.id);
+                setVisible(false);
+              }}
+              className={getBtnClass(cat.id)}
+            >
+              <p className="ml-3 lg:ml-0">{cat.category}</p>
+            </button>
+          ))}
 
-          <button
-            onClick={() => {
-              setToggle(2);
-              setVisible(false);
-            }}
-            className={getBtnClass(2)}
-          >
-            <p className="ml-3 lg:ml-0">Моно букеты</p>
-          </button>
-
-          <button
-            onClick={() => {
-              setToggle(3);
-              setVisible(false);
-            }}
-            className={getBtnClass(3)}
-          >
-            <p className="ml-3 lg:ml-0">Свадебные</p>
-          </button>
-
-          <button
-            onClick={() => {
-              setToggle(4);
-              setVisible(false);
-            }}
-            className={getBtnClass(4)}
-          >
-            <p className="ml-3 lg:ml-0">Подарки</p>
-          </button>
+          {/* Стрелочка для мобильного выпадающего списка (оставляем как у вас) */}
+          {dbCategories.length > 0 && (
+            <button
+              type="button"
+              onClick={toggleVisible}
+              className="absolute min-[260px]:max-[340px]:left-40 left-37 top-2 block lg:hidden min-w-[24]"
+            >
+              <Image
+                className={visible ? "transition-transform duration-200 rotate-180" : "transition-transform duration-200 rotate-0"}
+                src="/dropIcon.png"
+                alt="Выпадающий список"
+                width={24}
+                height={26}
+              />
+            </button>
+          )}
         </div>
       </div>
-      <HitsSlider array={repeatedArray} high="h-1400" rows={2} loop={false} />
+
+      {repeatedArray.length === 0 ? (
+        <div className="p-16 text-center text-gray-400 font-light">
+          Букеты из секции &quot;{currentCategoryName || "Выбранной категории"}
+          &quot; скоро появятся на витрине
+        </div>
+      ) : (
+        <HitsSlider array={repeatedArray} high="h-1400" rows={2} loop={false} />
+      )}
     </div>
   );
 }

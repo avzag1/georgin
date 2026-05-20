@@ -29,7 +29,8 @@ export default function MainScreen () {
         <Image
           className="w-full h-auto mt-[-1]"
           src = "/mainDesktopMobile.png"
-          alt = "Главное изображение"
+          alt="Главное изображение"
+          loading="eager"
           width = {399}
           height = {660}
         />

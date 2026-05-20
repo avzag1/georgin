@@ -27,6 +27,7 @@ model Product {
   quantityInStore   Int
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+  isDeleted         Boolean @default(false)
   orderProducts     Order_product[] // Связь: один продукт может фигурировать во многих заказах
   // Настройка связи "Один ко многим"
   categoryName    String   

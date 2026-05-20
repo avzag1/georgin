@@ -48,7 +48,7 @@ export default function Home() {
           <div className="flex justify-center">
             <div className="my-10 ml-15">
               <Image
-                className=""
+                className="h-auto"
                 src="/aboutTitle.png"
                 alt="О нас (текст)"
                 width={194}
@@ -75,7 +75,7 @@ export default function Home() {
       <section className="flex flex-col items-center mx-auto w-9/10 relative">
         <div className="hidden lg:block p-10">
           <Image
-            className=""
+            className="h-auto"
             src="/choiceTitle.png"
             alt="Почему нас выбирают"
             width={762}

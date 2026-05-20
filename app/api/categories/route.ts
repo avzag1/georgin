@@ -45,3 +45,27 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: `Ошибка сервера: ${msg}` }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const idStr = searchParams.get('id');
+
+    if (!idStr) {
+      return NextResponse.json({ error: 'ID категории не указан' }, { status: 400 });
+    }
+    const categoryId = parseInt(idStr, 10);
+
+    // Удаляем категорию из PostgreSQL через Prisma 7
+    // Благодаря onDelete: Cascade, все связанные товары удалятся автоматически на уровне БД
+    await prisma.category.delete({
+      where: { id: categoryId },
+    });
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (error: unknown) {
+    console.error('Ошибка при удалении категории:', error);
+    const msg = error instanceof Error ? error.message : 'Ошибка сервера';
+    return NextResponse.json({ error: `Не удалось удалить категорию: ${msg}` }, { status: 500 });
+  }
+}
