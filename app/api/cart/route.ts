@@ -1,90 +1,94 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/app/lib/prisma'; // Проверяйте ваш путь к файлу lib/prisma.ts
+import { prisma } from '@/app/lib/prisma';
+import { auth } from '@/app/auth';
 
-export const dynamic = 'force-dynamic';
-
-const CUSTOMER_ID = 1; // Целевой ID пользователя
-
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    // 1. ГАРАНТИЯ НАЛИЧИЯ ПОЛЬЗОВАТЕЛЯ (Исправление ошибки P2003)
-    // Ищем пользователя с id = 1, если его нет — создаем с дефолтными значениями по вашей схеме User
-    let user = await prisma.user.findUnique({
-      where: { id: CUSTOMER_ID },
-    });
+    const session = await auth();
+    let userId: number | null = null;
 
-    if (!user) {
-      user = await prisma.user.create({
-        data: {
-          id: CUSTOMER_ID, // Принудительно задаем id = 1
-          email: 'client_1@store.ru',
-          name: 'Тестовый Клиент',
-          role: 'customer',
-        },
-      });
-    }
-
-    // 2. Находим активный заказ ("new") для этого пользователя
-    let order = await prisma.order.findFirst({
-      where: { userId: CUSTOMER_ID, status: 'new' },
-    });
-
-    // Теперь создание заказа сработает на 100% успешно
-    if (!order) {
-      order = await prisma.order.create({
-        data: { userId: CUSTOMER_ID, status: 'new' },
-      });
-    }
-
-    // 3. Безопасный обход позиций для валидации остатков склада
-    const itemsToCheck = await prisma.order_product.findMany({
-      where: { orderId: order.id },
-      include: { product: true },
-    });
-
-    for (const item of itemsToCheck) {
-      if (item.quantityInOrder > item.product.quantityInStore) {
-        await prisma.order_product.update({
-          where: { id: item.id },
-          data: { quantityInOrder: item.product.quantityInStore },
+    if (session?.user) {
+      // Сценарий 1: Вошел авторизованный пользователь по Магической ссылке
+      userId = (session.user as unknown as { id: number }).id;
+    } else {
+      // Сценарий 2: ГОСТЬ. В реальном проекте гостя идентифицируют по временным куки (session cookies).
+      // В качестве надежной альтернативы, привяжем корзину к системному User с id = 9999 (Аноним)
+      userId = 9999;
+      
+      // Гарантируем, что гостевой профиль-заглушка существует в базе
+      const guestUser = await prisma.user.findUnique({ where: { id: userId } });
+      if (!guestUser) {
+        await prisma.user.create({
+          data: {
+            id: userId,
+            email: 'guest@store.ru',
+            name: 'Гость сайта',
+            role: 'customer'
+          }
         });
       }
     }
 
-    // 4. Возвращаем итоговый объект корзины со всеми связями
+    // Находим или создаем заказ со статусом "new" для этого ID
+    let order = await prisma.order.findFirst({
+      where: { userId: userId, status: 'new' },
+    });
+
+    if (!order) {
+      order = await prisma.order.create({
+        data: { userId: userId, status: 'new' },
+      });
+    }
+
     const finalCart = await prisma.order.findFirst({
       where: { id: order.id },
       include: {
         orderProducts: {
           include: { product: true },
-          orderBy: { id: 'asc' }, // Фиксируем сортировку элементов
+          orderBy: { id: 'asc' },
         },
       },
     });
 
     return NextResponse.json(finalCart || { orderProducts: [] });
-  } catch (error: unknown) {
-    console.error('Критический сбой API Корзины:', error);
-    const msg = error instanceof Error ? error.message : 'Ошибка PostgreSQL';
-    return NextResponse.json({ error: msg }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Ошибка сервера' }, { status: 500 });
   }
 }
 
-// 2. Обновление количества или удаление товара из корзины
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { productId, orderProductId, quantity, action } = body;
     
-    const CUSTOMER_ID = 1; // ID нашего тестового пользователя
+    const session = await auth();
+    let userId = 9999; // ID нашего системного гостя-анонима
 
-    // Сценарий А: Удаление позиции из корзины (уже настроен ранее)
+    if (session?.user) {
+      userId = (session.user as unknown as { id: number }).id;
+    } else {
+      // ✅ ИСПРАВЛЕНИЕ: Гарантируем, что гостевой профиль с id=9999 существует в СУБД
+      // перед тем, как создавать для него связи в таблице заказов!
+      const guestUser = await prisma.user.findUnique({ where: { id: userId } });
+      if (!guestUser) {
+        await prisma.user.create({
+          data: {
+            id: userId,
+            email: 'guest@store.ru',
+            name: 'Гость сайта',
+            role: 'customer'
+          }
+        });
+      }
+    }
+
+    // Сценарий А: Удаление позиции из корзины
     if (action === 'delete' && orderProductId) {
       await prisma.order_product.delete({ where: { id: orderProductId } });
       return NextResponse.json({ success: true });
     }
 
-    // Сценарий Б: Изменение количества кнопками "+" / "-" внутри корзины (уже настроен ранее)
+    // Сценарий Б: Изменение количества кнопками "+" / "-" внутри корзины
     if (orderProductId && quantity) {
       const link = await prisma.order_product.findUnique({
         where: { id: orderProductId },
@@ -101,32 +105,34 @@ export async function POST(request: Request) {
       return NextResponse.json(updated);
     }
 
-    // 🔥 НОВЫЙ СЦЕНАРИЙ В: Нажатие кнопки «Добавить в корзину» из каталога товаров
+    // Сценарий В: Нажатие кнопки «Заказать» из каталога товаров
     if (productId) {
-      // 1. Находим активный заказ ("new") пользователя
+      // Находим или создаем активный заказ ("new") пользователя/гостя
       let order = await prisma.order.findFirst({
-        where: { userId: CUSTOMER_ID, status: 'new' },
+        where: { userId: userId, status: 'new' },
       });
 
       if (!order) {
         order = await prisma.order.create({
-          data: { userId: CUSTOMER_ID, status: 'new' },
+          data: { userId: userId, status: 'new' },
         });
       }
 
-      // 2. Проверяем остаток товара на складе
+      // Проверяем остаток товара на складе
       const product = await prisma.product.findUnique({ where: { id: productId } });
-      if (!product || product.quantityInStore <= 0) {
-        return NextResponse.json({ error: 'Товара нет в наличии на складе' }, { status: 400 });
+      if (!product) {
+        return NextResponse.json({ error: 'Товар не найден в базе данных' }, { status: 404 });
+      }
+      if (product.quantityInStore <= 0) {
+        return NextResponse.json({ error: 'Этого букета больше нет в наличии на складе' }, { status: 400 });
       }
 
-      // 3. Проверяем, лежит ли уже этот товар в корзине
+      // Проверяем, лежит ли уже этот товар в корзине
       const existingLink = await prisma.order_product.findFirst({
         where: { orderId: order.id, productId: productId },
       });
 
       if (existingLink) {
-        // Если уже лежит — увеличиваем количество на 1 (но не выше остатка на складе)
         if (existingLink.quantityInOrder >= product.quantityInStore) {
           return NextResponse.json({ error: 'Достигнуто максимальное количество товара на складе' }, { status: 400 });
         }
@@ -137,7 +143,6 @@ export async function POST(request: Request) {
         });
         return NextResponse.json(updatedLink);
       } else {
-        // Если товара в корзине еще нет — создаем новую запись
         const newLink = await prisma.order_product.create({
           data: {
             orderId: order.id,
@@ -151,7 +156,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ error: 'Неверные параметры запроса' }, { status: 400 });
   } catch (error) {
-    console.error('Ошибка POST /api/cart:', error);
+    console.error('Критическая ошибка POST /api/cart:', error);
     return NextResponse.json({ error: 'Ошибка сервера при изменении корзины' }, { status: 500 });
   }
 }

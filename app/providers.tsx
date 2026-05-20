@@ -2,9 +2,10 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState, ReactNode } from 'react';
+// 1. Импортируем SessionProvider от NextAuth
+import { SessionProvider } from "next-auth/react"; 
 
 export default function Providers({ children }: { children: ReactNode }) {
-  // Инициализируем клиент внутри useState, чтобы он не пересоздавался при рендерах страницы
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
       queries: {
@@ -15,8 +16,11 @@ export default function Providers({ children }: { children: ReactNode }) {
   }));
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
+    // 2. Добавляем обертку SessionProvider самым внешним слоем
+    <SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        {children}
+      </QueryClientProvider>
+    </SessionProvider>
   );
 }

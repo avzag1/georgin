@@ -4,7 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import Profile from "../components/Profile";
 import { useStore } from '../store/useStore';
-import ShoppingCard from "../components/ShoppingCard";
+import dynamic from "next/dynamic";
+// import ShoppingCard from "../components/ShoppingCard";
+const ShoppingCard = dynamic(() => import("./ShoppingCard"), {
+  ssr: false,
+  // Временная заглушка, пока корзина инициализируется в браузере (необязательно)
+  loading: () => null 
+});
 
 export default function Header () {
   const setProfileModal = useStore((state) => state.setProfileModal);

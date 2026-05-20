@@ -8,14 +8,55 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  role      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt // Автоматическое обновление даты
-  orders    Order[]  // Связь: у одного пользователя может быть много заказов
+  id            Int       @id @default(autoincrement())
+  name          String?
+  email         String    @unique
+  phone         String?
+  passwordHash  String?   @map("password_hash")
+  emailVerified DateTime?
+  image         String?
+  role          String    @default("customer")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  orders        Order[]
   @@map("users")
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       Int
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
+  @@map("verification_tokens")
 }
 model Product {
   id                Int      @id @default(autoincrement())
@@ -47,6 +88,8 @@ model Order {
   userId    Int      // Внешний ключ для связи с User
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   status    String
+  comment   String?
+  address   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   orderProducts Order_product[] // Связь: один заказ содержит много записей в Order_product
