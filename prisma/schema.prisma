@@ -1,6 +1,10 @@
+// generator client {
+//   provider = "prisma-client"
+//   output   = "../generated/client"
+// }
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/client"
+  provider = "prisma-client-js"  // <-- Исправлено на правильное имя
+  // Строку output мы полностью УДАЛЯЕМ, чтобы не ломать импорты
 }
 
 datasource db {
