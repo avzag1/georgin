@@ -101,6 +101,7 @@ model Order_product {
   orderId         Int
   order           Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   quantityInOrder Int
+  priceAtPurchase Int     @default(0)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

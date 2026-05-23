@@ -339,8 +339,19 @@ export default function ProductsBlockAdmin() {
             {!currentOrdersQuery.isLoading &&
               displayedOrders.map((order) => {
                 const orderTotal = order.orderProducts.reduce(
-                  (sum, item) =>
-                    sum + item.quantityInOrder * item.product.price,
+                  (
+                    sum: number,
+                    item: {
+                      priceAtPurchase?: number;
+                      quantityInOrder: number;
+                      product: { price: number };
+                    },
+                  ) => {
+                    // Берем вечную зафиксированную цену покупки из СУБД Prisma, либо базовую цену продукта
+                    const purchasePrice =
+                      item.priceAtPurchase || item.product.price;
+                    return sum + item.quantityInOrder * purchasePrice;
+                  },
                   0,
                 );
                 const rawEmail = order.user.email;
@@ -417,7 +428,7 @@ export default function ProductsBlockAdmin() {
                             Состав букетов
                           </h4>
                           <div className="space-y-1">
-                            {order.orderProducts.map((item) => (
+                            {/* {order.orderProducts.map((item) => (
                               <div
                                 key={item.id}
                                 className="flex justify-between text-xs border-b border-dashed pb-0.5"
@@ -429,7 +440,41 @@ export default function ProductsBlockAdmin() {
                                   {item.quantityInOrder} шт.
                                 </span>
                               </div>
-                            ))}
+                            ))} */}
+                            {order.orderProducts.map(
+                              (item: {
+                                id: number;
+                                quantityInOrder: number;
+                                priceAtPurchase?: number;
+                                product: { title: string; price: number };
+                              }) => {
+                                // ✅ ТЕПЕРЬ СТРОГО ИЗ БАЗЫ: Читаем зафиксированную историческую стоимость
+                                const currentItemPrice =
+                                  item.priceAtPurchase || item.product.price;
+                                const itemRowTotal =
+                                  item.quantityInOrder * currentItemPrice;
+
+                                return (
+                                  <div
+                                    key={item.id}
+                                    className="flex justify-between items-center text-xs border-b border-dashed pb-1 gap-4"
+                                  >
+                                    <span className="text-gray-700 flex-1 truncate">
+                                      {item.product.title}
+                                    </span>
+
+                                    <span className="text-gray-400 font-mono text-[11px] whitespace-nowrap">
+                                      {currentItemPrice.toLocaleString("ru-RU")}{" "}
+                                      ₽ × {item.quantityInOrder} шт.
+                                    </span>
+
+                                    <span className="font-bold text-gray-900 whitespace-nowrap">
+                                      {itemRowTotal.toLocaleString("ru-RU")} ₽
+                                    </span>
+                                  </div>
+                                );
+                              },
+                            )}
                           </div>
                         </div>
                       </div>
@@ -492,7 +537,7 @@ export default function ProductsBlockAdmin() {
             </div>
 
             {/* Шапка таблицы */}
-            <div className="flex gap-2 font-bold border-b pb-2 mb-2 text-sm text-gray-700 min-w-[800px]">
+            <div className="flex gap-2 font-bold border-b pb-2 mb-2 text-sm text-gray-700 min-w-[800]]">
               <div className="w-30 text-center">Товар</div>
               <div className="w-40 text-center">Описание</div>
               <div className="w-25 text-center">Цена</div>
@@ -529,11 +574,14 @@ export default function ProductsBlockAdmin() {
                   quantityInStore={product.quantityInStore}
                   inShoppingCards={
                     product.orderProducts?.reduce(
-                      (acc, order) => acc + order.quantityInOrder,
+                      (acc: number, orderItem: { quantityInOrder: number }) =>
+                        acc + orderItem.quantityInOrder,
                       0,
                     ) || 0
                   }
                   isArchiveMode={isArchive}
+                  // ✅ ИСПРАВЛЕНИЕ: Возвращаем привязку к триггерам мутаций удаления и восстановления!
+                  // Теперь кнопки действий снова появятся на экране менеджера
                   onEdit={() => setEditingProduct(product)}
                   onDelete={() => handleDeleteClick(product.id, product.title)}
                   onRestore={() =>

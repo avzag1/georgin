@@ -175,6 +175,7 @@ export const Order_productScalarFieldEnum = {
   productId: 'productId',
   orderId: 'orderId',
   quantityInOrder: 'quantityInOrder',
+  priceAtPurchase: 'priceAtPurchase',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
