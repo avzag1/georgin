@@ -6,6 +6,8 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
+export const dynamic = 'force-dynamic';
+
 interface ProductItem {
   id: number;
   image: string;
@@ -23,7 +25,7 @@ interface CategoryItem {
 }
 
 const fetchProducts = async (): Promise<ProductItem[]> => {
-  const res = await fetch("/api/products");
+  const res = await fetch("/api/products?archived=false"); // ◄ Добавили фильтр склада
   const data = await res.json().catch(() => null);
   if (!res.ok) throw new Error(data?.error || "Ошибка загрузки каталога");
   return data || [];
