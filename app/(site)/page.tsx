@@ -36,7 +36,7 @@ export default function Home() {
             className="w-full h-auto"
             src="/aboutPic_Mobile.png"
             alt="О нас"
-            width={399}
+            width={393}
             height={555}
           />
           <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 min-w-4/7 text-white text-[11px]">
@@ -51,17 +51,17 @@ export default function Home() {
                 className="h-auto"
                 src="/aboutTitle.png"
                 alt="О нас (текст)"
-                width={194}
-                height={66}
+                width={190}
+                height={48}
               />
             </div>
-            <div className="my-10 mx-5">
+            <div className="my-10 mx-5 max-w-[53]">
               <Image
-                className=""
-                src="/minFlower.png"
+                className="h-auto"
+                src="/flower.png"
                 alt="Цветок иконка"
-                width={52}
-                height={52}
+                width={150}
+                height={141}
               />
             </div>
           </div>
@@ -78,13 +78,13 @@ export default function Home() {
             className="h-auto"
             src="/choiceTitle.png"
             alt="Почему нас выбирают"
-            width={762}
-            height={40}
+            width={756}
+            height={69}
           />
         </div>
         <div className="block lg:hidden p-5 lg:p-10">
           <Image
-            className=""
+            className="h-auto"
             src="/choiceTitleMobile.png"
             alt="Почему нас выбирают"
             width={220}
@@ -97,7 +97,7 @@ export default function Home() {
             <div className="flex flex-row-reverse lg:flex-col lg:items-center lg:max-w-5/16">
               <div className="flex flex-col min-w-[110]">
                 <Image
-                  className="w-[63] lg:w-[104]"
+                  className="w-[63] lg:w-[104] h-auto"
                   src="/esteticItemFlower.png"
                   alt="Картинка цветок"
                   width={104}
@@ -125,7 +125,7 @@ export default function Home() {
             <div className="flex flex-row-reverse lg:flex-col lg:items-center lg:max-w-5/16 my-5 lg:my-0">
               <div className="flex flex-col min-w-[110]">
                 <Image
-                  className="w-[63] lg:w-[104]"
+                  className="w-[63] lg:w-[104] h-auto"
                   src="/quolityItemFlower.png"
                   alt="Картинка цветок"
                   width={104}
@@ -147,7 +147,7 @@ export default function Home() {
             <div className="flex flex-row-reverse lg:flex-col lg:items-center lg:max-w-5/16">
               <div className="hidden lg:flex flex-col min-w-[110]">
                 <Image
-                  className="w-[125] lg:w-[189]"
+                  className="w-[125] lg:w-[189] h-auto"
                   src="/delieveryItemFlower.png"
                   alt="Картинка цветок"
                   width={189}
@@ -156,7 +156,7 @@ export default function Home() {
               </div>
               <div className="lg:hidden flex flex-col min-w-[110]">
                 <Image
-                  className="w-[125] lg:w-[189]"
+                  className="w-[125] lg:w-[189] h-auto"
                   src="/delieveryItemFlower_Mobile.png"
                   alt="Картинка цветок"
                   width={189}
@@ -179,7 +179,7 @@ export default function Home() {
           <div id="howToOrder" className="flex pt-0 lg:pt-10 relative">
             <div className="hidden lg:block">
               <Image
-                className=""
+                className="h-auto"
                 src="/ideaFlowerPicture.png"
                 alt="Цветок"
                 width={431}
@@ -190,10 +190,10 @@ export default function Home() {
             <div className="flex flex-col w-full lg:ml-30 relative lg:w-3/5">
               <div className="w-full lg:w-full lg:max-w-[645] bg-[#a9b983] lg:bg-white py-9 lg:py-0 px-5 lg:px-0 rounded-t-3xl lg:rounded-t-none rounded-br-3xl lg:rounded-b-none">
                 <Image
-                  className=""
+                  className="h-auto"
                   src="/ideaTitle.png"
                   alt="От идеи от идеального букета"
-                  width={645}
+                  width={638}
                   height={132}
                 />
               </div>
@@ -207,7 +207,7 @@ export default function Home() {
 
               <div className="w-[250] lg:w-[400]">
                 <Image
-                  className=""
+                  className="h-auto"
                   src="/howToOrderBlock.png"
                   alt="Как заказать"
                   width={400}
@@ -224,7 +224,7 @@ export default function Home() {
 
               <div>
                 <Image
-                  className=""
+                  className="h-auto"
                   src="/delieveryNote.png"
                   alt="Условия доставки"
                   width={540}
@@ -236,10 +236,10 @@ export default function Home() {
         </div>
         <div className="min-[260px]:max-[400px]:hidden sm:flex justify-end lg:hidden w-[160] lg:w-[400] absolute bottom-0 right-[-20] z-40">
           <Image
-            className=""
+            className="h-auto"
             src="/howToOrderFlower.png"
             alt="Букет"
-            width={225}
+            width={168}
             height={343}
           />
         </div>
@@ -251,11 +251,11 @@ export default function Home() {
       >
         <div className="min-[260px]:max-[320px]:w-[200] w-[250] lg:w-[460] py-0 lg:py-15 min-[260px]:max-[320px]:mx-2 mx-12 lg:mx-25 mt-10 lg:mt-0">
           <Image
-            className=""
+            className="h-auto"
             src="/springHitsTitle.png"
             alt="Хиты весны"
-            width={460}
-            height={40}
+            width={454}
+            height={48}
           />
         </div>
         <HitsSlider
@@ -278,17 +278,17 @@ export default function Home() {
         <div className="relative">
           <div className="hidden lg:block">
             <Image
-              className="mx-auto w-full"
+              className="mx-auto w-full h-auto"
               src="/actionsPic.png"
               alt="Объявления и акции"
-              width={1448}
+              width={1440}
               height={615}
             />
           </div>
           <div className="block lg:hidden">
             <Image
-              className="mx-auto w-full"
-              src="/actionsPicMobile.png"
+              className="mx-auto w-full h-auto"
+              src="/actionsPicMob.png"
               alt="Объявления и акции"
               width={393}
               height={413}
@@ -312,7 +312,7 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <div className="hidden lg:block">
           <Image
-            className="mx-auto w-full"
+            className="mx-auto w-full h-auto"
             src="/callUsPic.png"
             alt="Позвоните нам"
             width={1440}
@@ -321,10 +321,10 @@ export default function Home() {
         </div>
         <div className="block lg:hidden max-w-screen">
           <Image
-            className="mx-auto w-full"
+            className="mx-auto w-full h-auto"
             src="/callUsPicMobile.png"
             alt="Позвоните нам"
-            width={392}
+            width={393}
             height={355}
           />
         </div>

@@ -114,7 +114,7 @@ export default function ShowcaseSlider() {
         <div className="flex lg:hidden ml-10 mr-0 lg:mx-12">
           <div className="mt-5">
             <Image
-              className="mx-auto"
+              className="mx-auto h-auto"
               src="/catalogTitle.png"
               alt="Каталог"
               width={192}
@@ -123,7 +123,7 @@ export default function ShowcaseSlider() {
           </div>
         </div>
 
-        {/* ✅ ИСПРАВЛЕНИЕ: Автоматический рендеринг кнопок через .map() */}
+        {/* Автоматический рендеринг кнопок через .map() */}
         <div className="w-full lg:w-3/5 flex flex-col lg:flex-row justify-around  mt-5 lg:mt-0 mb-2 mx-auto lg:mx-25 relative lg:gap-2 gap-0">
           {dbCategories.map((cat) => (
             <button
@@ -136,11 +136,11 @@ export default function ShowcaseSlider() {
               }}
               className={getBtnClass(cat.id)}
             >
-              <p className="ml-3 lg:ml-0">{cat.category}</p>
+              <p className="ml-3 lg:ml-0 max-w-[130] lg:max-w-[200]">{cat.category}</p>
             </button>
           ))}
 
-          {/* Стрелочка для мобильного выпадающего списка (оставляем как у вас) */}
+          {/* Стрелочка для мобильного выпадающего списка */}
           {dbCategories.length > 0 && (
             <button
               type="button"

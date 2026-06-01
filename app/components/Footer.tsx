@@ -237,7 +237,7 @@ export default function Footer() {
         {/* БЛОК 5: Логотип и социальные сети */}
         <div className="flex flex-col items-center">
           <Image
-            className="ml-5 order-2 lg:order-1"
+            className="ml-5 order-2 lg:order-1 h-auto"
             src="/logoFooter.png"
             alt="Логотип"
             width={219}

@@ -28,7 +28,7 @@ declare global {
 export default function VkCommunityWidget() {
   const containerId = "vk_groups";
   const apiId = 1234567; // Замените на ВАШ_API_ID
-  const groupId = 1;     // Замените на ID вашей группы
+  const groupId = 235663414;     // Замените на ID вашей группы
 
   const initWidget = () => {
     if (window.VK) {

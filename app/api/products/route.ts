@@ -81,12 +81,12 @@ export async function POST(request: Request) {
         quantityInStore:
           parseInt(formData.get("quantityInStore") as string, 10) || 0,
         categoryName: categoryName,
-        // category: {
-        //   connect: {
-        //     id: parseInt(categoryIdStr, 10)
-        //   }
-        // }
       },
+
+      include: {
+        orderProducts: true,
+      }
+
     });
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error: unknown) {
@@ -190,6 +190,11 @@ export async function PUT(request: Request) {
     const updatedProduct = await prisma.product.update({
       where: { id: productId },
       data: updateData,
+
+      include: {
+        orderProducts: true,
+      }
+      
     });
 
     return NextResponse.json(updatedProduct, { status: 200 });

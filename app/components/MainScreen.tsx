@@ -31,8 +31,8 @@ export default function MainScreen () {
           src = "/mainDesktopMobile.png"
           alt="Главное изображение"
           loading="eager"
-          width = {399}
-          height = {660}
+          width = {393}
+          height = {673}
         />
       </div>
 

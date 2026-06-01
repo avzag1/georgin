@@ -92,19 +92,19 @@ export default function Profile() {
       localStorage.setItem("guest_email", email);
       localStorage.setItem("guest_phone", phone);
 
-      alert("Данные вашего профиля успешно сохранены в базе данных!");
+      alert("Данные вашего профиля успешно сохранены в базе данных!"); //TODO
       setProfileModal(0);
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
     onError: (err: Error) => {
-      alert(`Ошибка сервера: ${err.message}`);
+      alert(`Ошибка сервера: ${err.message}`); //TODO
     },
   });
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!agreed) {
-      alert("Необходимо дать согласие на обработку персональных данных");
+      alert("Необходимо дать согласие на обработку персональных данных"); //TODO
       return;
     }
 
@@ -155,7 +155,7 @@ export default function Profile() {
 
     if (!email || !email.includes("@")) {
       alert(
-        "Пожалуйста, сначала введите корректный e-mail для отправки ссылки!",
+        "Пожалуйста, сначала введите корректный e-mail для отправки ссылки!", //TODO
       );
       return;
     }
@@ -179,11 +179,11 @@ export default function Profile() {
         alert(
           "Ошибка: Пользователь с таким e-mail не найден в системе! Пожалуйста, сначала сохраните ваши данные или оформите заказ.",
         );
-        return;
+        return; //TODO
       }
 
       if (result?.error) {
-        alert(`Ошибка при отправке: ${result.error}`);
+        alert(`Ошибка при отправке: ${result.error}`); //TODO
         return;
       }
 
@@ -192,7 +192,7 @@ export default function Profile() {
       );
     } catch (error) {
       alert(
-        "Не удалось отправить ссылку. Проверьте настройки почтового сервера.",
+        "Не удалось отправить ссылку. Проверьте настройки почтового сервера.", //TODO
       );
     }
   };
