@@ -35,15 +35,15 @@ CMD ["sh", "-c", "npx prisma migrate deploy && exec node -r dotenv/config server
 # docker build -t georgin .   Создание образа (при запуске указать порт 3000)
 # docker build --no-cache -t georgin . Если нужно без кеша
 
-# docker tag georgin avzag1/georgin:1.0.55    Даем нашему образу имя для заливки на dockerhub
-# docker push avzag1/georgin:1.0.55          Загрузка образа на dockerhub
+# docker tag georgin avzag1/georgin:1.0.2    Даем нашему образу имя для заливки на dockerhub
+# docker push avzag1/georgin:1.0.2          Загрузка образа на dockerhub
 
-# docker rm -f georgin02062026     Удаляем старый контейнер
+# docker rm -f georgin03062026     Удаляем старый контейнер
 # docker stop $(docker ps -aq)     Остановка всех контейнеров
 # docker rm $(docker ps -a -q)     Удалить все контейнеры
 # docker system prune -a   Удаляет все неиспользуемые образы, а не только те, которые не привязаны к контейнерам
 
-# docker run -d --name georgin02062026 --restart always --network="host" --env-file /var/www/georgin/.env avzag1/georgin:1.0.55
+# docker run -d --name georgin03062026 --restart always --network="host" --env-file /var/www/georgin/.env avzag1/georgin:1.0.2
 
 # docker logs georgin01062026 Лог запуска приложения на удаленном сервере (в т.ч. лог миграций)
 # docker logs --tail 50 georgin01062026

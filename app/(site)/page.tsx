@@ -16,13 +16,37 @@ export default function Home() {
   function updateTitleBySeason() {
   const month = new Date().getMonth();
   if (month === 11 || month <= 1) {
-    return "Хиты зимы";
+    return <Image
+            className="h-auto"
+            src="/winterHitsTitle.svg"
+            alt="Хиты весны"
+            width={454}
+            height={48}
+          />;
   } else if (month >= 2 && month <= 4) {
-    return "Хиты весны";
+    return <Image
+            className="h-auto"
+            src="/springHitsTitle.svg"
+            alt="Хиты весны"
+            width={454}
+            height={48}
+          />;
   } else if (month >= 5 && month <= 7) {
-    return "Хиты лета";
+    return <Image
+            className="h-auto"
+            src="/summerHitsTitle.svg"
+            alt="Хиты весны"
+            width={454}
+            height={48}
+          />;
   } else if (month >= 8 && month <= 10) {
-    return "Хиты осени";
+    return <Image
+            className="h-auto"
+            src="/autumnHitsTitle.svg"
+            alt="Хиты весны"
+            width={454}
+            height={48}
+          />;
   }
 }
 
