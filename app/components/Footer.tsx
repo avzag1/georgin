@@ -238,7 +238,7 @@ export default function Footer() {
         <div className="flex flex-col items-center">
           <Image
             className="ml-5 order-2 lg:order-1 h-auto"
-            src="/logoFooter.png"
+            src="/logoFooter.svg"
             alt="Логотип"
             width={219}
             height={72}

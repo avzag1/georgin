@@ -17,7 +17,7 @@ export default function Header() {
   return (
     <header className="hidden sm:flex w-full h-22 items-center justify-between relative z-40">
       <div className="mx-5 xl:mx-20 flex items-center min-w-[106] max-w-[150]">
-        <Image src="/logo.png" alt="Логотип" width={106} height={33} />
+        <Image src="/logo.svg" alt="Логотип" width={106} height={33} />
       </div>
 
       <div className="flex flex-row justify-center items-center mr-0 sm:mr-10">

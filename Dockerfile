@@ -10,8 +10,6 @@ COPY --from=dependencies /georgin/node_modules ./node_modules
 ARG AUTH_SECRET="$2b$10$604n1qE2vWUJ0no1pzsbXORq7SYWVQQw4DJHr8Zls8fU5nrsed9SC"
 ENV AUTH_SECRET=$AUTH_SECRET
 COPY prisma ./prisma/
-# RUN npx prisma generate
-# ENV DATABASE_URL="postgresql://mock:mock@localhost:5432/mock?schema=public"
 ARG DATABASE_URL
 ENV DATABASE_URL=$DATABASE_URL
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -19,31 +17,20 @@ RUN npm run build
 
 FROM node:22-alpine AS runner
 WORKDIR /georgin
-
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-
 COPY --from=builder /georgin/public ./public
 COPY --from=builder /georgin/.next/standalone ./
 COPY --from=builder /georgin/.next/static ./.next/static
-
 COPY --from=builder /georgin/package.json ./package.json
-# COPY --from=builder /georgin/.next ./.next
-# COPY --from=builder /georgin/node_modules ./node_modules
 COPY --from=builder /georgin/prisma ./prisma
-# КРИТИЧЕСКАЯ СТРОКА: Копируем ваш конфигурационный файл (измените .ts на .js/.mjs если необходимо)
 COPY --from=builder /georgin/prisma.config.ts ./prisma.config.ts
-# Устанавливаем Prisma окружение под Node 22
 RUN npm install @prisma/client && npm install -g prisma
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 # CMD ["sh", "-c", "npx prisma migrate deploy && exec node server.js"]
 CMD ["sh", "-c", "npx prisma migrate deploy && exec node -r dotenv/config server.js dotenv_config_path=/var/www/georgin/.env"]
-
-# CMD ["sh", "-c", "npx prisma generate && rm -f .next/images-manifest.json && rm -f ./prisma.config.ts && echo \"const { defineConfig, env } = require('prisma/config'); module.exports = defineConfig({ schema: 'prisma/schema.prisma', migrations: { path: 'prisma/migrations' }, datasource: { url: env('DATABASE_URL') } });\" > ./prisma.config.js && npx prisma migrate deploy --config=./prisma.config.js && exec npm start"]
-
-# CMD ["sh", "-c", "npx prisma generate && rm -f ./prisma.config.ts && echo \"const { defineConfig, env } = require('prisma/config'); module.exports = defineConfig({ schema: 'prisma/schema.prisma', migrations: { path: 'prisma/migrations' }, datasource: { url: env('DATABASE_URL') } });\" > ./prisma.config.js && npx prisma migrate deploy --config=./prisma.config.js && exec npm start"] 
 
 # docker build -t georgin .   Создание образа (при запуске указать порт 3000)
 # docker build --no-cache -t georgin . Если нужно без кеша

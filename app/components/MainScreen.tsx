@@ -28,11 +28,20 @@ export default function MainScreen () {
       <div className="block sm:hidden w-full h-auto overflow-hidden">
         <Image
           className="w-full h-auto mt-[-1]"
-          src = "/mainDesktopMobile.png"
+          src = "/mainDesktopMobile1.png"
           alt="Главное изображение"
           loading="eager"
           width = {393}
           height = {673}
+        />
+      </div>
+      <div className="block sm:hidden w-full h-auto overflow-hidden absolute top-67 left-1/20 ">
+        <Image
+          className="w-9/10 h-auto mt-[-1]"
+          src = "/mainScriptMobile.svg"
+          alt="Надпись на главном изображении"
+          width = {371}
+          height = {255}
         />
       </div>
 

@@ -13,6 +13,19 @@ import AboutText from "../components/AboutText";
 import Showcase from "../components/Showcase";
 
 export default function Home() {
+  function updateTitleBySeason() {
+  const month = new Date().getMonth();
+  if (month === 11 || month <= 1) {
+    return "Хиты зимы";
+  } else if (month >= 2 && month <= 4) {
+    return "Хиты весны";
+  } else if (month >= 5 && month <= 7) {
+    return "Хиты лета";
+  } else if (month >= 8 && month <= 10) {
+    return "Хиты осени";
+  }
+}
+
   return (
     <div className="bg-[#F5F2ED]">
       <Header />
@@ -34,7 +47,7 @@ export default function Home() {
         <div className="block sm:hidden w-full relative">
           <Image
             className="w-full h-auto"
-            src="/aboutPic_Mobile.png"
+            src="/aboutPic_Mobile.svg"
             alt="О нас"
             width={393}
             height={555}
@@ -46,19 +59,20 @@ export default function Home() {
 
         <div className="hidden sm:flex flex-col mx-auto w-[600] h-[460]">
           <div className="flex justify-center">
-            <div className="my-10 ml-15">
+            <div className="my-10 ml-15 text-7xl font-light">
+              {/* О нас */}
               <Image
                 className="h-auto"
-                src="/aboutTitle.png"
+                src="/aboutTitle.svg"
                 alt="О нас (текст)"
                 width={190}
                 height={48}
               />
             </div>
-            <div className="my-10 mx-5 max-w-[53]">
+            <div className="flex items-center mt-2 mx-5 max-w-[53]">
               <Image
                 className="h-auto"
-                src="/flower.png"
+                src="/flower.svg"
                 alt="Цветок иконка"
                 width={150}
                 height={141}
@@ -76,7 +90,7 @@ export default function Home() {
         <div className="hidden lg:block p-10">
           <Image
             className="h-auto"
-            src="/choiceTitle.png"
+            src="/choiceTitle.svg"
             alt="Почему нас выбирают"
             width={756}
             height={69}
@@ -85,7 +99,7 @@ export default function Home() {
         <div className="block lg:hidden p-5 lg:p-10">
           <Image
             className="h-auto"
-            src="/choiceTitleMobile.png"
+            src="/choiceTitleMobile.svg"
             alt="Почему нас выбирают"
             width={220}
             height={74}
@@ -191,7 +205,7 @@ export default function Home() {
               <div className="w-full lg:w-full lg:max-w-[645] bg-[#a9b983] lg:bg-white py-9 lg:py-0 px-5 lg:px-0 rounded-t-3xl lg:rounded-t-none rounded-br-3xl lg:rounded-b-none">
                 <Image
                   className="h-auto"
-                  src="/ideaTitle.png"
+                  src="/ideaTitle.svg"
                   alt="От идеи от идеального букета"
                   width={638}
                   height={132}
@@ -208,7 +222,7 @@ export default function Home() {
               <div className="w-[250] lg:w-[400]">
                 <Image
                   className="h-auto"
-                  src="/howToOrderBlock.png"
+                  src="/howToOrderBlock.svg"
                   alt="Как заказать"
                   width={400}
                   height={368}
@@ -249,14 +263,15 @@ export default function Home() {
         id="hits"
         className="flex flex-col mx-auto w-full pb-10 lg:pb-30 overflow-hidden"
       >
-        <div className="min-[260px]:max-[320px]:w-[200] w-[250] lg:w-[460] py-0 lg:py-15 min-[260px]:max-[320px]:mx-2 mx-12 lg:mx-25 mt-10 lg:mt-0">
-          <Image
+        <div className="min-[260px]:max-[320px]:w-[200] w-[250] lg:w-[460] py-0 lg:py-15 min-[260px]:max-[320px]:mx-2 mx-12 lg:mx-25 mt-10 lg:mt-0 text-7xl font-light uppercase">
+          {updateTitleBySeason()}
+          {/* <Image
             className="h-auto"
             src="/springHitsTitle.png"
             alt="Хиты весны"
             width={454}
             height={48}
-          />
+          /> */}
         </div>
         <HitsSlider
           array={[
@@ -313,22 +328,40 @@ export default function Home() {
         <div className="hidden lg:block">
           <Image
             className="mx-auto w-full h-auto"
-            src="/callUsPic.png"
-            alt="Позвоните нам"
+            src="/callUsPic1.png"
+            alt="Рамка позвоните нам"
             width={1440}
             height={455}
+          />
+        </div>
+        <div className="hidden lg:block w-5/10 absolute top-25 inset-x-0 mx-auto">
+          <Image
+            className="mx-auto w-full h-auto"
+            src="/callUsPicText.svg"
+            alt="Текст позвоните нам"
+            width={666}
+            height={134}
           />
         </div>
         <div className="block lg:hidden max-w-screen">
           <Image
             className="mx-auto w-full h-auto"
-            src="/callUsPicMobile.png"
+            src="/callUsPicMobile1.png"
             alt="Позвоните нам"
             width={393}
             height={355}
           />
         </div>
-        <div className="absolute inset-x-[calc(50%-61px)] inset-y-9/20 lg:inset-y-3/5 z-50">
+        <div className="block w-7/10 lg:hidden absolute top-20 min-[260px]:max-[340px]:top-10 inset-x-0 mx-auto">
+          <Image
+            className="mx-auto w-full h-auto"
+            src="/callUsPicMobileText.svg"
+            alt="Позвоните нам"
+            width={263}
+            height={92}
+          />
+        </div>
+        <div className="absolute inset-x-[calc(50%-61px)] inset-y-19/40 lg:inset-y-3/5 z-50">
           <CallButton />
         </div>
       </section>

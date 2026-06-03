@@ -254,12 +254,12 @@ export default function ProductsBlockAdmin() {
       <div
         className={
           showProducts
-            ? "flex flex-col w-full max-w-6xl overflow-x-auto"
+            ? "flex flex-col w-full overflow-x-auto"
             : "hidden"
         }
       >
         {/* НАВИГАЦИОННЫЕ ВКЛАДКИ АДМИНКИ С ЖИВЫМИ СЧЕТЧИКАМИ */}
-        <div className="flex gap-4 border-b mb-4 w-full min-w-[750px]">
+        <div className="flex gap-4 border-b mb-4 w-full min-w-[750]">
           <button
             type="button"
             onClick={() => {
@@ -428,19 +428,6 @@ export default function ProductsBlockAdmin() {
                             Состав букетов
                           </h4>
                           <div className="space-y-1">
-                            {/* {order.orderProducts.map((item) => (
-                              <div
-                                key={item.id}
-                                className="flex justify-between text-xs border-b border-dashed pb-0.5"
-                              >
-                                <span className="text-gray-700">
-                                  {item.product.title}
-                                </span>
-                                <span className="font-bold text-gray-900">
-                                  {item.quantityInOrder} шт.
-                                </span>
-                              </div>
-                            ))} */}
                             {order.orderProducts.map(
                               (item: {
                                 id: number;
@@ -537,15 +524,15 @@ export default function ProductsBlockAdmin() {
             </div>
 
             {/* Шапка таблицы */}
-            <div className="flex gap-2 font-bold border-b pb-2 mb-2 text-sm text-gray-700 min-w-[800]]">
-              <div className="w-30 text-center">Товар</div>
-              <div className="w-40 text-center">Описание</div>
-              <div className="w-25 text-center">Цена</div>
-              <div className="w-25 text-center">Цена по акции</div>
-              <div className="w-30 text-center">Категория</div>
-              <div className="w-25 text-center">Количество</div>
-              <div className="w-44 text-center">Изображение</div>
-              <div className="w-25 text-center">В корзинах</div>
+            <div className="flex gap-2 font-bold border-b pb-2 mb-2 text-sm text-gray-700 min-w-[800]">
+              <div className="w-80 min-w-80 text-center">Товар</div>
+              <div className="w-40 min-w-40 text-center">Описание</div>
+              <div className="w-25 min-w-25 text-center">Цена</div>
+              <div className="w-25 min-w-25 text-center">Цена по акции</div>
+              <div className="w-30 min-w-30 text-center">Категория</div>
+              <div className="w-25 min-w-25 text-center">Количество</div>
+              <div className="w-44 min-w-44 text-center">Изображение</div>
+              <div className="w-25 min-w-25 text-center">В корзинах</div>
             </div>
 
             {currentQuery.isLoading && (
@@ -580,7 +567,7 @@ export default function ProductsBlockAdmin() {
                     ) || 0
                   }
                   isArchiveMode={isArchive}
-                  // ✅ ИСПРАВЛЕНИЕ: Возвращаем привязку к триггерам мутаций удаления и восстановления!
+                  // Возвращаем привязку к триггерам мутаций удаления и восстановления!
                   // Теперь кнопки действий снова появятся на экране менеджера
                   onEdit={() => setEditingProduct(product)}
                   onDelete={() => handleDeleteClick(product.id, product.title)}

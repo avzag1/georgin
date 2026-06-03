@@ -34,18 +34,18 @@ export default function ProductRowAdmin({
   onRestore
 }: ProductRowAdminProps) {
   return (
-    <div className="flex gap-2 items-center border-b py-2 text-sm text-gray-600 min-w-[800] bg-white hover:bg-gray-50/50 transition-colors">
-      <div className="w-30 text-center font-semibold text-gray-900 truncate px-1">{title}</div>
-      <div className="w-40 text-center truncate px-1 text-gray-500">{description}</div>
-      <div className="w-25 text-center font-mono">{price.toLocaleString('ru-RU')} ₽</div>
-      <div className="w-25 text-center font-mono text-amber-600 font-medium">
+    <div className="flex gap-2 items-center border-b py-2 text-sm text-gray-600 min-w-[900] bg-white hover:bg-gray-50/50 transition-colors">
+      <div className="w-80 min-w-80 text-center font-semibold text-gray-900 truncate px-1">{title}</div>
+      <div className="w-40 min-w-40 text-center truncate px-1 text-gray-500">{description}</div>
+      <div className="w-25 min-w-25 text-center font-mono">{price.toLocaleString('ru-RU')} ₽</div>
+      <div className="w-25 min-w-25 text-center font-mono text-amber-600 font-medium">
         {actionPrice > 0 ? `${actionPrice.toLocaleString('ru-RU')} ₽` : "—"}
       </div>
-      <div className="w-30 text-center">
+      <div className="w-30 min-w-30 text-center">
         <span className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded text-xs">{category}</span>
       </div>
-      <div className="w-25 text-center font-bold">{quantityInStore} шт.</div>
-      <div className="w-44 flex justify-center">
+      <div className="w-25 min-w-25 text-center font-bold">{quantityInStore} шт.</div>
+      <div className="w-44 min-w-44 flex justify-center">
         <div className="relative w-16 h-10 border rounded overflow-hidden bg-gray-50">
           <Image 
             src={image || "/placeholder-bouquet.png"} 
@@ -56,10 +56,10 @@ export default function ProductRowAdmin({
           />
         </div>
       </div>
-      <div className="w-25 text-center font-medium text-indigo-600">{inShoppingCards} шт.</div>
+      <div className="w-25 min-w-25 text-center font-medium text-indigo-600">{inShoppingCards} шт.</div>
 
       {/* СЕКЦИЯ ДЕЙСТВИЙ: Кнопки выведены и привязаны к пропсам удаления/восстановления */}
-      <div className="w-32 flex gap-1 justify-center px-2">
+      <div className="w-32 min-w-32 flex gap-1 justify-center px-2">
         <button
           type="button"
           onClick={onEdit}
