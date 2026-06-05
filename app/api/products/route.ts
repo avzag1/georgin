@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 import { writeFile, mkdir, unlink } from "fs/promises";
 import { join } from "path";
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 export const dynamic = "force-dynamic";
 const BUCKET_NAME = "022c62a9-5b17-4928-aca6-4d54213d95b6";
@@ -21,15 +23,23 @@ const s3Client = new S3Client({
 
 export async function GET(request: Request) {
   try {
-    // Извлекаем параметры строки запроса прямо из request.url
     const { searchParams } = new URL(request.url);
     const showArchived = searchParams.get('archived') === 'true';
+    const hitsOnly = searchParams.get('hitsOnly') === 'true'; // <-- ЧИТАЕМ ФЛАГ ТОЛЬКО ХИТОВ
+
+    // Базовое условие: архивный товар или активный склад
+    const whereCondition: Prisma.ProductWhereInput = {
+      isDeleted: showArchived,
+    };
+
+    // Если в URL добавлено ?hitsOnly=true, то жестко фильтруем на уровне базы данных
+    if (hitsOnly) {
+      whereCondition.isHit = true;
+    }
 
     // Запрашиваем данные из PostgreSQL через Prisma 7
     const products = await prisma.product.findMany({
-      where: {
-        isDeleted: showArchived,
-      },
+      where: whereCondition,
       include: {
         orderProducts: true,
       },
@@ -43,7 +53,6 @@ export async function GET(request: Request) {
     const normalizedProducts = (products || []).map(product => {
       let imageUrl = product.image;
       if (imageUrl && imageUrl.startsWith('/uploads/')) {
-        // Превращаем "/uploads/file.png" в "https://twcstorage.ru"
         imageUrl = `${S3_HOST}/${BUCKET_NAME}${imageUrl}`;
       }
 
@@ -60,6 +69,48 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: `Не удалось загрузить: ${msg}` }, { status: 500 });
   }
 }
+// export async function GET(request: Request) {
+//   try {
+//     // Извлекаем параметры строки запроса прямо из request.url
+//     const { searchParams } = new URL(request.url);
+//     const showArchived = searchParams.get('archived') === 'true';
+//     const hitsOnly = searchParams.get('hitsOnly') === 'true';
+
+//     // Запрашиваем данные из PostgreSQL через Prisma 7
+//     const products = await prisma.product.findMany({
+//       where: {
+//         isDeleted: showArchived,
+//       },
+//       include: {
+//         orderProducts: true,
+//       },
+//       orderBy: {
+//         id: 'desc',
+//       }
+//     });
+
+//     // Трансформируем массив товаров: если путь к картинке старый (локальный), 
+//     // подменяем его на внешнюю ссылку S3, чтобы Docker-контейнер не выдавал ошибку.
+//     const normalizedProducts = (products || []).map(product => {
+//       let imageUrl = product.image;
+//       if (imageUrl && imageUrl.startsWith('/uploads/')) {
+//         // Превращаем "/uploads/file.png" в "https://twcstorage.ru"
+//         imageUrl = `${S3_HOST}/${BUCKET_NAME}${imageUrl}`;
+//       }
+
+//       return {
+//         ...product,
+//         image: imageUrl,
+//       };
+//     });
+
+//     return NextResponse.json(normalizedProducts);
+//   } catch (error: unknown) {
+//     console.error("Критическая ошибка в GET /api/products:", error);
+//     const msg = error instanceof Error ? error.message : "Неизвестная ошибка СУБД";
+//     return NextResponse.json({ error: `Не удалось загрузить: ${msg}` }, { status: 500 });
+//   }
+// }
 
 export async function POST(request: Request) {
   try {
@@ -68,6 +119,9 @@ export async function POST(request: Request) {
     const imageFile = formData.get("image") as File | null;
     const priceStr = formData.get("price") as string;
     const categoryName = formData.get("categoryName") as string | null;
+    // Читаем чекбокс. Из FormData он приходит как строка "true"/"false".
+    const isHitRaw = formData.get("isHit");
+    const isHit = isHitRaw === "true" || isHitRaw === "1";
 
     if (!title || !priceStr || !categoryName) {
       return NextResponse.json(
@@ -112,6 +166,7 @@ export async function POST(request: Request) {
         actionPrice: parseFloat(formData.get("actionPrice") as string) || 0,
         quantityInStore: parseInt(formData.get("quantityInStore") as string, 10) || 0,
         categoryName: categoryName,
+        isHit: isHit,
       },
       include: {
         orderProducts: true,
@@ -195,6 +250,9 @@ export async function PUT(request: Request) {
     const priceStr = formData.get("price") as string;
     const categoryName = formData.get("categoryName") as string;
     const imageFile = formData.get("image") as File | null;
+    // Читаем чекбокс. Из FormData он приходит как строка "true"/"false".
+    const isHitRaw = formData.get("isHit");
+    const isHit = isHitRaw === "true" || isHitRaw === "1";
 
     if (!title || !priceStr || !categoryName) {
       return NextResponse.json(
@@ -210,6 +268,7 @@ export async function PUT(request: Request) {
       actionPrice: parseFloat(formData.get("actionPrice") as string) || 0,
       categoryName: categoryName,
       quantityInStore: parseInt(formData.get("quantityInStore") as string, 10) || 0,
+      isHit: isHit,
     };
 
     // Обработка новой картинки и удаление старой из Timeweb S3
@@ -299,100 +358,41 @@ export async function PUT(request: Request) {
     );
   }
 }
-// export async function PUT(request: Request) {
-//   try {
-//     const formData = await request.formData();
-//     const idStr = formData.get("id") as string;
-//     if (!idStr) {
-//       return NextResponse.json(
-//         { error: "ID товара не указан" },
-//         { status: 400 },
-//       );
-//     }
-//     const productId = parseInt(idStr, 10);
 
-//     const title = formData.get("title") as string;
-//     const priceStr = formData.get("price") as string;
-//     const categoryName = formData.get("categoryName") as string;
-//     const imageFile = formData.get("image") as File | null;
+// 3. Быстрое переключение Хита кликом по чекбоксу из таблицы
+export async function PATCH(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const idStr = searchParams.get("id");
+    
+    if (!idStr) {
+      return NextResponse.json({ error: "ID товара обязателен" }, { status: 400 });
+    }
+    const productId = parseInt(idStr, 10);
 
-//     if (!title || !priceStr || !categoryName) {
-//       return NextResponse.json(
-//         { error: "Обязательные поля не заполнены" },
-//         { status: 400 },
-//       );
-//     }
-//     const updateData: Prisma.Args<typeof prisma.product, "update">["data"] = {
-//       title: title,
-//       description: (formData.get("description") as string) || "Без описания",
-//       price: parseFloat(priceStr),
-//       actionPrice: parseFloat(formData.get("actionPrice") as string) || 0,
-//       categoryName: categoryName,
-//       quantityInStore:
-//         parseInt(formData.get("quantityInStore") as string, 10) || 0,
-//     };
+    if (isNaN(productId)) {
+      return NextResponse.json({ error: "Некорректный формат ID" }, { status: 400 });
+    }
 
-//     // Обработка новой картинки и удаление старой с диска
-//     if (imageFile && imageFile.size > 0) {
-//       try {
-//         const currentProduct = await prisma.product.findUnique({
-//           where: { id: productId },
-//           select: { image: true },
-//         });
+    // В отличие от форм, быстрый клик отправляет JSON, а не FormData
+    const body = await request.json();
+    
+    if (typeof body.isHit !== "boolean") {
+      return NextResponse.json({ error: "Поле isHit должно иметь тип boolean" }, { status: 400 });
+    }
 
-//         if (
-//           currentProduct?.image &&
-//           currentProduct.image !== "/placeholder.png"
-//         ) {
-//           const oldFilePath = join(
-//             process.cwd(),
-//             "public",
-//             currentProduct.image,
-//           );
-//           await unlink(oldFilePath).catch((err: unknown) => {
-//             const msg = err instanceof Error ? err.message : "неизвестно";
-//             console.warn(
-//               `Предупреждение: не удалось удалить старый файл: ${msg}`,
-//             );
-//           });
-//         }
-//       } catch (dbErr) {
-//         console.error("Ошибка при поиске старого изображения:", dbErr);
-//       }
+    const updatedProduct = await prisma.product.update({
+      where: { id: productId },
+      data: { isHit: body.isHit },
+      include: { orderProducts: true }
+    });
 
-//       const bytes = await imageFile.arrayBuffer();
-//       const buffer = Buffer.from(bytes);
+    revalidatePath("/");
 
-//       const uploadDir = join(process.cwd(), "public", "uploads");
-//       await mkdir(uploadDir, { recursive: true });
-
-//       const fileName = `${Date.now()}-${imageFile.name.replace(/\s+/g, "-")}`;
-//       const filePath = join(uploadDir, fileName);
-
-//       await writeFile(filePath, buffer);
-
-//       // Записываем новый путь в объект обновления
-//       updateData.image = `/uploads/${fileName}`;
-//     }
-
-//     // Выполняем обновление в PostgreSQL
-//     const updatedProduct = await prisma.product.update({
-//       where: { id: productId },
-//       data: updateData,
-
-//       include: {
-//         orderProducts: true,
-//       }
-      
-//     });
-
-//     return NextResponse.json(updatedProduct, { status: 200 });
-//   } catch (error: unknown) {
-//     console.error("Ошибка при редактировании товара:", error);
-//     const msg = error instanceof Error ? error.message : "Ошибка сервера";
-//     return NextResponse.json(
-//       { error: `Не удалось обновить: ${msg}` },
-//       { status: 500 },
-//     );
-//   }
-// }
+    return NextResponse.json(updatedProduct, { status: 200 });
+  } catch (error: unknown) {
+    console.error("Ошибка при быстром обновлении статуса товара:", error);
+    const msg = error instanceof Error ? error.message : "Ошибка сервера";
+    return NextResponse.json({ error: `Не удалось обновить статус: ${msg}` }, { status: 500 });
+  }
+}

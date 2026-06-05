@@ -22,6 +22,15 @@ interface HitsSliderProps {
 export default function HitsSlider (
   { array, high, loop = false, rows = 1 }: HitsSliderProps
 ) {
+ // 1. ОСТАВЛЯЕМ ТОЛЬКО ХИТЫ: Проверяем флаг из PostgreSQL
+  const onlyHits = array.filter(bouquet => bouquet.isHit === true);
+   // Защита: если хитов нет вообще, возвращаем пустой блок, чтобы слайдер не ломал верстку страницы
+  if (onlyHits.length === 0) return null;
+  // 2. Размножаем отфильтрованный массив для бесконечного цикла, как это было в вашем вызове
+  const sliderItems = loop 
+    ? [...onlyHits, ...onlyHits, ...onlyHits, ...onlyHits] 
+    : onlyHits;
+
   return (
     <div className="relative mx-auto w-full">
       <Swiper className="w-full"
@@ -64,7 +73,7 @@ export default function HitsSlider (
             <path d="M9 18l6-6-6-6" />
           </svg>
         </div>
-        {array.map((bouquet, index) => (
+        {sliderItems.map((bouquet, index) => (
             <SwiperSlide
             key = {index}
             className={`${high} flex flex-row justify-center items-center box-border overflow-hidden`}>

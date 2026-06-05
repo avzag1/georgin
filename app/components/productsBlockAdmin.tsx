@@ -15,6 +15,7 @@ interface ProductWithOrders {
   actionPrice: number;
   categoryName: string;
   quantityInStore: number;
+  isHit: boolean;
   orderProducts: { quantityInOrder: number }[];
 }
 
@@ -182,6 +183,26 @@ export default function ProductsBlockAdmin() {
     mutationFn: restoreProductRequest,
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ["products"], exact: false }),
+  });
+
+  const toggleHitMutation = useMutation<
+    unknown, 
+    Error, 
+    { id: number; isHit: boolean }
+  >({
+    mutationFn: async ({ id, isHit }) => {
+      const res = await fetch(`/api/products?id=${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isHit }),
+      });
+      if (!res.ok) throw new Error("Не удалось обновить статус Хит");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"], exact: false });
+    },
+    onError: (err: Error) => alert(`Ошибка: ${err.message}`),
   });
 
   const isArchive = currentTab === "archive";
@@ -525,6 +546,7 @@ export default function ProductsBlockAdmin() {
 
             {/* Шапка таблицы */}
             <div className="flex gap-2 font-bold border-b pb-2 mb-2 text-sm text-gray-700 min-w-[800]">
+              <div className="w-16 min-w-16 text-center">Хит</div>
               <div className="w-80 min-w-80 text-center">Товар</div>
               <div className="w-40 min-w-40 text-center">Описание</div>
               <div className="w-25 min-w-25 text-center">Цена</div>
@@ -567,6 +589,8 @@ export default function ProductsBlockAdmin() {
                     ) || 0
                   }
                   isArchiveMode={isArchive}
+                  isHit={product.isHit || false} // <-- ПЕРЕДАЕМ ЗНАЧЕНИЕ ХИТА ИЗ БАЗЫ
+                  onToggleHit={() => toggleHitMutation.mutate({ id: product.id, isHit: !product.isHit })} // <-- МУТАЦИЯ ИЗМЕНЕНИЯ ХИТА
                   // Возвращаем привязку к триггерам мутаций удаления и восстановления!
                   // Теперь кнопки действий снова появятся на экране менеджера
                   onEdit={() => setEditingProduct(product)}
@@ -576,6 +600,34 @@ export default function ProductsBlockAdmin() {
                   }
                 />
               ))}
+            {/* {!currentQuery.isLoading &&
+              displayedProducts.map((product) => (
+                <ProductRowAdmin
+                  key={product.id}
+                  title={product.title}
+                  description={product.description}
+                  image={product.image}
+                  price={product.price}
+                  actionPrice={product.actionPrice}
+                  category={product.categoryName}
+                  quantityInStore={product.quantityInStore}
+                  inShoppingCards={
+                    product.orderProducts?.reduce(
+                      (acc: number, orderItem: { quantityInOrder: number }) =>
+                        acc + orderItem.quantityInOrder,
+                      0,
+                    ) || 0
+                  }
+                  isArchiveMode={isArchive}
+                  // Возвращаем привязку к триггерам мутаций удаления и восстановления!
+                  // Теперь кнопки действий снова появятся на экране менеджера
+                  onEdit={() => setEditingProduct(product)}
+                  onDelete={() => handleDeleteClick(product.id, product.title)}
+                  onRestore={() =>
+                    handleRestoreClick(product.id, product.title)
+                  }
+                />
+              ))} */}
           </>
         )}
       </div>

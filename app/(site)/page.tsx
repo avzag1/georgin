@@ -11,8 +11,53 @@ import Header from "../components/Header";
 import MainScreen from "../components/MainScreen";
 import AboutText from "../components/AboutText";
 import Showcase from "../components/Showcase";
+import { Bouquet } from "@/app/type/bouquet";
+import { prisma } from "../lib/prisma";
+import { Prisma } from "@prisma/client";
+import { unstable_cache } from "next/cache";
 
-export default function Home() {
+// Оборачиваем запрос к базе в unstable_cache с revalidate
+const getProductsFromDb = unstable_cache(
+  async (hitsOnly = false): Promise<Bouquet[]> => {
+    const whereCondition: Prisma.ProductWhereInput = {
+      isDeleted: false,
+    };
+    if (hitsOnly) {
+      whereCondition.isHit = true;
+    }
+    try {
+      // Запрашиваем из базы только те поля, которые строго нужны слайдеру и интерфейсу Bouquet
+      const products = await prisma.product.findMany({
+        where: whereCondition,
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          price: true,
+          actionPrice: true,
+          image: true,
+          isHit: true,
+        },
+        orderBy: {
+          id: "desc",
+        },
+      });
+      // Чтобы TypeScript гарантированно не ругался на несовпадение типов, 
+      // мы используем безопасное приведение через `unknown`
+      return products as unknown as Bouquet[];
+    } catch (error) {
+      console.error("Ошибка чтения БД на сервере:", error);
+      return [];
+    }
+  },
+  ["products-showcase-cache"],
+  {
+    revalidate: 60, // Время кэширования в секундах
+    tags: ["products"],
+  }
+);
+
+export default async function Home() {
   function updateTitleBySeason() {
   const month = new Date().getMonth();
   if (month === 11 || month <= 1) {
@@ -49,6 +94,11 @@ export default function Home() {
           />;
   }
 }
+
+  const [hitProducts, allProducts] = await Promise.all([
+    getProductsFromDb(true),  // Только хиты для первого слайдера
+    getProductsFromDb(false), // Все товары для второго слайдера
+  ]);
 
   return (
     <div className="bg-[#F5F2ED]">
@@ -298,12 +348,7 @@ export default function Home() {
           /> */}
         </div>
         <HitsSlider
-          array={[
-            ...storeArray,
-            ...storeArray,
-            ...storeArray,
-            ...storeArray,
-          ]}
+          array={hitProducts}
           high="h-600"
           rows={1}
           loop={true}
