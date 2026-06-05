@@ -59,7 +59,7 @@ export default function Home() {
         id="about"
         className="w-full lg:w-9/10 h-auto sm:h-[550] lg:h-[615] bg-white mx-auto mt-0 lg:mt-28 mb-0 lg:mb-16 flex flex-row"
       >
-        <div className="hidden md:flex">
+        <div className="hidden self-start my-auto md:flex w-full max-w-7/20">
           <Image
             className="w-full h-auto object-contain"
             src="/aboutPicture.png"
