@@ -1,7 +1,12 @@
 import Image from "next/image";
 import ShowcaseSlider from "./ShowcaseSlider";
+import type {Bouquet} from "../type/bouquet"
 
-export default function Showcase () {
+interface ShowcaseProps {
+  array: Bouquet[];
+}
+
+export default function Showcase ({ array }: ShowcaseProps) {
   return (
     <section id="showcase">
       <div className="w-full mx-auto mb-13">
@@ -15,7 +20,7 @@ export default function Showcase () {
           />
         </div>
         
-        <ShowcaseSlider/>
+        <ShowcaseSlider array={array}/>
 
       </div>
     </section>

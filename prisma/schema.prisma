@@ -1,7 +1,3 @@
-// generator client {
-//   provider = "prisma-client"
-//   output   = "../generated/client"
-// }
 generator client {
   provider = "prisma-client-js"  // <-- Исправлено на правильное имя
   // Строку output мы полностью УДАЛЯЕМ, чтобы не ломать импорты
@@ -25,6 +21,10 @@ model User {
   accounts      Account[]
   sessions      Session[]
   orders        Order[]
+  // Связь: какие персональные промокоды выданы этому пользователю
+  personalPromocodes UserPromocode[]
+  // Обратная связь для истории использований
+  promocodeUsages    PromocodeUsage[] 
   @@map("users")
 }
 
@@ -71,6 +71,7 @@ model Product {
   actionPrice       Float
   quantityInStore   Int
   isHit             Boolean @default(false)
+  isAction          Boolean @default(false)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   isDeleted         Boolean @default(false)
@@ -78,6 +79,8 @@ model Product {
   // Настройка связи "Один ко многим"
   categoryName    String   
   category        Category @relation(fields: [categoryName], references: [category], onDelete: Cascade, onUpdate: Cascade)
+  // Связь: к каким промокодам привязан данный товар
+  promocodes      ProductPromocode[]
 }
 
 model Category {
@@ -98,6 +101,11 @@ model Order {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   orderProducts Order_product[] // Связь: один заказ содержит много записей в Order_product
+  // ◄ ДОБАВЛЕННЫЕ ПОЛЯ ДЛЯ АУДИТА СКИДОК (Сохраняются в истории заказа навсегда)
+  appliedPromo    String?          // Текст промокода на момент покупки (например, "SUMMER2026")
+  discountAmount  Float            @default(0) // Сумма скидки в рублях, которая была вычтена из чека
+  // ◄ СВЯЗЬ С ТАБЛИЦЕЙ ИСТОРИИ ИСПОЛЬЗОВАНИЯ ПРОМОКОДОВ
+  promocodeUsages PromocodeUsage[]
 }
 model Order_product {
   id              Int      @id @default(autoincrement())
@@ -109,4 +117,56 @@ model Order_product {
   priceAtPurchase Int     @default(0)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model Promocode {
+  id          Int                @id @default(autoincrement())
+  code        String             @unique // Например, "SUMMER2026"
+  discount    Float              // Размер скидки
+  type        String             @default("PERCENT") // "PERCENT" или "FIXED"
+  expiresAt   DateTime?          
+  isActive    Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  // Связи разделены на независимые таблицы:
+  products    ProductPromocode[] // Ограничение по товарам (если пусто — действует на ВСЕ товары)
+  users       UserPromocode[]    // Ограничение по юзерам (если пусто — доступен ВСЕМ юзерам)
+  usages      PromocodeUsage[]   // История использования (кто и когда применил)
+  @@map("promocodes")
+}
+
+
+// 1. Таблица связки: Промокод <-> Товары (Многие-ко-многим)
+model ProductPromocode {
+  productId   Int
+  promocodeId Int
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  promocode   Promocode @relation(fields: [promocodeId], references: [id], onDelete: Cascade)
+
+  @@id([productId, promocodeId])
+  @@map("product_promocodes")
+}
+
+// 2. Таблица связки: Промокод <-> Персонально для Юзеров (Многие-ко-многим)
+model UserPromocode {
+  userId      Int
+  promocodeId Int
+  assignedAt  DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  promocode   Promocode @relation(fields: [promocodeId], references: [id], onDelete: Cascade)
+
+  @@id([userId, promocodeId])
+  @@map("user_promocodes")
+}
+
+// 3. Таблица истории: Кто, когда и в каком заказе уже использовал промокод
+model PromocodeUsage {
+  id          Int       @id @default(autoincrement())
+  promocodeId Int
+  userId      Int
+  orderId     Int       // Привязка к конкретному заказу, где была скидка
+  usedAt      DateTime  @default(now())
+  promocode   Promocode @relation(fields: [promocodeId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order       Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  @@map("promocode_usages")
 }

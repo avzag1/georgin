@@ -5,6 +5,7 @@ import { useStore } from "../store/useStore";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import type {Bouquet} from "../type/bouquet"
 
 export const dynamic = 'force-dynamic';
 
@@ -38,7 +39,11 @@ const fetchCategories = async (): Promise<CategoryItem[]> => {
   return data || [];
 };
 
-export default function ShowcaseSlider() {
+interface ShowcaseProps {
+  array: Bouquet[];
+}
+
+export default function ShowcaseSlider({array}: ShowcaseProps) {
   const [visible, setVisible] = useState(false);
 
   // Zustand-стейты
@@ -88,8 +93,10 @@ export default function ShowcaseSlider() {
     (item) => item.categoryName === currentCategoryName,
   );
 
+  // const repeatedArray =
+  //   filteredArray.length > 0 ? Array(8).fill(filteredArray).flat() : [];
   const repeatedArray =
-    filteredArray.length > 0 ? Array(8).fill(filteredArray).flat() : [];
+    array.length > 0 ? Array(8).fill(filteredArray).flat() : [];
 
   const getBtnClass = (id: number) =>
     `w-45 h-auto min-h-9 border border-[#2D531A] lg:border-[#9AB973] text-[#2D531A] text-left lg:text-center text-xs lg:text-base rounded-4xl lg:rounded-none justify-between lg:justify-center items-center px-3 lg:px-0 cursor-pointer hover:bg-[#e3e9db] transition-colors duration-200 min-[260px]:max-[340px]:ml-5 ${

@@ -16,46 +16,114 @@ import { prisma } from "../lib/prisma";
 import { Prisma } from "@prisma/client";
 import { unstable_cache } from "next/cache";
 
-// Оборачиваем запрос к базе в unstable_cache с revalidate
-const getProductsFromDb = unstable_cache(
-  async (hitsOnly = false): Promise<Bouquet[]> => {
-    const whereCondition: Prisma.ProductWhereInput = {
-      isDeleted: false,
-    };
-    if (hitsOnly) {
-      whereCondition.isHit = true;
-    }
-    try {
-      // Запрашиваем из базы только те поля, которые строго нужны слайдеру и интерфейсу Bouquet
-      const products = await prisma.product.findMany({
-        where: whereCondition,
-        select: {
-          id: true,
-          title: true,
-          description: true,
-          price: true,
-          actionPrice: true,
-          image: true,
-          isHit: true,
-        },
-        orderBy: {
-          id: "desc",
-        },
-      });
-      // Чтобы TypeScript гарантированно не ругался на несовпадение типов, 
-      // мы используем безопасное приведение через `unknown`
-      return products as unknown as Bouquet[];
-    } catch (error) {
-      console.error("Ошибка чтения БД на сервере:", error);
-      return [];
-    }
-  },
-  ["products-showcase-cache"],
-  {
-    revalidate: 60, // Время кэширования в секундах
-    tags: ["products"],
+type ProductSelectionType = 'all' | 'hits' | 'actions';
+
+async function fetchProductsRaw(type: ProductSelectionType): Promise<Bouquet[]> {
+  // Базовое условие: только не удаленные товары
+  const whereCondition: Prisma.ProductWhereInput = {
+    isDeleted: false,
+  };
+
+// 1. Все товары ('all') — оставляем только базовое условие isDeleted: false
+  
+  // 2. Только хиты ('hits') — выведет ВСЕ хиты (и обычные, и акционные)
+  if (type === 'hits') {
+    whereCondition.isHit = true;
   }
-);
+
+  // 3. Только акции ('actions') — выведет ВСЕ акции (и обычные, и хиты)
+  if (type === 'actions') {
+    whereCondition.isAction = true;
+  }
+
+  try {
+    const products = await prisma.product.findMany({
+      where: whereCondition,
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        price: true,
+        actionPrice: true,
+        image: true,
+        isHit: true,
+        isAction: true, 
+        quantityInStore: true,
+        categoryName: true,
+      },
+      orderBy: {
+        id: "desc",
+      },
+    });
+
+    return products as unknown as Bouquet[];
+  } catch (error) {
+    console.error("Ошибка чтения БД на сервере:", error);
+    return [];
+  }
+}
+
+// Оборачиваем функцию в unstable_cache ДИНАМИЧЕСКИ
+export const getProductsFromDb = async (type: ProductSelectionType = 'all') => {
+  const cachedFunction = unstable_cache(
+    async (selectType: ProductSelectionType) => fetchProductsRaw(selectType),
+    // Ключ кэша будет уникальным для каждого типа: 
+    // ["products-showcase", "all"], ["products-showcase", "hits"] или ["products-showcase", "actions"]
+    ["products-showcase", type], 
+    {
+      revalidate: 60,
+      tags: ["products"],
+    }
+  );
+  return cachedFunction(type);
+};
+
+// async function fetchProductsRaw(hitsOnly: boolean): Promise<Bouquet[]> {
+//   const whereCondition: Prisma.ProductWhereInput = {
+//     isDeleted: false,
+//   };
+//   if (hitsOnly) {
+//     whereCondition.isHit = true;
+//   }
+//   try {
+//     const products = await prisma.product.findMany({
+//       where: whereCondition,
+//       select: {
+//         id: true,
+//         title: true,
+//         description: true,
+//         price: true,
+//         actionPrice: true,
+//         image: true,
+//         isHit: true,
+//         quantityInStore: true, // Убедитесь, что это поле запрашивается из базы!
+//       },
+//       orderBy: {
+//         id: "desc",
+//       },
+//     });
+//     return products as unknown as Bouquet[];
+//   } catch (error) {
+//     console.error("Ошибка чтения БД на сервере:", error);
+//     return [];
+//   }
+// }
+
+// // Оборачиваем функцию в unstable_cache ДИНАМИЧЕСКИ
+// export const getProductsFromDb = async (hitsOnly = false) => {
+//   const cachedFunction = unstable_cache(
+//     async (flag: boolean) => fetchProductsRaw(flag),
+//     // ИСПРАВЛЕНИЕ: Ключ кэша теперь уникален для каждого вызова!
+//     // Для хитов ключ будет ["products-showcase", "true"], а для всех — ["products-showcase", "false"]
+//     ["products-showcase", hitsOnly.toString()], 
+//     {
+//       revalidate: 60,
+//       tags: ["products"],
+//     }
+//   );
+
+//   return cachedFunction(hitsOnly);
+// };
 
 export default async function Home() {
   function updateTitleBySeason() {
@@ -94,12 +162,11 @@ export default async function Home() {
           />;
   }
 }
-
-  const [hitProducts, allProducts] = await Promise.all([
-    getProductsFromDb(true),  // Только хиты для первого слайдера
-    getProductsFromDb(false), // Все товары для второго слайдера
-  ]);
-
+  const [allProducts, hitProducts, actionProducts] = await Promise.all([
+  getProductsFromDb('all'),     // 1. Все товары из базы данных
+  getProductsFromDb('hits'),    // 2. Только хиты (включая акционные)
+  getProductsFromDb('actions'), // 3. Только акции (включая хиты)
+]);
   return (
     <div className="bg-[#F5F2ED]">
       <Header />
@@ -107,9 +174,9 @@ export default async function Home() {
 
       <section
         id="about"
-        className="w-full lg:w-9/10 h-auto sm:h-[550] lg:h-[615] bg-white mx-auto mt-0 lg:mt-28 mb-0 lg:mb-16 flex flex-row"
+        className="w-full md:max-w-[1400] lg:w-9/10 h-fit sm:h-[550] md:h-auto bg-white mx-auto mt-0 lg:mt-28 md:mt-10 mb-0 lg:mb-16 md:mb-10 flex flex-row"
       >
-        <div className="hidden self-start my-auto md:flex w-full max-w-7/20">
+        <div className="hidden self-end my-auto md:flex max-w-[600] max-h-full">
           <Image
             className="w-full h-auto object-contain"
             src="/aboutPicture.png"
@@ -131,14 +198,14 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="hidden sm:flex flex-col mx-auto w-[600] h-[460]">
+        <div className="hidden sm:flex flex-col justify-around mx-auto w-[600] h-auto">
           <div className="flex justify-center">
-            <div className="my-10 ml-15 text-7xl font-light">
+            <div className="my-auto ml-15 text-7xl font-light">
               {/* О нас */}
               <Image
                 className="h-auto"
                 src="/aboutTitle.svg"
-                alt="О нас (текст)"
+                alt="О нас (Заголовок)"
                 width={190}
                 height={48}
               />
@@ -339,13 +406,6 @@ export default async function Home() {
       >
         <div className="min-[260px]:max-[320px]:w-[200] w-[250] lg:w-[460] py-0 lg:py-15 min-[260px]:max-[320px]:mx-2 mx-12 lg:mx-25 mt-10 lg:mt-0 text-7xl font-light uppercase">
           {updateTitleBySeason()}
-          {/* <Image
-            className="h-auto"
-            src="/springHitsTitle.png"
-            alt="Хиты весны"
-            width={454}
-            height={48}
-          /> */}
         </div>
         <HitsSlider
           array={hitProducts}
@@ -378,20 +438,20 @@ export default async function Home() {
               height={413}
             />
           </div>
-          <div className="absolute inset-x-[calc(50%-80px)] inset-y-4/5">
+
+
+          {/* <div className="absolute inset-x-[calc(50%-80px)] inset-y-1/40">
             <BuyNowButton bgColor="bg-[#758956]" />
+          </div> */}
+          <div className="w-100 h-30 text-white text-center absolute inset-x-[calc(50%-200px)] inset-y-1/5 lg:inset-y-0">
+            <HitsSlider array={actionProducts} high="h-700" rows={1} loop={true} forActions={true}  />
           </div>
-          <div className="w-120 h-30 text-white text-center absolute inset-x-[calc(50%-240px)] inset-y-6/10">
-            {
-              storeArray.filter(
-                (bouquet) => bouquet.actionPrice !== undefined,
-              )[0].description
-            }
-          </div>
+
+
         </div>
       </section>
 
-      <Showcase />
+      <Showcase array={allProducts}/>
 
       <section className="relative overflow-hidden">
         <div className="hidden lg:block">

@@ -14,7 +14,9 @@ interface ProductRowAdminProps {
   inShoppingCards: number;
   isArchiveMode: boolean; // Флаг: находимся ли мы на вкладке архива
   isHit: boolean;
+  isAction: boolean;
   onToggleHit: () => void;
+  onToggleAction: () => void;
   onEdit: () => void;
   onDelete: () => void;   // Функция отправки в архив
   onRestore: () => void;  // Функция восстановления из архива
@@ -32,7 +34,9 @@ export default function ProductRowAdmin({
   inShoppingCards,
   isArchiveMode,
   isHit,
+  isAction,
   onToggleHit,
+  onToggleAction,
   onEdit,
   onDelete,
   onRestore
@@ -49,6 +53,15 @@ export default function ProductRowAdmin({
           title="Отметить как хит продаж"
         />
       </div>
+      <div className="w-16 min-w-16 flex justify-center items-center">
+        <input 
+          type="checkbox" 
+          checked={isAction}
+          onChange={onToggleAction}
+          className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer"
+          title="Отметить как акцию"
+        />
+      </div>
       <div className="w-80 min-w-80 text-center font-semibold text-gray-900 truncate px-1">{title}</div>
       <div className="w-40 min-w-40 text-center truncate px-1 text-gray-500">{description}</div>
       <div className="w-25 min-w-25 text-center font-mono">{price.toLocaleString('ru-RU')} ₽</div>
@@ -60,7 +73,7 @@ export default function ProductRowAdmin({
       </div>
       <div className="w-25 min-w-25 text-center font-bold">{quantityInStore} шт.</div>
       <div className="w-44 min-w-44 flex justify-center">
-        <div className="relative w-16 h-10 border rounded overflow-hidden bg-gray-50">
+        <div className="relative w-14 h-14 border rounded overflow-hidden bg-gray-50">
           <Image 
             src={image || "/placeholder-bouquet.png"} 
             alt={title} 

@@ -17,13 +17,15 @@ interface HitsSliderProps {
   high: string;
   loop?: boolean;
   rows?: number;
+  forActions?: boolean;
 }
 
 export default function HitsSlider (
-  { array, high, loop = false, rows = 1 }: HitsSliderProps
+  { array, high, loop = false, rows = 1, forActions = false}: HitsSliderProps
 ) {
  // 1. ОСТАВЛЯЕМ ТОЛЬКО ХИТЫ: Проверяем флаг из PostgreSQL
-  const onlyHits = array.filter(bouquet => bouquet.isHit === true);
+  // const onlyHits = array.filter(bouquet => bouquet.isHit === true);
+  const onlyHits = array;
    // Защита: если хитов нет вообще, возвращаем пустой блок, чтобы слайдер не ломал верстку страницы
   if (onlyHits.length === 0) return null;
   // 2. Размножаем отфильтрованный массив для бесконечного цикла, как это было в вашем вызове
@@ -52,23 +54,23 @@ export default function HitsSlider (
           grid: { rows: 1, fill: 'row' },
         },
           860: {
-            slidesPerView: 2,
+            slidesPerView: forActions ? 1 : 2,
             grid: { rows: rows > 1 ? 2 : 1, fill: 'row' },
           },
           1310: {
-            slidesPerView: 3,
+            slidesPerView: forActions ? 1 : 3,
             grid: { rows: rows, fill: 'row' },
           },
         }}
         // navigation={true}
       >
         {/* Кнопки навигации */}
-        <div className="custom-prev absolute left-0 lg:left-[-30] z-50 cursor-pointer text-black top-1/3 -translate-y-1/2 w-15 lg:w-24 h-15 lg:h-24 rounded-full lg:rounded-none bg-white/50 lg:bg-white/0">
+        <div className={`custom-prev absolute left-0 lg:left-[-30] z-50 cursor-pointer ${forActions ? 'text-white top-9/20' : 'text-black top-1/3'} -translate-y-1/2 w-15 lg:w-24 h-15 lg:h-24 rounded-full lg:rounded-none bg-white/50 lg:bg-white/0`}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.3">
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </div>
-        <div className="custom-next absolute right-0 lg:right-[-30] z-50 cursor-pointer text-black top-1/3 -translate-y-1/2 w-15 lg:w-24 h-15 lg:h-24 rounded-full lg:rounded-none bg-white/50 lg:bg-white/0">
+        <div className={`custom-next absolute right-0 lg:right-[-30] z-50 cursor-pointer ${forActions ? 'text-white top-9/20' : 'text-black top-1/3'} -translate-y-1/2 w-15 lg:w-24 h-15 lg:h-24 rounded-full lg:rounded-none bg-white/50 lg:bg-white/0`}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.3">
             <path d="M9 18l6-6-6-6" />
           </svg>
@@ -77,7 +79,7 @@ export default function HitsSlider (
             <SwiperSlide
             key = {index}
             className={`${high} flex flex-row justify-center items-center box-border overflow-hidden`}>
-              <BouquetCard {...bouquet}/>
+              <BouquetCard bouquet={bouquet} forActions={forActions}/>
             </SwiperSlide>
         ))}
       </Swiper>

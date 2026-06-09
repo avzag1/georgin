@@ -47,9 +47,11 @@ const addToCartRequest = async (productId: number) => {
 export default function OrderBouquetButton({
   bgColor,
   bouquet,
+  forActions = false,
 }: {
   bgColor: string;
   bouquet: Bouquet;
+  forActions?: boolean;
 }) {
   const queryClient = useQueryClient();
   const setShoppingCardModal = useStore((state) => state.setShoppingCardModal);
@@ -131,18 +133,18 @@ export default function OrderBouquetButton({
       type="button"
       disabled={mutation.isPending || isOutOfStock}
       onClick={addBouquet}
-      className={`relative flex items-center justify-center w-[155px] lg:w-[132px] h-[49px] text-xl font-extralight antialiased text-white rounded-4xl lg:rounded-none cursor-pointer ${bgColor}
+      className={`relative flex items-center justify-center w-[155] ${forActions ? 'w-[170] border' : 'lg:w-[132] bgColor'} h-[49] text-xl font-extralight antialiased text-white rounded-4xl lg:rounded-none cursor-pointer
       transition-colors duration-200 hover:bg-[#57613f]
       active:bg-[#d7e6b2] active:text-[#242918] disabled:bg-gray-300 disabled:text-gray-400 disabled:cursor-not-allowed`}
     >
       <span className="leading-none select-none">
-        {isOutOfStock ? "Нет" : "Заказать"}
+        {isOutOfStock ? "Нет" : forActions ? "Купить сейчас" : "Заказать"}
       </span>
 
       {/* ИНТЕРАКТИВНОЕ ПРЕВЬЮ СОСТОЯНИЯ КОРЗИНЫ */}
       <div
         className={`
-        flex flex-col items-center justify-center w-[290px] h-16 absolute -top-20 right-0 bg-amber-100 rounded-3xl text-black text-xs z-40 transition-all duration-500 ease-in-out border border-amber-200 shadow-md px-2
+        flex flex-col items-center justify-center w-[290] h-16 absolute -top-20 right-0 bg-amber-100 rounded-3xl text-black text-xs z-40 transition-all duration-500 ease-in-out border border-amber-200 shadow-md px-2
         ${
           confirmOrderModal === 1
             ? "opacity-100 translate-y-0 pointer-events-auto"
@@ -157,7 +159,7 @@ export default function OrderBouquetButton({
               : "hidden"
           }
         >
-          ✓ Добавлено в drop-корзину
+          ✓ Добавлено в корзину
         </div>
 
         <div className="text-center">

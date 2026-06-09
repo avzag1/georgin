@@ -22,6 +22,7 @@ interface ProductData {
 interface EditModalProps {
   product: ProductData | null;
   onClose: () => void;
+  categories: { id: number; category: string }[];
 }
 
 const fetchCategories = async (): Promise<CategoryItem[]> => {
@@ -54,7 +55,7 @@ const updateProductRequest = async (formData: FormData) => {
   return JSON.parse(textData);
 };
 
-export default function EditProductModal({ product, onClose }: EditModalProps) {
+export default function EditProductModal({ product, onClose, categories }: EditModalProps) {
   const queryClient = useQueryClient();
 
   // ИСПРАВЛЕНИЕ: Инициализируем стейт сразу из пропсов, без useEffect
@@ -65,10 +66,10 @@ export default function EditProductModal({ product, onClose }: EditModalProps) {
   const [categoryName, setCategoryName] = useState(product?.categoryName ?? '');
   const [quantityInStore, setQuantityInStore] = useState(product?.quantityInStore ?? 0);
 
-  const { data: categories } = useQuery({
-    queryKey: ['categories'],
-    queryFn: fetchCategories,
-  });
+  // const { data: categories } = useQuery({
+  //   queryKey: ['categories'],
+  //   queryFn: fetchCategories,
+  // });
 
   const mutation = useMutation({
     mutationFn: updateProductRequest,

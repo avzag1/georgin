@@ -47,7 +47,6 @@ export async function GET(request: Request) {
         id: 'desc',
       }
     });
-
     // Трансформируем массив товаров: если путь к картинке старый (локальный), 
     // подменяем его на внешнюю ссылку S3, чтобы Docker-контейнер не выдавал ошибку.
     const normalizedProducts = (products || []).map(product => {
@@ -55,13 +54,11 @@ export async function GET(request: Request) {
       if (imageUrl && imageUrl.startsWith('/uploads/')) {
         imageUrl = `${S3_HOST}/${BUCKET_NAME}${imageUrl}`;
       }
-
       return {
         ...product,
         image: imageUrl,
       };
     });
-
     return NextResponse.json(normalizedProducts);
   } catch (error: unknown) {
     console.error("Критическая ошибка в GET /api/products:", error);
@@ -69,48 +66,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: `Не удалось загрузить: ${msg}` }, { status: 500 });
   }
 }
-// export async function GET(request: Request) {
-//   try {
-//     // Извлекаем параметры строки запроса прямо из request.url
-//     const { searchParams } = new URL(request.url);
-//     const showArchived = searchParams.get('archived') === 'true';
-//     const hitsOnly = searchParams.get('hitsOnly') === 'true';
-
-//     // Запрашиваем данные из PostgreSQL через Prisma 7
-//     const products = await prisma.product.findMany({
-//       where: {
-//         isDeleted: showArchived,
-//       },
-//       include: {
-//         orderProducts: true,
-//       },
-//       orderBy: {
-//         id: 'desc',
-//       }
-//     });
-
-//     // Трансформируем массив товаров: если путь к картинке старый (локальный), 
-//     // подменяем его на внешнюю ссылку S3, чтобы Docker-контейнер не выдавал ошибку.
-//     const normalizedProducts = (products || []).map(product => {
-//       let imageUrl = product.image;
-//       if (imageUrl && imageUrl.startsWith('/uploads/')) {
-//         // Превращаем "/uploads/file.png" в "https://twcstorage.ru"
-//         imageUrl = `${S3_HOST}/${BUCKET_NAME}${imageUrl}`;
-//       }
-
-//       return {
-//         ...product,
-//         image: imageUrl,
-//       };
-//     });
-
-//     return NextResponse.json(normalizedProducts);
-//   } catch (error: unknown) {
-//     console.error("Критическая ошибка в GET /api/products:", error);
-//     const msg = error instanceof Error ? error.message : "Неизвестная ошибка СУБД";
-//     return NextResponse.json({ error: `Не удалось загрузить: ${msg}` }, { status: 500 });
-//   }
-// }
 
 export async function POST(request: Request) {
   try {
@@ -376,14 +331,30 @@ export async function PATCH(request: Request) {
 
     // В отличие от форм, быстрый клик отправляет JSON, а не FormData
     const body = await request.json();
+
+    // Создаем объект, куда будем собирать только переданные поля для обновления
+    const dataToUpdate: Partial<Prisma.ProductUpdateInput> = {};
     
-    if (typeof body.isHit !== "boolean") {
-      return NextResponse.json({ error: "Поле isHit должно иметь тип boolean" }, { status: 400 });
+    if (typeof body.isHit === "boolean") {
+      dataToUpdate.isHit = body.isHit;
+    }
+
+    // ИСПРАВЛЕНО: Добавили поддержку и валидацию для поля isAction
+    if (typeof body.isAction === "boolean") {
+      dataToUpdate.isAction = body.isAction;
+    }
+
+    // Если не передано ни одно из поддерживаемых полей, возвращаем ошибку
+    if (Object.keys(dataToUpdate).length === 0) {
+      return NextResponse.json(
+        { error: "Необходимо передать поле isHit или isAction со значением типа boolean" }, 
+        { status: 400 }
+      );
     }
 
     const updatedProduct = await prisma.product.update({
       where: { id: productId },
-      data: { isHit: body.isHit },
+      data: dataToUpdate,
       include: { orderProducts: true }
     });
 
